@@ -1,0 +1,36 @@
+{
+  "enabled": true,
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "birdwatch",
+    "Cupertino",
+    "dio",
+    "downvote",
+    "favorited",
+    "favourites",
+    "inappwebview",
+    "listview",
+    "longform",
+    "misinfo",
+    "MMMMEEE",
+    "notetweets",
+    "pubspec",
+    "riverpod",
+    "roadmap",
+    "rweb",
+    "sublist",
+    "tweetypie",
+    "unfocus",
+    "unmention",
+    "yuki"
+  ],
+  "ignorePaths": [
+    "android/**",
+    "build/**",
+    "pubspec.yaml",
+    "*.freezed.dart",
+    "*.g.dart",
+    "lib/l10n/**"
+  ]
+}
