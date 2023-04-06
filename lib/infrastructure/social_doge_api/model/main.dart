@@ -2,8 +2,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:social_doge/infrastructure/social_doge_api/converter/type.dart';
 
-part 'generated/main.freezed.dart';
-part 'generated/main.g.dart';
+part 'main.freezed.dart';
+part 'main.g.dart';
 
 @freezed
 class Instruction with _$Instruction {
@@ -11,7 +11,7 @@ class Instruction with _$Instruction {
 
   const factory Instruction.timelineAddEntry({
     @JsonKey(name: 'type') @InstructionsTypeConverter() required InstructionsType type,
-    @JsonKey(name: 'entries') required List<dynamic> entries,
+    @JsonKey(name: 'entries') required List<TimelineAddEntry> entries,
   }) = _TimelineAddEntries;
 
   const factory Instruction.timelineTerminateTimeline({
@@ -23,8 +23,60 @@ class Instruction with _$Instruction {
     @JsonKey(name: 'type') @InstructionsTypeConverter() required InstructionsType type,
   }) = _TimelineClearCache;
 
-  factory Instruction.fromJson(Map<String, dynamic> json) => _$InstructionFromJson(json);
+  factory Instruction.fromJson(Map<String, dynamic> json) => _$$InstructionFromJson(json);
 }
+
+Instruction _$$InstructionFromJson(Map<String, dynamic> json) {
+  final name = InstructionsType.values.byName(json['type'][0].toLowerCase() + json['type'].substring(1));
+  switch (name) {
+    case InstructionsType.timelineAddEntries:
+      return _TimelineAddEntries.fromJson(json);
+    case InstructionsType.timelineTerminateTimeline:
+      return _TimelineTerminateTimeline.fromJson(json);
+    case InstructionsType.timelineClearCache:
+      return _TimelineClearCache.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'runtimeType', 'Instruction', 'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
+/*
+
+
+@freezed
+class InstructionTimelineAddEntry with _$InstructionTimelineAddEntry {
+  const factory InstructionTimelineAddEntry({
+    @JsonKey(name: 'type') @InstructionsTypeConverter() required InstructionsType type,
+    @JsonKey(name: 'entries') required List<TimelineAddEntry> entries,
+  }) = _InstructionTimelineAddEntry;
+
+  factory InstructionTimelineAddEntry.fromJson(Map<String, dynamic> json) => _$InstructionTimelineAddEntryFromJson(json);
+}
+
+@freezed
+class InstructionTimelineTerminateTimeline with _$InstructionTimelineTerminateTimeline {
+  const factory InstructionTimelineTerminateTimeline({
+    @JsonKey(name: 'type') @InstructionsTypeConverter() required InstructionsType type,
+    @JsonKey(name: 'direction') @InstructionsTypeConverter() required String direction, //enum
+  }) = _InstructionTimelineTerminateTimeline;
+
+  factory InstructionTimelineTerminateTimeline.fromJson(Map<String, dynamic> json) => _$InstructionTimelineTerminateTimelineFromJson(json);
+}
+
+@freezed
+class InstructionTimelineClearCache with _$InstructionTimelineClearCache {
+  const factory InstructionTimelineClearCache({
+    @JsonKey(name: 'type') @InstructionsTypeConverter() required InstructionsType type,
+  }) = _InstructionTimelineClearCache;
+
+  factory InstructionTimelineClearCache.fromJson(Map<String, dynamic> json) => _$InstructionTimelineClearCacheFromJson(json);
+}
+
+
+*/
+
+// ================
 
 @freezed
 class TimelineAddEntry with _$TimelineAddEntry {

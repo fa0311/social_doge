@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of '../main.dart';
+part of 'main.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -10,7 +10,9 @@ _$_TimelineAddEntries _$$_TimelineAddEntriesFromJson(
         Map<String, dynamic> json) =>
     _$_TimelineAddEntries(
       type: const InstructionsTypeConverter().fromJson(json['type'] as String),
-      entries: json['entries'] as List<dynamic>,
+      entries: (json['entries'] as List<dynamic>)
+          .map((e) => TimelineAddEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
       $type: json['runtimeType'] as String?,
     );
 

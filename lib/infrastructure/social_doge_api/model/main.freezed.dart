@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of '../main.dart';
+part of 'main.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -41,7 +41,7 @@ mixin _$Instruction {
             @InstructionsTypeConverter()
                 InstructionsType type,
             @JsonKey(name: 'entries')
-                List<dynamic> entries)
+                List<TimelineAddEntry> entries)
         timelineAddEntry,
     required TResult Function(
             @JsonKey(name: 'type')
@@ -65,7 +65,7 @@ mixin _$Instruction {
             @InstructionsTypeConverter()
                 InstructionsType type,
             @JsonKey(name: 'entries')
-                List<dynamic> entries)?
+                List<TimelineAddEntry> entries)?
         timelineAddEntry,
     TResult? Function(
             @JsonKey(name: 'type')
@@ -89,7 +89,7 @@ mixin _$Instruction {
             @InstructionsTypeConverter()
                 InstructionsType type,
             @JsonKey(name: 'entries')
-                List<dynamic> entries)?
+                List<TimelineAddEntry> entries)?
         timelineAddEntry,
     TResult Function(
             @JsonKey(name: 'type')
@@ -187,7 +187,7 @@ abstract class _$$_TimelineAddEntriesCopyWith<$Res>
       @InstructionsTypeConverter()
           InstructionsType type,
       @JsonKey(name: 'entries')
-          List<dynamic> entries});
+          List<TimelineAddEntry> entries});
 }
 
 /// @nodoc
@@ -212,7 +212,7 @@ class __$$_TimelineAddEntriesCopyWithImpl<$Res>
       entries: null == entries
           ? _value._entries
           : entries // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
+              as List<TimelineAddEntry>,
     ));
   }
 }
@@ -222,7 +222,7 @@ class __$$_TimelineAddEntriesCopyWithImpl<$Res>
 class _$_TimelineAddEntries extends _TimelineAddEntries {
   const _$_TimelineAddEntries(
       {@JsonKey(name: 'type') @InstructionsTypeConverter() required this.type,
-      @JsonKey(name: 'entries') required final List<dynamic> entries,
+      @JsonKey(name: 'entries') required final List<TimelineAddEntry> entries,
       final String? $type})
       : _entries = entries,
         $type = $type ?? 'timelineAddEntry',
@@ -235,10 +235,10 @@ class _$_TimelineAddEntries extends _TimelineAddEntries {
   @JsonKey(name: 'type')
   @InstructionsTypeConverter()
   final InstructionsType type;
-  final List<dynamic> _entries;
+  final List<TimelineAddEntry> _entries;
   @override
   @JsonKey(name: 'entries')
-  List<dynamic> get entries {
+  List<TimelineAddEntry> get entries {
     if (_entries is EqualUnmodifiableListView) return _entries;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_entries);
@@ -281,7 +281,7 @@ class _$_TimelineAddEntries extends _TimelineAddEntries {
             @InstructionsTypeConverter()
                 InstructionsType type,
             @JsonKey(name: 'entries')
-                List<dynamic> entries)
+                List<TimelineAddEntry> entries)
         timelineAddEntry,
     required TResult Function(
             @JsonKey(name: 'type')
@@ -308,7 +308,7 @@ class _$_TimelineAddEntries extends _TimelineAddEntries {
             @InstructionsTypeConverter()
                 InstructionsType type,
             @JsonKey(name: 'entries')
-                List<dynamic> entries)?
+                List<TimelineAddEntry> entries)?
         timelineAddEntry,
     TResult? Function(
             @JsonKey(name: 'type')
@@ -335,7 +335,7 @@ class _$_TimelineAddEntries extends _TimelineAddEntries {
             @InstructionsTypeConverter()
                 InstructionsType type,
             @JsonKey(name: 'entries')
-                List<dynamic> entries)?
+                List<TimelineAddEntry> entries)?
         timelineAddEntry,
     TResult Function(
             @JsonKey(name: 'type')
@@ -405,11 +405,12 @@ class _$_TimelineAddEntries extends _TimelineAddEntries {
 
 abstract class _TimelineAddEntries extends Instruction {
   const factory _TimelineAddEntries(
-      {@JsonKey(name: 'type')
-      @InstructionsTypeConverter()
-          required final InstructionsType type,
-      @JsonKey(name: 'entries')
-          required final List<dynamic> entries}) = _$_TimelineAddEntries;
+          {@JsonKey(name: 'type')
+          @InstructionsTypeConverter()
+              required final InstructionsType type,
+          @JsonKey(name: 'entries')
+              required final List<TimelineAddEntry> entries}) =
+      _$_TimelineAddEntries;
   const _TimelineAddEntries._() : super._();
 
   factory _TimelineAddEntries.fromJson(Map<String, dynamic> json) =
@@ -420,7 +421,7 @@ abstract class _TimelineAddEntries extends Instruction {
   @InstructionsTypeConverter()
   InstructionsType get type;
   @JsonKey(name: 'entries')
-  List<dynamic> get entries;
+  List<TimelineAddEntry> get entries;
   @override
   @JsonKey(ignore: true)
   _$$_TimelineAddEntriesCopyWith<_$_TimelineAddEntries> get copyWith =>
@@ -536,7 +537,7 @@ class _$_TimelineTerminateTimeline extends _TimelineTerminateTimeline {
             @InstructionsTypeConverter()
                 InstructionsType type,
             @JsonKey(name: 'entries')
-                List<dynamic> entries)
+                List<TimelineAddEntry> entries)
         timelineAddEntry,
     required TResult Function(
             @JsonKey(name: 'type')
@@ -563,7 +564,7 @@ class _$_TimelineTerminateTimeline extends _TimelineTerminateTimeline {
             @InstructionsTypeConverter()
                 InstructionsType type,
             @JsonKey(name: 'entries')
-                List<dynamic> entries)?
+                List<TimelineAddEntry> entries)?
         timelineAddEntry,
     TResult? Function(
             @JsonKey(name: 'type')
@@ -590,7 +591,7 @@ class _$_TimelineTerminateTimeline extends _TimelineTerminateTimeline {
             @InstructionsTypeConverter()
                 InstructionsType type,
             @JsonKey(name: 'entries')
-                List<dynamic> entries)?
+                List<TimelineAddEntry> entries)?
         timelineAddEntry,
     TResult Function(
             @JsonKey(name: 'type')
@@ -772,7 +773,7 @@ class _$_TimelineClearCache extends _TimelineClearCache {
             @InstructionsTypeConverter()
                 InstructionsType type,
             @JsonKey(name: 'entries')
-                List<dynamic> entries)
+                List<TimelineAddEntry> entries)
         timelineAddEntry,
     required TResult Function(
             @JsonKey(name: 'type')
@@ -799,7 +800,7 @@ class _$_TimelineClearCache extends _TimelineClearCache {
             @InstructionsTypeConverter()
                 InstructionsType type,
             @JsonKey(name: 'entries')
-                List<dynamic> entries)?
+                List<TimelineAddEntry> entries)?
         timelineAddEntry,
     TResult? Function(
             @JsonKey(name: 'type')
@@ -826,7 +827,7 @@ class _$_TimelineClearCache extends _TimelineClearCache {
             @InstructionsTypeConverter()
                 InstructionsType type,
             @JsonKey(name: 'entries')
-                List<dynamic> entries)?
+                List<TimelineAddEntry> entries)?
         timelineAddEntry,
     TResult Function(
             @JsonKey(name: 'type')

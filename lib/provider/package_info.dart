@@ -1,7 +1,8 @@
 // Package imports:
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final packageInfoProvider = FutureProvider<PackageInfo>((ref) async {
-  return await PackageInfo.fromPlatform();
-});
+part 'package_info.g.dart';
+
+@riverpod
+Future<PackageInfo> packageInfoProvider() async => await PackageInfo.fromPlatform();

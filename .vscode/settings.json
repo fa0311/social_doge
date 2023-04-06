@@ -4,5 +4,9 @@
     "MD033": false,
     "MD034": false,
     "MD041": false
+  },
+  "files.exclude": {
+    "lib/**/*.g.dart": true,
+    "lib/**/*.freezed.dart": true
   }
 }

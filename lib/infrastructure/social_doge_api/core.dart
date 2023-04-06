@@ -69,7 +69,7 @@ class SocialDogeAPI {
         }),
       },
     );
-    List<Map<String, dynamic>> instructions = response.data["data"]["user"]["result"]["timeline"]["timeline"]["instructions"];
+    List<Map<String, dynamic>> instructions = response.data["data"]["user"]["result"]["timeline"]["timeline"]["instructions"].cast<Map<String, dynamic>>();
     return instructions.map((e) => Instruction.fromJson(e));
   }
 
@@ -109,7 +109,7 @@ class SocialDogeAPI {
       },
     );
 
-    List<Map<String, dynamic>> instructions = response.data["data"]["user"]["result"]["timeline"]["timeline"]["instructions"];
+    List<Map<String, dynamic>> instructions = response.data["data"]["user"]["result"]["timeline"]["timeline"]["instructions"].cast<Map<String, dynamic>>();
     return instructions.map((e) => Instruction.fromJson(e));
   }
 }

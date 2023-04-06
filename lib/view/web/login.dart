@@ -21,11 +21,15 @@ import 'package:social_doge/infrastructure/social_doge_api/constant/urls.dart';
 import 'package:social_doge/provider/session.dart';
 import 'package:social_doge/view/top/home.dart';
 
-final webViewInitProvider = FutureProvider.autoDispose<void>((ref) async {
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'login.g.dart';
+
+@riverpod
+Future<void> webViewInit(WebViewInitRef ref) async {
   CookieManager cookieManager = CookieManager.instance();
   await cookieManager.deleteAllCookies();
   final session = await ref.read(loginSessionProvider.future);
-
   final ioCookies = await session.cookieJar.loadForRequest(TwitterBase.base);
   for (final ioCookie in ioCookies) {
     await cookieManager.setCookie(
@@ -36,7 +40,8 @@ final webViewInitProvider = FutureProvider.autoDispose<void>((ref) async {
       isHttpOnly: ioCookie.httpOnly,
     );
   }
-});
+}
+
 InAppWebViewController? webViewController;
 final webViewKey = GlobalKey();
 

@@ -3,44 +3,53 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:social_doge/component/physics.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:social_doge/view/drawer/drawer.dart';
+import 'package:social_doge/view/sub/get.dart';
 
-final currentIndexProvider = StateProvider<CurrentIndex>((ref) => CurrentIndex.timeline);
+part 'home.g.dart';
 
-enum CurrentIndex {
-  timeline(icon: Icons.home),
+@riverpod
+class CurrentIndex extends _$CurrentIndex {
+  @override
+  CurrentIndexEnum build() => CurrentIndexEnum.home;
+  void update(CurrentIndexEnum method) => state = method;
+}
+
+enum CurrentIndexEnum {
+  home(icon: Icons.home),
   latestTimeline(icon: Icons.home),
   bbb(icon: Icons.home);
 
   Widget toWidget() {
     switch (this) {
-      case CurrentIndex.timeline:
-        return Container();
+      case CurrentIndexEnum.home:
+        return const SocialDogeMain();
       // return const socialDogeTimeline();
-      case CurrentIndex.latestTimeline:
+      case CurrentIndexEnum.latestTimeline:
         return Container();
       // return const socialDogeLatestTimeline();
-      case CurrentIndex.bbb:
+      case CurrentIndexEnum.bbb:
         return Container();
     }
   }
 
   String toLocalization(BuildContext context) {
     switch (this) {
-      case CurrentIndex.timeline:
+      case CurrentIndexEnum.home:
         return AppLocalizations.of(context)!.home;
-      case CurrentIndex.latestTimeline:
+      case CurrentIndexEnum.latestTimeline:
         return AppLocalizations.of(context)!.home;
-      case CurrentIndex.bbb:
+      case CurrentIndexEnum.bbb:
         return AppLocalizations.of(context)!.home;
     }
   }
 
   final IconData icon;
-  const CurrentIndex({required this.icon});
+  const CurrentIndexEnum({required this.icon});
 }
 
 class SocialDogeHome extends ConsumerWidget {
@@ -61,16 +70,16 @@ class SocialDogeHome extends ConsumerWidget {
         child: PageView(
           controller: controller,
           physics: const FastScrollPhysics(),
-          children: [for (CurrentIndex scene in CurrentIndex.values) scene.toWidget()],
+          children: [for (CurrentIndexEnum scene in CurrentIndexEnum.values) scene.toWidget()],
           onPageChanged: (int index) {
             WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
-            ref.read(currentIndexProvider.notifier).state = CurrentIndex.values[index];
+            ref.read(currentIndexProvider.notifier).update(CurrentIndexEnum.values[index]);
           },
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: [
-          for (CurrentIndex scene in CurrentIndex.values) BottomNavigationBarItem(icon: Icon(scene.icon), label: scene.toLocalization(context)),
+          for (CurrentIndexEnum scene in CurrentIndexEnum.values) BottomNavigationBarItem(icon: Icon(scene.icon), label: scene.toLocalization(context)),
         ],
         currentIndex: currentIndex.index,
         onTap: (int index) => controller.jumpToPage(index),
@@ -78,6 +87,30 @@ class SocialDogeHome extends ConsumerWidget {
         showUnselectedLabels: false,
         type: BottomNavigationBarType.fixed,
       ),
+    );
+  }
+}
+
+class SocialDogeMain extends ConsumerWidget {
+  const SocialDogeMain({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Column(
+      children: [
+        OutlinedButton(
+          onPressed: () {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const SocialDogeSynchronize(),
+              ),
+              (_) => false,
+            );
+          },
+          child: const Text("data"),
+        ),
+      ],
     );
   }
 }
