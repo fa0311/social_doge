@@ -15,7 +15,7 @@ part 'get.g.dart';
 Stream<TimelineAddEntry> getFollowers(GetFollowersRef ref) async* {
   final session = await ref.watch(loginSessionProvider.future);
   final users = await session.getFollowers(userId: "900282258736545792");
-  final entry = users.expand((instruction) => instruction.maybeWhen(timelineAddEntry: (type, entries) => entries, orElse: () => <TimelineAddEntry>[]));
+  final entry = users.expand((instruction) => instruction.maybeWhen(timelineAddEntries: (type, entries) => entries, orElse: () => <TimelineAddEntry>[]));
   for (final e in entry) {
     yield e;
   }

@@ -6,7 +6,7 @@ part of 'get.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getFollowersHash() => r'd33b1d9c153adc45c49d6c635d6ba49949ab20ec';
+String _$getFollowersHash() => r'2954c98d65fa28a5dd7b877312ee8de25ce4e324';
 
 /// See also [getFollowers].
 @ProviderFor(getFollowers)

@@ -1,15 +1,16 @@
 // Package imports:
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:social_doge/infrastructure/social_doge_api/converter/camel_case.dart';
 import 'package:social_doge/infrastructure/social_doge_api/converter/type.dart';
 
 part 'main.freezed.dart';
 part 'main.g.dart';
 
-@freezed
+@Freezed(unionKey: 'type')
 class Instruction with _$Instruction {
   const Instruction._();
 
-  const factory Instruction.timelineAddEntry({
+  const factory Instruction.timelineAddEntries({
     @JsonKey(name: 'type') @InstructionsTypeConverter() required InstructionsType type,
     @JsonKey(name: 'entries') required List<TimelineAddEntry> entries,
   }) = _TimelineAddEntries;
@@ -23,60 +24,8 @@ class Instruction with _$Instruction {
     @JsonKey(name: 'type') @InstructionsTypeConverter() required InstructionsType type,
   }) = _TimelineClearCache;
 
-  factory Instruction.fromJson(Map<String, dynamic> json) => _$$InstructionFromJson(json);
+  factory Instruction.fromJson(Map<String, dynamic> json) => _$InstructionFromJson(toLowerCase('type', json));
 }
-
-Instruction _$$InstructionFromJson(Map<String, dynamic> json) {
-  final name = InstructionsType.values.byName(json['type'][0].toLowerCase() + json['type'].substring(1));
-  switch (name) {
-    case InstructionsType.timelineAddEntries:
-      return _TimelineAddEntries.fromJson(json);
-    case InstructionsType.timelineTerminateTimeline:
-      return _TimelineTerminateTimeline.fromJson(json);
-    case InstructionsType.timelineClearCache:
-      return _TimelineClearCache.fromJson(json);
-
-    default:
-      throw CheckedFromJsonException(json, 'runtimeType', 'Instruction', 'Invalid union type "${json['runtimeType']}"!');
-  }
-}
-
-/*
-
-
-@freezed
-class InstructionTimelineAddEntry with _$InstructionTimelineAddEntry {
-  const factory InstructionTimelineAddEntry({
-    @JsonKey(name: 'type') @InstructionsTypeConverter() required InstructionsType type,
-    @JsonKey(name: 'entries') required List<TimelineAddEntry> entries,
-  }) = _InstructionTimelineAddEntry;
-
-  factory InstructionTimelineAddEntry.fromJson(Map<String, dynamic> json) => _$InstructionTimelineAddEntryFromJson(json);
-}
-
-@freezed
-class InstructionTimelineTerminateTimeline with _$InstructionTimelineTerminateTimeline {
-  const factory InstructionTimelineTerminateTimeline({
-    @JsonKey(name: 'type') @InstructionsTypeConverter() required InstructionsType type,
-    @JsonKey(name: 'direction') @InstructionsTypeConverter() required String direction, //enum
-  }) = _InstructionTimelineTerminateTimeline;
-
-  factory InstructionTimelineTerminateTimeline.fromJson(Map<String, dynamic> json) => _$InstructionTimelineTerminateTimelineFromJson(json);
-}
-
-@freezed
-class InstructionTimelineClearCache with _$InstructionTimelineClearCache {
-  const factory InstructionTimelineClearCache({
-    @JsonKey(name: 'type') @InstructionsTypeConverter() required InstructionsType type,
-  }) = _InstructionTimelineClearCache;
-
-  factory InstructionTimelineClearCache.fromJson(Map<String, dynamic> json) => _$InstructionTimelineClearCacheFromJson(json);
-}
-
-
-*/
-
-// ================
 
 @freezed
 class TimelineAddEntry with _$TimelineAddEntry {
@@ -89,21 +38,21 @@ class TimelineAddEntry with _$TimelineAddEntry {
   factory TimelineAddEntry.fromJson(Map<String, dynamic> json) => _$TimelineAddEntryFromJson(json);
 }
 
-@freezed
+@Freezed(unionKey: 'entryType')
 class Content with _$Content {
   const Content._();
 
   const factory Content.timelineTimelineItem({
-    @JsonKey(name: 'entryType') @EntryTypeConverter() required InstructionsType entryType,
-    @JsonKey(name: '__typename') @EntryTypeConverter() required InstructionsType type,
+    @JsonKey(name: 'entryType') @EntryTypeConverter() required EntryType entryType,
+    @JsonKey(name: '__typename') @EntryTypeConverter() required EntryType type,
     @JsonKey(name: 'itemContent') required dynamic itemContent,
     @JsonKey(name: 'clientEventInfo') required dynamic clientEventInfo,
   }) = _TimelineTimelineItem;
 
-  factory Content.fromJson(Map<String, dynamic> json) => _$ContentFromJson(json);
+  factory Content.fromJson(Map<String, dynamic> json) => _$ContentFromJson(toLowerCase('entryType', json));
 }
 
-@freezed
+@Freezed(unionKey: 'itemType')
 class ItemContent with _$ItemContent {
   const ItemContent._();
 
@@ -113,7 +62,7 @@ class ItemContent with _$ItemContent {
     @JsonKey(name: 'user_results') required Result userResults,
   }) = _TimelineUser;
 
-  factory ItemContent.fromJson(Map<String, dynamic> json) => _$ItemContentFromJson(json);
+  factory ItemContent.fromJson(Map<String, dynamic> json) => _$ItemContentFromJson(toLowerCase('itemType', json));
 }
 
 @freezed

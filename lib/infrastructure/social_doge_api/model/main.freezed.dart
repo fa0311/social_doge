@@ -15,8 +15,8 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 Instruction _$InstructionFromJson(Map<String, dynamic> json) {
-  switch (json['runtimeType']) {
-    case 'timelineAddEntry':
+  switch (json['type']) {
+    case 'timelineAddEntries':
       return _TimelineAddEntries.fromJson(json);
     case 'timelineTerminateTimeline':
       return _TimelineTerminateTimeline.fromJson(json);
@@ -24,8 +24,8 @@ Instruction _$InstructionFromJson(Map<String, dynamic> json) {
       return _TimelineClearCache.fromJson(json);
 
     default:
-      throw CheckedFromJsonException(json, 'runtimeType', 'Instruction',
-          'Invalid union type "${json['runtimeType']}"!');
+      throw CheckedFromJsonException(
+          json, 'type', 'Instruction', 'Invalid union type "${json['type']}"!');
   }
 }
 
@@ -42,7 +42,7 @@ mixin _$Instruction {
                 InstructionsType type,
             @JsonKey(name: 'entries')
                 List<TimelineAddEntry> entries)
-        timelineAddEntry,
+        timelineAddEntries,
     required TResult Function(
             @JsonKey(name: 'type')
             @InstructionsTypeConverter()
@@ -66,7 +66,7 @@ mixin _$Instruction {
                 InstructionsType type,
             @JsonKey(name: 'entries')
                 List<TimelineAddEntry> entries)?
-        timelineAddEntry,
+        timelineAddEntries,
     TResult? Function(
             @JsonKey(name: 'type')
             @InstructionsTypeConverter()
@@ -90,7 +90,7 @@ mixin _$Instruction {
                 InstructionsType type,
             @JsonKey(name: 'entries')
                 List<TimelineAddEntry> entries)?
-        timelineAddEntry,
+        timelineAddEntries,
     TResult Function(
             @JsonKey(name: 'type')
             @InstructionsTypeConverter()
@@ -109,7 +109,7 @@ mixin _$Instruction {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_TimelineAddEntries value) timelineAddEntry,
+    required TResult Function(_TimelineAddEntries value) timelineAddEntries,
     required TResult Function(_TimelineTerminateTimeline value)
         timelineTerminateTimeline,
     required TResult Function(_TimelineClearCache value) timelineClearCache,
@@ -117,7 +117,7 @@ mixin _$Instruction {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_TimelineAddEntries value)? timelineAddEntry,
+    TResult? Function(_TimelineAddEntries value)? timelineAddEntries,
     TResult? Function(_TimelineTerminateTimeline value)?
         timelineTerminateTimeline,
     TResult? Function(_TimelineClearCache value)? timelineClearCache,
@@ -125,7 +125,7 @@ mixin _$Instruction {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_TimelineAddEntries value)? timelineAddEntry,
+    TResult Function(_TimelineAddEntries value)? timelineAddEntries,
     TResult Function(_TimelineTerminateTimeline value)?
         timelineTerminateTimeline,
     TResult Function(_TimelineClearCache value)? timelineClearCache,
@@ -222,10 +222,8 @@ class __$$_TimelineAddEntriesCopyWithImpl<$Res>
 class _$_TimelineAddEntries extends _TimelineAddEntries {
   const _$_TimelineAddEntries(
       {@JsonKey(name: 'type') @InstructionsTypeConverter() required this.type,
-      @JsonKey(name: 'entries') required final List<TimelineAddEntry> entries,
-      final String? $type})
+      @JsonKey(name: 'entries') required final List<TimelineAddEntry> entries})
       : _entries = entries,
-        $type = $type ?? 'timelineAddEntry',
         super._();
 
   factory _$_TimelineAddEntries.fromJson(Map<String, dynamic> json) =>
@@ -244,12 +242,9 @@ class _$_TimelineAddEntries extends _TimelineAddEntries {
     return EqualUnmodifiableListView(_entries);
   }
 
-  @JsonKey(name: 'runtimeType')
-  final String $type;
-
   @override
   String toString() {
-    return 'Instruction.timelineAddEntry(type: $type, entries: $entries)';
+    return 'Instruction.timelineAddEntries(type: $type, entries: $entries)';
   }
 
   @override
@@ -282,7 +277,7 @@ class _$_TimelineAddEntries extends _TimelineAddEntries {
                 InstructionsType type,
             @JsonKey(name: 'entries')
                 List<TimelineAddEntry> entries)
-        timelineAddEntry,
+        timelineAddEntries,
     required TResult Function(
             @JsonKey(name: 'type')
             @InstructionsTypeConverter()
@@ -297,7 +292,7 @@ class _$_TimelineAddEntries extends _TimelineAddEntries {
                 InstructionsType type)
         timelineClearCache,
   }) {
-    return timelineAddEntry(type, entries);
+    return timelineAddEntries(type, entries);
   }
 
   @override
@@ -309,7 +304,7 @@ class _$_TimelineAddEntries extends _TimelineAddEntries {
                 InstructionsType type,
             @JsonKey(name: 'entries')
                 List<TimelineAddEntry> entries)?
-        timelineAddEntry,
+        timelineAddEntries,
     TResult? Function(
             @JsonKey(name: 'type')
             @InstructionsTypeConverter()
@@ -324,7 +319,7 @@ class _$_TimelineAddEntries extends _TimelineAddEntries {
                 InstructionsType type)?
         timelineClearCache,
   }) {
-    return timelineAddEntry?.call(type, entries);
+    return timelineAddEntries?.call(type, entries);
   }
 
   @override
@@ -336,7 +331,7 @@ class _$_TimelineAddEntries extends _TimelineAddEntries {
                 InstructionsType type,
             @JsonKey(name: 'entries')
                 List<TimelineAddEntry> entries)?
-        timelineAddEntry,
+        timelineAddEntries,
     TResult Function(
             @JsonKey(name: 'type')
             @InstructionsTypeConverter()
@@ -352,8 +347,8 @@ class _$_TimelineAddEntries extends _TimelineAddEntries {
         timelineClearCache,
     required TResult orElse(),
   }) {
-    if (timelineAddEntry != null) {
-      return timelineAddEntry(type, entries);
+    if (timelineAddEntries != null) {
+      return timelineAddEntries(type, entries);
     }
     return orElse();
   }
@@ -361,36 +356,36 @@ class _$_TimelineAddEntries extends _TimelineAddEntries {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_TimelineAddEntries value) timelineAddEntry,
+    required TResult Function(_TimelineAddEntries value) timelineAddEntries,
     required TResult Function(_TimelineTerminateTimeline value)
         timelineTerminateTimeline,
     required TResult Function(_TimelineClearCache value) timelineClearCache,
   }) {
-    return timelineAddEntry(this);
+    return timelineAddEntries(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_TimelineAddEntries value)? timelineAddEntry,
+    TResult? Function(_TimelineAddEntries value)? timelineAddEntries,
     TResult? Function(_TimelineTerminateTimeline value)?
         timelineTerminateTimeline,
     TResult? Function(_TimelineClearCache value)? timelineClearCache,
   }) {
-    return timelineAddEntry?.call(this);
+    return timelineAddEntries?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_TimelineAddEntries value)? timelineAddEntry,
+    TResult Function(_TimelineAddEntries value)? timelineAddEntries,
     TResult Function(_TimelineTerminateTimeline value)?
         timelineTerminateTimeline,
     TResult Function(_TimelineClearCache value)? timelineClearCache,
     required TResult orElse(),
   }) {
-    if (timelineAddEntry != null) {
-      return timelineAddEntry(this);
+    if (timelineAddEntries != null) {
+      return timelineAddEntries(this);
     }
     return orElse();
   }
@@ -483,10 +478,8 @@ class _$_TimelineTerminateTimeline extends _TimelineTerminateTimeline {
           required this.type,
       @JsonKey(name: 'direction')
       @InstructionsTypeConverter()
-          required this.direction,
-      final String? $type})
-      : $type = $type ?? 'timelineTerminateTimeline',
-        super._();
+          required this.direction})
+      : super._();
 
   factory _$_TimelineTerminateTimeline.fromJson(Map<String, dynamic> json) =>
       _$$_TimelineTerminateTimelineFromJson(json);
@@ -499,9 +492,6 @@ class _$_TimelineTerminateTimeline extends _TimelineTerminateTimeline {
   @JsonKey(name: 'direction')
   @InstructionsTypeConverter()
   final String direction;
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
 
   @override
   String toString() {
@@ -538,7 +528,7 @@ class _$_TimelineTerminateTimeline extends _TimelineTerminateTimeline {
                 InstructionsType type,
             @JsonKey(name: 'entries')
                 List<TimelineAddEntry> entries)
-        timelineAddEntry,
+        timelineAddEntries,
     required TResult Function(
             @JsonKey(name: 'type')
             @InstructionsTypeConverter()
@@ -565,7 +555,7 @@ class _$_TimelineTerminateTimeline extends _TimelineTerminateTimeline {
                 InstructionsType type,
             @JsonKey(name: 'entries')
                 List<TimelineAddEntry> entries)?
-        timelineAddEntry,
+        timelineAddEntries,
     TResult? Function(
             @JsonKey(name: 'type')
             @InstructionsTypeConverter()
@@ -592,7 +582,7 @@ class _$_TimelineTerminateTimeline extends _TimelineTerminateTimeline {
                 InstructionsType type,
             @JsonKey(name: 'entries')
                 List<TimelineAddEntry> entries)?
-        timelineAddEntry,
+        timelineAddEntries,
     TResult Function(
             @JsonKey(name: 'type')
             @InstructionsTypeConverter()
@@ -617,7 +607,7 @@ class _$_TimelineTerminateTimeline extends _TimelineTerminateTimeline {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_TimelineAddEntries value) timelineAddEntry,
+    required TResult Function(_TimelineAddEntries value) timelineAddEntries,
     required TResult Function(_TimelineTerminateTimeline value)
         timelineTerminateTimeline,
     required TResult Function(_TimelineClearCache value) timelineClearCache,
@@ -628,7 +618,7 @@ class _$_TimelineTerminateTimeline extends _TimelineTerminateTimeline {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_TimelineAddEntries value)? timelineAddEntry,
+    TResult? Function(_TimelineAddEntries value)? timelineAddEntries,
     TResult? Function(_TimelineTerminateTimeline value)?
         timelineTerminateTimeline,
     TResult? Function(_TimelineClearCache value)? timelineClearCache,
@@ -639,7 +629,7 @@ class _$_TimelineTerminateTimeline extends _TimelineTerminateTimeline {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_TimelineAddEntries value)? timelineAddEntry,
+    TResult Function(_TimelineAddEntries value)? timelineAddEntries,
     TResult Function(_TimelineTerminateTimeline value)?
         timelineTerminateTimeline,
     TResult Function(_TimelineClearCache value)? timelineClearCache,
@@ -725,10 +715,8 @@ class __$$_TimelineClearCacheCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_TimelineClearCache extends _TimelineClearCache {
   const _$_TimelineClearCache(
-      {@JsonKey(name: 'type') @InstructionsTypeConverter() required this.type,
-      final String? $type})
-      : $type = $type ?? 'timelineClearCache',
-        super._();
+      {@JsonKey(name: 'type') @InstructionsTypeConverter() required this.type})
+      : super._();
 
   factory _$_TimelineClearCache.fromJson(Map<String, dynamic> json) =>
       _$$_TimelineClearCacheFromJson(json);
@@ -737,9 +725,6 @@ class _$_TimelineClearCache extends _TimelineClearCache {
   @JsonKey(name: 'type')
   @InstructionsTypeConverter()
   final InstructionsType type;
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
 
   @override
   String toString() {
@@ -774,7 +759,7 @@ class _$_TimelineClearCache extends _TimelineClearCache {
                 InstructionsType type,
             @JsonKey(name: 'entries')
                 List<TimelineAddEntry> entries)
-        timelineAddEntry,
+        timelineAddEntries,
     required TResult Function(
             @JsonKey(name: 'type')
             @InstructionsTypeConverter()
@@ -801,7 +786,7 @@ class _$_TimelineClearCache extends _TimelineClearCache {
                 InstructionsType type,
             @JsonKey(name: 'entries')
                 List<TimelineAddEntry> entries)?
-        timelineAddEntry,
+        timelineAddEntries,
     TResult? Function(
             @JsonKey(name: 'type')
             @InstructionsTypeConverter()
@@ -828,7 +813,7 @@ class _$_TimelineClearCache extends _TimelineClearCache {
                 InstructionsType type,
             @JsonKey(name: 'entries')
                 List<TimelineAddEntry> entries)?
-        timelineAddEntry,
+        timelineAddEntries,
     TResult Function(
             @JsonKey(name: 'type')
             @InstructionsTypeConverter()
@@ -853,7 +838,7 @@ class _$_TimelineClearCache extends _TimelineClearCache {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_TimelineAddEntries value) timelineAddEntry,
+    required TResult Function(_TimelineAddEntries value) timelineAddEntries,
     required TResult Function(_TimelineTerminateTimeline value)
         timelineTerminateTimeline,
     required TResult Function(_TimelineClearCache value) timelineClearCache,
@@ -864,7 +849,7 @@ class _$_TimelineClearCache extends _TimelineClearCache {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_TimelineAddEntries value)? timelineAddEntry,
+    TResult? Function(_TimelineAddEntries value)? timelineAddEntries,
     TResult? Function(_TimelineTerminateTimeline value)?
         timelineTerminateTimeline,
     TResult? Function(_TimelineClearCache value)? timelineClearCache,
@@ -875,7 +860,7 @@ class _$_TimelineClearCache extends _TimelineClearCache {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_TimelineAddEntries value)? timelineAddEntry,
+    TResult Function(_TimelineAddEntries value)? timelineAddEntries,
     TResult Function(_TimelineTerminateTimeline value)?
         timelineTerminateTimeline,
     TResult Function(_TimelineClearCache value)? timelineClearCache,
@@ -1126,10 +1111,10 @@ Content _$ContentFromJson(Map<String, dynamic> json) {
 mixin _$Content {
   @JsonKey(name: 'entryType')
   @EntryTypeConverter()
-  InstructionsType get entryType => throw _privateConstructorUsedError;
+  EntryType get entryType => throw _privateConstructorUsedError;
   @JsonKey(name: '__typename')
   @EntryTypeConverter()
-  InstructionsType get type => throw _privateConstructorUsedError;
+  EntryType get type => throw _privateConstructorUsedError;
   @JsonKey(name: 'itemContent')
   dynamic get itemContent => throw _privateConstructorUsedError;
   @JsonKey(name: 'clientEventInfo')
@@ -1139,10 +1124,10 @@ mixin _$Content {
     required TResult Function(
             @JsonKey(name: 'entryType')
             @EntryTypeConverter()
-                InstructionsType entryType,
+                EntryType entryType,
             @JsonKey(name: '__typename')
             @EntryTypeConverter()
-                InstructionsType type,
+                EntryType type,
             @JsonKey(name: 'itemContent')
                 dynamic itemContent,
             @JsonKey(name: 'clientEventInfo')
@@ -1155,10 +1140,10 @@ mixin _$Content {
     TResult? Function(
             @JsonKey(name: 'entryType')
             @EntryTypeConverter()
-                InstructionsType entryType,
+                EntryType entryType,
             @JsonKey(name: '__typename')
             @EntryTypeConverter()
-                InstructionsType type,
+                EntryType type,
             @JsonKey(name: 'itemContent')
                 dynamic itemContent,
             @JsonKey(name: 'clientEventInfo')
@@ -1171,10 +1156,10 @@ mixin _$Content {
     TResult Function(
             @JsonKey(name: 'entryType')
             @EntryTypeConverter()
-                InstructionsType entryType,
+                EntryType entryType,
             @JsonKey(name: '__typename')
             @EntryTypeConverter()
-                InstructionsType type,
+                EntryType type,
             @JsonKey(name: 'itemContent')
                 dynamic itemContent,
             @JsonKey(name: 'clientEventInfo')
@@ -1210,16 +1195,10 @@ abstract class $ContentCopyWith<$Res> {
       _$ContentCopyWithImpl<$Res, Content>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'entryType')
-      @EntryTypeConverter()
-          InstructionsType entryType,
-      @JsonKey(name: '__typename')
-      @EntryTypeConverter()
-          InstructionsType type,
-      @JsonKey(name: 'itemContent')
-          dynamic itemContent,
-      @JsonKey(name: 'clientEventInfo')
-          dynamic clientEventInfo});
+      {@JsonKey(name: 'entryType') @EntryTypeConverter() EntryType entryType,
+      @JsonKey(name: '__typename') @EntryTypeConverter() EntryType type,
+      @JsonKey(name: 'itemContent') dynamic itemContent,
+      @JsonKey(name: 'clientEventInfo') dynamic clientEventInfo});
 }
 
 /// @nodoc
@@ -1244,11 +1223,11 @@ class _$ContentCopyWithImpl<$Res, $Val extends Content>
       entryType: null == entryType
           ? _value.entryType
           : entryType // ignore: cast_nullable_to_non_nullable
-              as InstructionsType,
+              as EntryType,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as InstructionsType,
+              as EntryType,
       itemContent: freezed == itemContent
           ? _value.itemContent
           : itemContent // ignore: cast_nullable_to_non_nullable
@@ -1270,16 +1249,10 @@ abstract class _$$_TimelineTimelineItemCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'entryType')
-      @EntryTypeConverter()
-          InstructionsType entryType,
-      @JsonKey(name: '__typename')
-      @EntryTypeConverter()
-          InstructionsType type,
-      @JsonKey(name: 'itemContent')
-          dynamic itemContent,
-      @JsonKey(name: 'clientEventInfo')
-          dynamic clientEventInfo});
+      {@JsonKey(name: 'entryType') @EntryTypeConverter() EntryType entryType,
+      @JsonKey(name: '__typename') @EntryTypeConverter() EntryType type,
+      @JsonKey(name: 'itemContent') dynamic itemContent,
+      @JsonKey(name: 'clientEventInfo') dynamic clientEventInfo});
 }
 
 /// @nodoc
@@ -1302,11 +1275,11 @@ class __$$_TimelineTimelineItemCopyWithImpl<$Res>
       entryType: null == entryType
           ? _value.entryType
           : entryType // ignore: cast_nullable_to_non_nullable
-              as InstructionsType,
+              as EntryType,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as InstructionsType,
+              as EntryType,
       itemContent: freezed == itemContent
           ? _value.itemContent
           : itemContent // ignore: cast_nullable_to_non_nullable
@@ -1341,11 +1314,11 @@ class _$_TimelineTimelineItem extends _TimelineTimelineItem {
   @override
   @JsonKey(name: 'entryType')
   @EntryTypeConverter()
-  final InstructionsType entryType;
+  final EntryType entryType;
   @override
   @JsonKey(name: '__typename')
   @EntryTypeConverter()
-  final InstructionsType type;
+  final EntryType type;
   @override
   @JsonKey(name: 'itemContent')
   final dynamic itemContent;
@@ -1394,10 +1367,10 @@ class _$_TimelineTimelineItem extends _TimelineTimelineItem {
     required TResult Function(
             @JsonKey(name: 'entryType')
             @EntryTypeConverter()
-                InstructionsType entryType,
+                EntryType entryType,
             @JsonKey(name: '__typename')
             @EntryTypeConverter()
-                InstructionsType type,
+                EntryType type,
             @JsonKey(name: 'itemContent')
                 dynamic itemContent,
             @JsonKey(name: 'clientEventInfo')
@@ -1413,10 +1386,10 @@ class _$_TimelineTimelineItem extends _TimelineTimelineItem {
     TResult? Function(
             @JsonKey(name: 'entryType')
             @EntryTypeConverter()
-                InstructionsType entryType,
+                EntryType entryType,
             @JsonKey(name: '__typename')
             @EntryTypeConverter()
-                InstructionsType type,
+                EntryType type,
             @JsonKey(name: 'itemContent')
                 dynamic itemContent,
             @JsonKey(name: 'clientEventInfo')
@@ -1433,10 +1406,10 @@ class _$_TimelineTimelineItem extends _TimelineTimelineItem {
     TResult Function(
             @JsonKey(name: 'entryType')
             @EntryTypeConverter()
-                InstructionsType entryType,
+                EntryType entryType,
             @JsonKey(name: '__typename')
             @EntryTypeConverter()
-                InstructionsType type,
+                EntryType type,
             @JsonKey(name: 'itemContent')
                 dynamic itemContent,
             @JsonKey(name: 'clientEventInfo')
@@ -1491,10 +1464,10 @@ abstract class _TimelineTimelineItem extends Content {
   const factory _TimelineTimelineItem(
       {@JsonKey(name: 'entryType')
       @EntryTypeConverter()
-          required final InstructionsType entryType,
+          required final EntryType entryType,
       @JsonKey(name: '__typename')
       @EntryTypeConverter()
-          required final InstructionsType type,
+          required final EntryType type,
       @JsonKey(name: 'itemContent')
           required final dynamic itemContent,
       @JsonKey(name: 'clientEventInfo')
@@ -1507,11 +1480,11 @@ abstract class _TimelineTimelineItem extends Content {
   @override
   @JsonKey(name: 'entryType')
   @EntryTypeConverter()
-  InstructionsType get entryType;
+  EntryType get entryType;
   @override
   @JsonKey(name: '__typename')
   @EntryTypeConverter()
-  InstructionsType get type;
+  EntryType get type;
   @override
   @JsonKey(name: 'itemContent')
   dynamic get itemContent;

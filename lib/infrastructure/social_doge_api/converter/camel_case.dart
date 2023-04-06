@@ -10,3 +10,8 @@ class LowerCamelCaseConverter extends JsonConverter<String, String> {
   @override
   String toJson(String object) => object[0].toUpperCase() + object.substring(1);
 }
+
+Map<String, dynamic> toLowerCase(String unionKey, Map<String, dynamic> json) {
+  json[unionKey] = json[unionKey]![0].toLowerCase() + json[unionKey]!.substring(1);
+  return json;
+}

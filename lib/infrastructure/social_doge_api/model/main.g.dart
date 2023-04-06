@@ -13,7 +13,6 @@ _$_TimelineAddEntries _$$_TimelineAddEntriesFromJson(
       entries: (json['entries'] as List<dynamic>)
           .map((e) => TimelineAddEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
-      $type: json['runtimeType'] as String?,
     );
 
 Map<String, dynamic> _$$_TimelineAddEntriesToJson(
@@ -21,7 +20,6 @@ Map<String, dynamic> _$$_TimelineAddEntriesToJson(
     <String, dynamic>{
       'type': const InstructionsTypeConverter().toJson(instance.type),
       'entries': instance.entries,
-      'runtimeType': instance.$type,
     };
 
 _$_TimelineTerminateTimeline _$$_TimelineTerminateTimelineFromJson(
@@ -29,7 +27,6 @@ _$_TimelineTerminateTimeline _$$_TimelineTerminateTimelineFromJson(
     _$_TimelineTerminateTimeline(
       type: const InstructionsTypeConverter().fromJson(json['type'] as String),
       direction: json['direction'] as String,
-      $type: json['runtimeType'] as String?,
     );
 
 Map<String, dynamic> _$$_TimelineTerminateTimelineToJson(
@@ -37,21 +34,18 @@ Map<String, dynamic> _$$_TimelineTerminateTimelineToJson(
     <String, dynamic>{
       'type': const InstructionsTypeConverter().toJson(instance.type),
       'direction': instance.direction,
-      'runtimeType': instance.$type,
     };
 
 _$_TimelineClearCache _$$_TimelineClearCacheFromJson(
         Map<String, dynamic> json) =>
     _$_TimelineClearCache(
       type: const InstructionsTypeConverter().fromJson(json['type'] as String),
-      $type: json['runtimeType'] as String?,
     );
 
 Map<String, dynamic> _$$_TimelineClearCacheToJson(
         _$_TimelineClearCache instance) =>
     <String, dynamic>{
       'type': const InstructionsTypeConverter().toJson(instance.type),
-      'runtimeType': instance.$type,
     };
 
 _$_TimelineAddEntry _$$_TimelineAddEntryFromJson(Map<String, dynamic> json) =>
@@ -71,8 +65,9 @@ Map<String, dynamic> _$$_TimelineAddEntryToJson(_$_TimelineAddEntry instance) =>
 _$_TimelineTimelineItem _$$_TimelineTimelineItemFromJson(
         Map<String, dynamic> json) =>
     _$_TimelineTimelineItem(
-      entryType: $enumDecode(_$InstructionsTypeEnumMap, json['entryType']),
-      type: $enumDecode(_$InstructionsTypeEnumMap, json['__typename']),
+      entryType:
+          const EntryTypeConverter().fromJson(json['entryType'] as String),
+      type: const EntryTypeConverter().fromJson(json['__typename'] as String),
       itemContent: json['itemContent'],
       clientEventInfo: json['clientEventInfo'],
     );
@@ -80,21 +75,11 @@ _$_TimelineTimelineItem _$$_TimelineTimelineItemFromJson(
 Map<String, dynamic> _$$_TimelineTimelineItemToJson(
         _$_TimelineTimelineItem instance) =>
     <String, dynamic>{
-      'entryType': _$InstructionsTypeEnumMap[instance.entryType]!,
-      '__typename': _$InstructionsTypeEnumMap[instance.type]!,
+      'entryType': const EntryTypeConverter().toJson(instance.entryType),
+      '__typename': const EntryTypeConverter().toJson(instance.type),
       'itemContent': instance.itemContent,
       'clientEventInfo': instance.clientEventInfo,
     };
-
-const _$InstructionsTypeEnumMap = {
-  InstructionsType.timelineAddEntries: 'timelineAddEntries',
-  InstructionsType.timelineTerminateTimeline: 'timelineTerminateTimeline',
-  InstructionsType.timelineReplaceEntry: 'timelineReplaceEntry',
-  InstructionsType.timelineShowAlert: 'timelineShowAlert',
-  InstructionsType.timelineClearCache: 'timelineClearCache',
-  InstructionsType.timelinePinEntry: 'timelinePinEntry',
-  InstructionsType.timelineAddToModule: 'timelineAddToModule',
-};
 
 _$_TimelineUser _$$_TimelineUserFromJson(Map<String, dynamic> json) =>
     _$_TimelineUser(
@@ -110,6 +95,16 @@ Map<String, dynamic> _$$_TimelineUserToJson(_$_TimelineUser instance) =>
       '__typename': _$InstructionsTypeEnumMap[instance.type]!,
       'user_results': instance.userResults,
     };
+
+const _$InstructionsTypeEnumMap = {
+  InstructionsType.timelineAddEntries: 'timelineAddEntries',
+  InstructionsType.timelineTerminateTimeline: 'timelineTerminateTimeline',
+  InstructionsType.timelineReplaceEntry: 'timelineReplaceEntry',
+  InstructionsType.timelineShowAlert: 'timelineShowAlert',
+  InstructionsType.timelineClearCache: 'timelineClearCache',
+  InstructionsType.timelinePinEntry: 'timelinePinEntry',
+  InstructionsType.timelineAddToModule: 'timelineAddToModule',
+};
 
 _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
       result: User.fromJson(json['result'] as Map<String, dynamic>),
