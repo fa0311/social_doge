@@ -14,11 +14,15 @@ part 'get.g.dart';
 @riverpod
 Stream<TimelineAddEntry> getFollowers(GetFollowersRef ref) async* {
   final session = await ref.watch(loginSessionProvider.future);
+  final a = await session.get(userId: "900282258736545792");
+
+  /*
   final users = await session.getFollowers(userId: "900282258736545792");
   final entry = users.expand((instruction) => instruction.maybeWhen(timelineAddEntries: (type, entries) => entries, orElse: () => <TimelineAddEntry>[]));
   for (final e in entry) {
     yield e;
   }
+  */
 }
 
 class SocialDogeSynchronize extends ConsumerWidget {

@@ -10,8 +10,8 @@ import 'package:social_doge/infrastructure/social_doge_api/core.dart';
 
 void main() {
   testWidgets('getFollowers', (WidgetTester tester) async {
-    final session = SocialDogeAPI();
-    final users = await session.getFollowers(userId: "900282258736545792");
+    final session = SocialDogeAPI(cookiePath: '/data/user/0/com.example.social_doge/app_flutter/.cookie/aaaaa');
+    final users = await session.get(userId: "900282258736545792");
     expect(users.isEmpty, false);
   });
 }

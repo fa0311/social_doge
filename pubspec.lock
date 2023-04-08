@@ -253,18 +253,18 @@ packages:
     dependency: "direct main"
     description:
       name: dio
-      sha256: "0894a098594263fe1caaba3520e3016d8a855caeb010a882273189cca10f11e9"
+      sha256: "7d328c4d898a61efc3cd93655a0955858e29a0aa647f0f9e02d59b3bb275e2e8"
       url: "https://pub.dev"
     source: hosted
-    version: "5.1.1"
+    version: "4.0.6"
   dio_cookie_manager:
     dependency: "direct main"
     description:
       name: dio_cookie_manager
-      sha256: b45f11c2fcbccf39c5952ab68910b3a155486c4fa730ceb4ce867c4943169ea1
+      sha256: ed7ee3ba6cdb54599c8984d5a4ce09675c553ead6c28608eb54e38eec5b4f954
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.4"
+    version: "2.0.0"
   fake_async:
     dependency: transitive
     description:
@@ -541,6 +541,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
+  one_of:
+    dependency: transitive
+    description:
+      name: one_of
+      sha256: "25fe0fcf181e761c6fcd604caf9d5fdf952321be17584ba81c72c06bdaa511f0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.0"
+  one_of_serializer:
+    dependency: transitive
+    description:
+      name: one_of_serializer
+      sha256: "3f3dfb5c1578ba3afef1cb47fcc49e585e797af3f2b6c2cc7ed90aad0c5e7b83"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.0"
   package_config:
     dependency: transitive
     description:
@@ -677,6 +693,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.2"
+  quiver:
+    dependency: transitive
+    description:
+      name: quiver
+      sha256: b1c1ac5ce6688d77f65f3375a9abb9319b3cb32486bdc7a1e0fdf004d7ba4e47
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.1"
   riverpod:
     dependency: transitive
     description:
@@ -866,6 +890,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
+  twitter_openapi_dart:
+    dependency: "direct main"
+    description:
+      path: "../twitter_openapi_dart"
+      relative: true
+    source: path
+    version: "0.0.1"
   typed_data:
     dependency: transitive
     description:

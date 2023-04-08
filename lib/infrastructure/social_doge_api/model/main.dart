@@ -6,6 +6,8 @@ import 'package:social_doge/infrastructure/social_doge_api/converter/type.dart';
 part 'main.freezed.dart';
 part 'main.g.dart';
 
+/* cSpell:disable */
+
 @Freezed(unionKey: 'type')
 class Instruction with _$Instruction {
   const Instruction._();
