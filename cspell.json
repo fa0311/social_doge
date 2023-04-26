@@ -3,6 +3,7 @@
   "version": "0.2",
   "language": "en",
   "words": [
+    "AUTOINCREMENT",
     "birdwatch",
     "Cupertino",
     "dio",
@@ -20,6 +21,7 @@
     "riverpod",
     "roadmap",
     "rweb",
+    "sqflite",
     "sublist",
     "tweetypie",
     "unfocus",

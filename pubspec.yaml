@@ -32,26 +32,36 @@ dependencies:
     sdk: flutter
 
   cached_network_image: ^3.2.3
-  cookie_jar: ^3.0.1
   cupertino_icons: ^1.0.5
 
-  dio: ^4.0.6
-  dio_cookie_manager: ^2.0.0
   flutter_inappwebview: ^5.7.2+3
   flutter_riverpod: ^2.3.2
   riverpod_annotation: ^2.0.1
-  freezed: ^2.3.2
-  freezed_annotation: ^2.2.0
   import_sorter: ^4.6.0
   json_annotation: ^4.8.0
   logger: ^1.3.0
   package_info_plus: ^3.0.3
   path_provider: ^2.0.14
-  intl: ^0.17.0
   flutter_localizations:
     sdk: flutter
+
   twitter_openapi_dart:
-    path: ../twitter_openapi_dart
+    git:
+      url: https://github.com/fa0311/twitter_openapi_dart.git
+      path: twitter_openapi_dart
+      ref: 810a7bc4c65f50d565d2a147e39742bd50333402
+  twitter_openapi_dart_generated:
+    git:
+      url: https://github.com/fa0311/twitter_openapi_dart.git
+      path: twitter_openapi_dart_generated
+      ref: 059add3baef5298998bf92f22766ea5ffb6ef6f0
+
+  dio: ^5.1.1
+  collection: ^1.17.0
+  sqflite: ^2.2.7
+  path: ^1.8.2
+  fl_chart: ^0.62.0
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

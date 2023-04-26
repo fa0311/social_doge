@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
-import 'package:social_doge/component/future/tile.dart';
-import 'package:social_doge/provider/session.dart';
-import 'package:social_doge/view/top/home.dart';
 import 'package:social_doge/view/web/login.dart';
 
 class NormalDrawer extends ConsumerWidget {
@@ -48,30 +46,19 @@ class NormalDrawer extends ConsumerWidget {
                 child: Column(
                   children: <Widget>[
                     ListTile(
-                      onTap: () => Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const SocialDogeHome(),
-                        ),
-                        (_) => false,
-                      ),
-                      leading: const Icon(Icons.home),
-                      title: Text(AppLocalizations.of(context)!.home),
-                    ),
-                    FutureTile(
                       onTap: () async {
-                        final session = await ref.read(loginSessionProvider.future);
-                        await session.cookieJar.deleteAll();
-                        Navigator.pushAndRemoveUntil(
+                        final cookie = CookieManager.instance();
+                        await cookie.deleteAllCookies();
+                        await Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => const SocialDogeWebLogin(),
+                            builder: (_) => const TwitterLogin(),
                           ),
                           (_) => false,
                         );
                       },
                       leading: const Icon(Icons.home),
-                      title: Text(AppLocalizations.of(context)!.logout),
+                      title: const Text("logout"),
                     ),
                     TextButton(
                       onPressed: () => Navigator.pop(context),

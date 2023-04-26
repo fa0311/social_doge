@@ -7,7 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
-import 'package:social_doge/view/top/home.dart';
+import 'package:social_doge/view/web/login.dart';
 
 // Package imports:
 
@@ -31,7 +31,7 @@ class SocialDoge extends ConsumerWidget {
       ],
       locale: AppLocalizations.supportedLocales[0],
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const SocialDogeHome(),
+      home: const TwitterLogin(),
     );
   }
 }
