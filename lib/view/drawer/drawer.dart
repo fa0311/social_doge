@@ -18,27 +18,16 @@ class NormalDrawer extends ConsumerWidget {
     return Drawer(
       child: SafeArea(
         child: Column(
-          children: <Widget>[
-            GestureDetector(
-              /*
-                onTapUp: (_) => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => ,
-                  ),
-                ),
-                */
-              onLongPress: () {},
-              child: UserAccountsDrawerHeader(
-                decoration: BoxDecoration(color: Theme.of(context).colorScheme.background),
-                accountName: const Text("accountName"),
-                accountEmail: const Text("accountEmail"),
-                currentAccountPicture: CachedNetworkImage(
-                  imageUrl: "https://pbs.twimg.com/profile_images/1449745429801811978/lHINmMuy_400x400.jpg",
-                  fit: BoxFit.fitWidth,
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
-                  imageBuilder: (context, imageProvider) => CircleAvatar(backgroundImage: imageProvider),
-                ),
+          children: [
+            UserAccountsDrawerHeader(
+              decoration: BoxDecoration(color: Theme.of(context).colorScheme.background),
+              accountName: const Text("accountName"),
+              accountEmail: const Text("accountEmail"),
+              currentAccountPicture: CachedNetworkImage(
+                imageUrl: "https://pbs.twimg.com/profile_images/1449745429801811978/lHINmMuy_400x400.jpg",
+                fit: BoxFit.fitWidth,
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+                imageBuilder: (context, imageProvider) => CircleAvatar(backgroundImage: imageProvider),
               ),
             ),
             Expanded(
@@ -58,7 +47,7 @@ class NormalDrawer extends ConsumerWidget {
                         );
                       },
                       leading: const Icon(Icons.home),
-                      title: const Text("logout"),
+                      title: Text(AppLocalizations.of(context)!.logout),
                     ),
                     TextButton(
                       onPressed: () => Navigator.pop(context),

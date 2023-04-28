@@ -7,6 +7,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:twitter_openapi_dart_generated/twitter_openapi_dart_generated.dart';
 import 'package:path/path.dart';
 import 'dart:math';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'synchronized.g.dart';
 
@@ -43,44 +44,49 @@ Future<Database> getDatabase(GetDatabaseRef ref) async {
 testInsert(Database db) async {
   final now = DateTime.now();
   final timeBase = now.millisecondsSinceEpoch;
-
+  final user = [];
+  for (int ii = 0; ii < 50; ii++) {
+    user.add(await testGenUserDB(db));
+  }
   for (int i = 0; i < 100; i++) {
-    final time = timeBase - ((60 * 60 * 24 * 1000 * 5) * (100 - i)) - Random().nextInt(60 * 60 * 24 * 1000 * 5);
-    print(i);
-
-    for (int ii = 0; ii < Random().nextInt(5) + i * 0.5; ii++) {
-      const String charset = '0123456789ABCDEF';
-      final random = Random();
-      String id = List.generate(10, (_) => charset[random.nextInt(charset.length)]).join();
-
-      final userDB = UserDB(
-        twitterId: id,
-        screenName: "screenName",
-        name: "name",
-        description: "description",
-        profileBannerUrl: "profileBannerUrl",
-        profileImageUrl: "profileImageUrl",
-      );
-
-      final userStatusDB = UserStatusDB(
-        twitterId: id,
-        selfTwitterId: '114514',
-        time: time,
-      );
-
-      final userStatusFetch = await db.query('user_followers', where: 'twitter_id = ? AND time = ?', whereArgs: [id, time]);
-
-      if (userStatusFetch.isEmpty) {
-        await db.insert("user_followers", userStatusDB.toMap());
-        final userFetch = await db.query('user', where: 'twitter_id = ?', whereArgs: [id]);
-        if (userFetch.isEmpty) {
-          await db.insert("user", userDB.toMap());
-        } else {
-          await db.update("user", userDB.toMap(), where: 'twitter_id = ?', whereArgs: [id]);
-        }
-      }
+    const cycle = 60 * 60 * 24 * 1000 * 2;
+    final time = timeBase - (cycle * (100 - i)) - Random().nextInt(cycle);
+    for (int ii = 0; ii < Random().nextInt(7); ii++) {
+      user.add(await testGenUserDB(db));
+    }
+    for (int ii = 0; ii < Random().nextInt(5); ii++) {
+      user.removeAt(Random().nextInt(user.length));
+    }
+    for (var u in user) {
+      await testInsertDB(db, u, time);
     }
   }
+}
+
+Future<UserDB> testGenUserDB(Database db) async {
+  const String charset = '0123456789ABCDEF';
+  final random = Random();
+  String id = List.generate(10, (_) => charset[random.nextInt(charset.length)]).join();
+  final userDB = UserDB(
+    twitterId: id,
+    screenName: "screenName",
+    name: "name",
+    description: "description",
+    profileImageUrl: "https://pbs.twimg.com/profile_images/1449745429801811978/lHINmMuy_400x400.jpg",
+    profileBannerUrl: "https://pbs.twimg.com/profile_banners/900282258736545792/1645014441/1500x500",
+  );
+  await db.insert("user", userDB.toMap());
+  return userDB;
+}
+
+Future testInsertDB(Database db, UserDB user, int time) async {
+  final userStatusDB = UserStatusDB(
+    twitterId: user.twitterId,
+    selfTwitterId: '114514',
+    time: time,
+  );
+
+  await db.insert("user_followers", userStatusDB.toMap());
 }
 
 class UserDB {
@@ -132,33 +138,7 @@ class UserStatusDB {
   }
 }
 
-class UserStatusJoin {
-  final String twitterId;
-  final String screenName;
-  final String name;
-  final String description;
-  final String? profileBannerUrl;
-  final String profileImageUrl;
-
-  const UserStatusJoin({
-    required this.twitterId,
-    required this.screenName,
-    required this.name,
-    required this.description,
-    required this.profileImageUrl,
-    this.profileBannerUrl,
-  });
-
-  UserStatusJoin.join(UserDB user, UserStatusDB status)
-      : twitterId = status.twitterId,
-        screenName = user.screenName,
-        name = user.name,
-        description = user.description,
-        profileImageUrl = user.profileImageUrl,
-        profileBannerUrl = user.profileBannerUrl;
-}
-
-Future<UserStatusJoin> insertDB(Database db, int time, String table, User user) async {
+Future<UserDB> insertDB(Database db, int time, String table, User user) async {
   final userDB = UserDB(
     twitterId: user.restId,
     screenName: user.legacy.screenName,
@@ -186,14 +166,13 @@ Future<UserStatusJoin> insertDB(Database db, int time, String table, User user) 
       await db.update("user", userDB.toMap(), where: 'twitter_id = ?', whereArgs: [user.restId]);
     }
   }
-
-  return UserStatusJoin.join(userDB, userStatusDB);
+  return userDB;
 }
 
 @riverpod
-Stream<Map<String, UserStatusJoin>> twitterClient(TwitterClientRef ref) async* {
+Stream<int> twitterClient(TwitterClientRef ref) async* {
   final client = TwitterOpenapiDart.fromInterceptors([FlutterInappwebviewDio()]);
-  final userList = <String, UserStatusJoin>{};
+  final userList = <String, UserDB>{};
   final now = DateTime.now();
   final time = now.millisecondsSinceEpoch;
 
@@ -201,8 +180,8 @@ Stream<Map<String, UserStatusJoin>> twitterClient(TwitterClientRef ref) async* {
 
   final response = await client.getUserListApi().getFollowers(userId: "1180389371481976833");
   final userJoin = await Future.wait(response.data.map((e) => insertDB(db, time, "user_followers", e.user)));
-  userList.addEntries(userJoin.map((e) => MapEntry<String, UserStatusJoin>(e.twitterId, e)));
-  yield userList;
+  userList.addEntries(userJoin.map((e) => MapEntry<String, UserDB>(e.twitterId, e)));
+  yield userList.length;
 
   String? topCursor = response.cursor.top?.value;
   String? bottomCursor = response.cursor.bottom?.value;
@@ -211,29 +190,25 @@ Stream<Map<String, UserStatusJoin>> twitterClient(TwitterClientRef ref) async* {
     final userListLen = userList.length;
     final response = await client.getUserListApi().getFollowers(userId: "1180389371481976833", cursor: topCursor);
     final userJoin = await Future.wait(response.data.map((e) => insertDB(db, time, "user_followers", e.user)));
-    userList.addEntries(userJoin.map((e) => MapEntry<String, UserStatusJoin>(e.twitterId, e)));
+    userList.addEntries(userJoin.map((e) => MapEntry<String, UserDB>(e.twitterId, e)));
     topCursor = userListLen < userList.length ? response.cursor.top?.value : null;
     // assert((topCursor = null) ?? true);
-    yield userList;
+    yield userList.length;
   }
 
   while (bottomCursor != null) {
     final userListLen = userList.length;
     final response = await client.getUserListApi().getFollowers(userId: "1180389371481976833", cursor: bottomCursor);
     final userJoin = await Future.wait(response.data.map((e) => insertDB(db, time, "user_followers", e.user)));
-    userList.addEntries(userJoin.map((e) => MapEntry<String, UserStatusJoin>(e.twitterId, e)));
+    userList.addEntries(userJoin.map((e) => MapEntry<String, UserDB>(e.twitterId, e)));
     bottomCursor = userListLen < userList.length ? response.cursor.bottom?.value : null;
     // assert((bottomCursor = null) ?? true);
-    yield userList;
+    yield userList.length;
   }
-
-  // await db.insert("history", {"time": time});
-
-  final user = await db.query('user');
 }
 
-class Synchronized extends ConsumerWidget {
-  const Synchronized({super.key});
+class Synchronize extends ConsumerWidget {
+  const Synchronize({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -241,14 +216,12 @@ class Synchronized extends ConsumerWidget {
 
     return Scaffold(
       drawerEdgeDragWidth: MediaQuery.of(context).padding.left + 40,
-      appBar: AppBar(
-        title: const Text("synchronized"),
-      ),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.synchronize)),
       body: client.when(
         loading: () => const CircularProgressIndicator(),
         error: (error, stackTrace) => Text(error.toString()),
         data: (messages) {
-          return Text(messages.length.toString());
+          return Text(messages.toString());
         },
       ),
     );

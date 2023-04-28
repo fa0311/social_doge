@@ -20,12 +20,11 @@ final getDatabaseProvider = AutoDisposeFutureProvider<Database>.internal(
 );
 
 typedef GetDatabaseRef = AutoDisposeFutureProviderRef<Database>;
-String _$twitterClientHash() => r'a7f6c030ff9595fb8b0b9a1174f921c0fc9b90eb';
+String _$twitterClientHash() => r'6b042af60552b7a8bfdb298c406341a1567e7dbc';
 
 /// See also [twitterClient].
 @ProviderFor(twitterClient)
-final twitterClientProvider =
-    AutoDisposeStreamProvider<Map<String, UserStatusJoin>>.internal(
+final twitterClientProvider = AutoDisposeStreamProvider<int>.internal(
   twitterClient,
   name: r'twitterClientProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -35,6 +34,5 @@ final twitterClientProvider =
   allTransitiveDependencies: null,
 );
 
-typedef TwitterClientRef
-    = AutoDisposeStreamProviderRef<Map<String, UserStatusJoin>>;
+typedef TwitterClientRef = AutoDisposeStreamProviderRef<int>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
