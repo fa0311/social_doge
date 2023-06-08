@@ -6,6 +6,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:social_doge/view/settings/accessibility.dart';
 
+import 'help.dart';
+
 // Project imports:
 
 class Settings extends ConsumerWidget {
@@ -27,6 +29,16 @@ class Settings extends ConsumerWidget {
               ),
               onTap: () async {
                 await Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsAccessibility()));
+              },
+            ),
+            ListTile(
+              title: Text(AppLocalizations.of(context)!.help),
+              leading: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [Icon(Icons.help)],
+              ),
+              onTap: () async {
+                await Navigator.push(context, MaterialPageRoute(builder: (_) => const Help()));
               },
             ),
           ],

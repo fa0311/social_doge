@@ -81,7 +81,9 @@ class LanguageCode extends _$LanguageCode {
 
   Future<void> get() async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
-    state = LanguageCodeEnum.values.byName(pref.getString(key)!);
+    if (pref.getString(key) != null) {
+      state = LanguageCodeEnum.values.byName(pref.getString(key)!);
+    }
   }
 }
 
@@ -167,7 +169,9 @@ class ThemeBrightness extends _$ThemeBrightness {
 
   Future<void> get() async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
-    state = ThemeBrightnessEnum.values.byName(pref.getString(key)!);
+    if (pref.getString(key) != null) {
+      state = ThemeBrightnessEnum.values.byName(pref.getString(key)!);
+    }
   }
 }
 
