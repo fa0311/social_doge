@@ -8,6 +8,7 @@
   "synchronizeDetails": "Get the latest from Twitter",
   "deleteLastSynchronize": "Delete last synchronize",
   "deleteLastSynchronizeDetails": "If the last synchronization was interrupted",
+  "noData": "No data",
   "@____________________DRAWER____________________": {},
   "close": "Close",
   "setting": "Setting",

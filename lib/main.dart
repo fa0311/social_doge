@@ -7,6 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:social_doge/component/loading.dart';
+import 'package:social_doge/constant/config.dart';
 import 'package:social_doge/view/settings/accessibility.dart';
 
 // Project imports:
@@ -37,7 +38,7 @@ class SocialDoge extends ConsumerWidget {
     final darkThemeBrightness = ref.watch(themeBrightnessProvider(true));
 
     return MaterialApp(
-      title: 'Twitter Doge',
+      title: Config.title,
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
         AppLocalizations.delegate,

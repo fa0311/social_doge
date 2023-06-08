@@ -25,6 +25,18 @@ Future<List<FollowersCount>> getFollowersCount(GetFollowersCountRef ref, int? ti
   return response.map((row) => FollowersCount(row["time"] as int, row["count(*)"] as int)).toList();
 }
 
+Future removeLastSynchronized(WidgetRef ref) async {
+  final db = await ref.read(getDatabaseProvider.future);
+  final time = await db.query("user_followers", columns: ["time"], orderBy: "time DESC", limit: 1);
+  await db.delete("user_followers", where: "time = ?", whereArgs: [time.first["time"] as int]);
+  await Future.wait([
+    ref.refresh(getFollowersCountProvider(60 * 60 * 24 * 30 * 1000).future),
+    ref.refresh(getFollowersCountProvider(60 * 60 * 24 * 90 * 1000).future),
+    ref.refresh(getFollowersCountProvider(60 * 60 * 24 * 365 * 1000).future),
+    ref.refresh(getFollowersCountProvider(null).future),
+  ]);
+}
+
 class SocialDogeMainPageView {
   SocialDogeMainPageView(this.label, this.provider);
   final String label;
@@ -82,15 +94,25 @@ class SocialDogeMain extends ConsumerWidget {
           title: Text(AppLocalizations.of(context)!.synchronize),
           subtitle: Text(AppLocalizations.of(context)!.synchronizeDetails),
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Synchronize()));
+            Navigator.of(context)
+              ..pop()
+              ..push(MaterialPageRoute(builder: (context) => const Synchronize()));
           },
         ),
         ListTile(
           title: Text(AppLocalizations.of(context)!.deleteLastSynchronize),
           subtitle: Text(AppLocalizations.of(context)!.deleteLastSynchronizeDetails),
-          onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Synchronize()));
+          enabled: data.isNotEmpty,
+          onTap: () async {
+            await removeLastSynchronized(ref);
           },
+          trailing: data.last.provider.when(
+            data: (data) => null,
+            error: (error, stackTrace) => Column(children: [
+              for (final e in [error.toString(), stackTrace.toString()]) Text(e)
+            ]),
+            loading: () => const LoadingIcon(),
+          ),
         ),
       ],
     );
@@ -106,6 +128,10 @@ class FollowerChart extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    if (data.isEmpty) return Center(child: Text(AppLocalizations.of(context)!.noData));
+    if (data.length == 1) {
+      data.add(FollowersCount(data.first.time + 1, data.first.count));
+    }
     return LineChart(
       LineChartData(
         lineTouchData: LineTouchData(
@@ -138,7 +164,7 @@ class FollowerChart extends ConsumerWidget {
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 30,
-              interval: (data.last.time.toDouble() - data.first.time.toDouble()) / 5,
+              interval: data.last.time.toDouble() - data.first.time.toDouble() / 5,
               getTitlesWidget: (value, meta) {
                 if (meta.min == value || meta.max == value) return Container();
                 final year = meta.max - meta.min > 60 * 60 * 24 * 365 * 1000;
@@ -153,6 +179,7 @@ class FollowerChart extends ConsumerWidget {
               showTitles: true,
               reservedSize: data.sorted((a, b) => a.count.compareTo(b.count)).first.count.toString().length * 10 + 5,
               getTitlesWidget: (value, meta) {
+                if (meta.min == meta.max) return Text(value.toInt().toString());
                 if (meta.min == value || meta.max == value) return Container();
                 return Text(value.toInt().toString());
               },

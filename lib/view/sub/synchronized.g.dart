@@ -6,7 +6,7 @@ part of 'synchronized.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getDatabaseHash() => r'caaae32be13c285edddb952b28d777a7d114b51e';
+String _$getDatabaseHash() => r'b11175160392835acda604f9db3fae4b453b88cb';
 
 /// See also [getDatabase].
 @ProviderFor(getDatabase)
@@ -20,11 +20,12 @@ final getDatabaseProvider = AutoDisposeFutureProvider<Database>.internal(
 );
 
 typedef GetDatabaseRef = AutoDisposeFutureProviderRef<Database>;
-String _$twitterClientHash() => r'7271d34beb22c7f496f0f7c4def693a5f981b50e';
+String _$twitterClientHash() => r'758ed374e40ad08b1650cb59a0b5d0ae9d81fbd8';
 
 /// See also [twitterClient].
 @ProviderFor(twitterClient)
-final twitterClientProvider = AutoDisposeStreamProvider<int>.internal(
+final twitterClientProvider =
+    AutoDisposeStreamProvider<TwitterClientResponse>.internal(
   twitterClient,
   name: r'twitterClientProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -34,5 +35,5 @@ final twitterClientProvider = AutoDisposeStreamProvider<int>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef TwitterClientRef = AutoDisposeStreamProviderRef<int>;
+typedef TwitterClientRef = AutoDisposeStreamProviderRef<TwitterClientResponse>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

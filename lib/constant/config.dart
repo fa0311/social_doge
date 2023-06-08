@@ -1,4 +1,5 @@
 class Config {
+  static String title = 'Social Doge';
   static String author = 'yuki';
   static String year = '2023';
   static String applicationLegalese = "$year $author";

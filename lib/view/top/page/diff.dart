@@ -56,6 +56,7 @@ class SocialDogeUnsubscribe extends ConsumerWidget {
     final time = ref.watch(getFollowerTimeProvider);
     return time.when(
       data: (time) {
+        if (time.length < 2) return Center(child: Text(AppLocalizations.of(context)!.noData));
         return ListView.builder(
           itemCount: time.length - 1,
           itemBuilder: (context, i) {

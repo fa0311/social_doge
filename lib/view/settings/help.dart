@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Package imports:
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:social_doge/component/future/tile.dart';
+import 'package:social_doge/component/loading.dart';
 import 'package:social_doge/constant/config.dart';
 
 import 'package:url_launcher/url_launcher.dart';
@@ -63,10 +64,7 @@ class Help extends ConsumerWidget {
                   loading: () => ListTile(
                     title: Text(AppLocalizations.of(context)!.version),
                     subtitle: const Text(""),
-                    trailing: const Padding(
-                      padding: EdgeInsets.only(right: 2, top: 2),
-                      child: SizedBox(width: 20, height: 20, child: CircularProgressIndicator()),
-                    ),
+                    trailing: const LoadingIcon(),
                   ),
                   error: (e, trace) {
                     return ListTile(

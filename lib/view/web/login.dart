@@ -18,17 +18,13 @@ class TwitterLogin extends ConsumerWidget {
     return InAppWebView(
       initialUrlRequest: URLRequest(url: url.resolve("login")),
       onTitleChanged: (controller, title) async {
-        final url = await controller.getUrl().catchError((e) => null);
+        final url = await controller.getUrl();
         if (url == null) return;
         if (url.path == url.resolve("home").path) {
           if (!context.mounted) return;
           Navigator.of(context)
             ..pop()
-            ..push(
-              MaterialPageRoute(
-                builder: (context) => const SocialDogeHome(),
-              ),
-            );
+            ..push(MaterialPageRoute(builder: (context) => const SocialDogeHome()));
         }
       },
     );
