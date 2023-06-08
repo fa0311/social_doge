@@ -20,7 +20,7 @@ final getDatabaseProvider = AutoDisposeFutureProvider<Database>.internal(
 );
 
 typedef GetDatabaseRef = AutoDisposeFutureProviderRef<Database>;
-String _$twitterClientHash() => r'6b042af60552b7a8bfdb298c406341a1567e7dbc';
+String _$twitterClientHash() => r'7271d34beb22c7f496f0f7c4def693a5f981b50e';
 
 /// See also [twitterClient].
 @ProviderFor(twitterClient)

@@ -957,21 +957,19 @@ packages:
   twitter_openapi_dart:
     dependency: "direct main"
     description:
-      path: twitter_openapi_dart
-      ref: "810a7bc4c65f50d565d2a147e39742bd50333402"
-      resolved-ref: "810a7bc4c65f50d565d2a147e39742bd50333402"
-      url: "https://github.com/fa0311/twitter_openapi_dart.git"
-    source: git
-    version: "0.0.1"
+      name: twitter_openapi_dart
+      sha256: "7277e2ec936b6939a86b90315c6f6450af4a9439eb450a59180d5d91b6dba538"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   twitter_openapi_dart_generated:
     dependency: "direct main"
     description:
-      path: twitter_openapi_dart_generated
-      ref: "059add3baef5298998bf92f22766ea5ffb6ef6f0"
-      resolved-ref: "059add3baef5298998bf92f22766ea5ffb6ef6f0"
-      url: "https://github.com/fa0311/twitter_openapi_dart.git"
-    source: git
-    version: "0.0.1"
+      name: twitter_openapi_dart_generated
+      sha256: "5dc87d31abcd06f35564fe1912cd64e2771a3d568732a6a02b390315fcca88f6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.3"
   typed_data:
     dependency: transitive
     description:

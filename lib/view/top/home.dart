@@ -2,11 +2,12 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:social_doge/component/physics.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+// Project imports:
+import 'package:social_doge/component/physics.dart';
 import 'package:social_doge/view/drawer/drawer.dart';
 import 'package:social_doge/view/top/page/diff.dart';
 import 'package:social_doge/view/top/page/main.dart';

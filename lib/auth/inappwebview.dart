@@ -1,6 +1,9 @@
+// Dart imports:
 import 'dart:io';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+
+// Package imports:
 import 'package:dio/dio.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class FlutterInappwebviewDio extends Interceptor {
   @override

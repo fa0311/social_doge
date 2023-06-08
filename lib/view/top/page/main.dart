@@ -1,16 +1,18 @@
 // Flutter imports:
-import 'package:collection/collection.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 // Package imports:
+import 'package:collection/collection.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// Project imports:
 import 'package:social_doge/component/loading.dart';
 import 'package:social_doge/view/sub/synchronized.dart';
 import 'package:social_doge/view/top/home.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'main.g.dart';
 

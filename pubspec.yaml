@@ -45,16 +45,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  twitter_openapi_dart:
-    git:
-      url: https://github.com/fa0311/twitter_openapi_dart.git
-      path: twitter_openapi_dart
-      ref: 810a7bc4c65f50d565d2a147e39742bd50333402
-  twitter_openapi_dart_generated:
-    git:
-      url: https://github.com/fa0311/twitter_openapi_dart.git
-      path: twitter_openapi_dart_generated
-      ref: 059add3baef5298998bf92f22766ea5ffb6ef6f0
+  twitter_openapi_dart: ^0.0.4
+  twitter_openapi_dart_generated: any
 
   dio: ^5.1.1
   collection: ^1.17.0
