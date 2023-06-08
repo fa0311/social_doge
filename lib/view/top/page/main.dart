@@ -52,23 +52,26 @@ class SocialDogeMain extends ConsumerWidget {
             child: AspectRatio(
               aspectRatio: 1.50,
               child: PageView(
-                children: data.map((e) {
-                  return Column(
-                    children: [
-                      Text(e.label),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: e.provider.when(
-                            data: (data) => FollowerChart(data: data),
-                            error: (error, stackTrace) => Column(children: [error.toString(), stackTrace.toString()].map((e) => Text(e)).toList()),
-                            loading: () => const Loading(),
+                children: [
+                  for (final e in data)
+                    Column(
+                      children: [
+                        Text(e.label),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: e.provider.when(
+                              data: (data) => FollowerChart(data: data),
+                              error: (error, stackTrace) => Column(children: [
+                                for (final e in [error.toString(), stackTrace.toString()]) Text(e)
+                              ]),
+                              loading: () => const Loading(),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  );
-                }).toList(),
+                      ],
+                    ),
+                ],
               ),
             ),
           ),

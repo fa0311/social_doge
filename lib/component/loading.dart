@@ -11,10 +11,7 @@ class Loading extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       alignment: Alignment.topCenter,
-      child: const Padding(
-        padding: EdgeInsets.only(top: 40),
-        child: CircularProgressIndicator(),
-      ),
+      child: const Padding(padding: EdgeInsets.only(top: 40), child: CircularProgressIndicator()),
     );
   }
 }

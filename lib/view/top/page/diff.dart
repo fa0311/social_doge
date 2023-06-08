@@ -13,7 +13,8 @@ part 'diff.g.dart';
 Future<List<int>> getFollowerTime(GetFollowerTimeRef ref) async {
   final db = await ref.watch(getDatabaseProvider.future);
   final response = await db.query("user_followers", columns: ["time"], groupBy: "time", orderBy: "time ASC");
-  return response.map((e) => e["time"] as int).toList();
+
+  return [for (final e in response) e["time"] as int];
 }
 
 @riverpod
@@ -62,31 +63,36 @@ class SocialDogeUnsubscribe extends ConsumerWidget {
                 return Column(
                   children: [
                     Text(DateFormat(AppLocalizations.of(context)!.dateFormat1).format(date).toString()),
-                    ...unsubscribe.map((e) {
-                      final user = ref.watch(getUserProvider(e));
-                      return user.when(
-                        data: (user) => ListTile(
-                          leading: Image.network(user.profileImageUrl),
-                          title: Text(user.name),
-                          subtitle: Text(user.description),
-                          trailing: Text(user.twitterId),
-                        ),
-                        error: (error, stackTrace) => Column(children: [error.toString(), stackTrace.toString()].map((e) => Text(e)).toList()),
-                        loading: () => SizedBox(height: MediaQuery.of(context).size.height, child: const Center(child: Loading())),
-                      );
-                    })
+                    for (final e in unsubscribe)
+                      ref.watch(getUserProvider(e)).when(
+                            data: (user) {
+                              return ListTile(
+                                leading: Image.network(user.profileImageUrl),
+                                title: Text(user.name),
+                                subtitle: Text(user.description),
+                                trailing: Text(user.twitterId),
+                              );
+                            },
+                            error: (error, stackTrace) => Column(children: [
+                              for (final e in [error.toString(), stackTrace.toString()]) Text(e)
+                            ]),
+                            loading: () => const Loading(),
+                          ),
                   ],
                 );
               },
-              error: (error, stackTrace) => Column(children: [error.toString(), stackTrace.toString()].map((e) => Text(e)).toList()),
-              loading: () => SizedBox(height: MediaQuery.of(context).size.height, child: const Center(child: Loading())),
+              error: (error, stackTrace) => Column(children: [
+                for (final e in [error.toString(), stackTrace.toString()]) Text(e)
+              ]),
+              loading: () => const Loading(),
             );
           },
         );
       },
-      error: (error, stackTrace) =>
-          Column(children: [AppLocalizations.of(context)!.error, error.toString(), stackTrace.toString()].map((e) => Text(e)).toList()),
-      loading: () => SizedBox(height: MediaQuery.of(context).size.height, child: const Center(child: Loading())),
+      error: (error, stackTrace) => Column(children: [
+        for (final e in [error.toString(), stackTrace.toString()]) Text(e)
+      ]),
+      loading: () => const Loading(),
     );
   }
 }

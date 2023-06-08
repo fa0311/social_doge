@@ -6,7 +6,7 @@ part of 'diff.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getFollowerTimeHash() => r'2d0f0bbefb6dfdaedc90a744d5285a391ba5e6d9';
+String _$getFollowerTimeHash() => r'03ec042aa0338307c6b8ac027fc055887eac6c8f';
 
 /// See also [getFollowerTime].
 @ProviderFor(getFollowerTime)

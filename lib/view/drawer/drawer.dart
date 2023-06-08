@@ -6,7 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:social_doge/view/settings/accessibility.dart';
+import 'package:social_doge/view/settings/settings.dart';
 
 // Project imports:
 import 'package:social_doge/view/web/login.dart';
@@ -34,7 +34,7 @@ class NormalDrawer extends ConsumerWidget {
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
-                  children: <Widget>[
+                  children: [
                     ListTile(
                       onTap: () async {
                         final cookie = CookieManager.instance();
@@ -56,18 +56,8 @@ class NormalDrawer extends ConsumerWidget {
               children: [
                 const Divider(),
                 ListTile(
-                  onTap: () => {},
-                  leading: const Icon(Icons.settings),
-                  title: Text(AppLocalizations.of(context)!.setting),
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                const Divider(),
-                ListTile(
                   onTap: () async {
-                    await Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsAccessibility()), (_) => false);
+                    await Navigator.push(context, MaterialPageRoute(builder: (_) => const Settings()));
                   },
                   leading: const Icon(Icons.settings),
                   title: Text(AppLocalizations.of(context)!.setting),
