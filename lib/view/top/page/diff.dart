@@ -1,11 +1,15 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// Project imports:
 import 'package:social_doge/component/loading.dart';
 import 'package:social_doge/view/sub/synchronized.dart';
-
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'diff.g.dart';
 

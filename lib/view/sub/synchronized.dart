@@ -1,13 +1,20 @@
+// Dart imports:
+import 'dart:math';
+
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:social_doge/auth/inappwebview.dart';
+import 'package:path/path.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:twitter_openapi_dart/twitter_openapi_dart.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:twitter_openapi_dart_generated/twitter_openapi_dart_generated.dart';
-import 'package:path/path.dart';
-import 'dart:math';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// Project imports:
+import 'package:social_doge/auth/inappwebview.dart';
 
 part 'synchronized.g.dart';
 
@@ -171,7 +178,9 @@ Future<UserDB> insertDB(Database db, int time, String table, User user) async {
 
 @riverpod
 Stream<int> twitterClient(TwitterClientRef ref) async* {
-  final client = TwitterOpenapiDart.fromInterceptors([FlutterInappwebviewDio()]);
+  final api = TwitterOpenapiDart()..addBeforeInterceptor(FlutterInappwebviewDio());
+  final client = await api.getClient(initCookie: false);
+
   final userList = <String, UserDB>{};
   final now = DateTime.now();
   final time = now.millisecondsSinceEpoch;

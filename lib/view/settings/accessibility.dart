@@ -1,18 +1,14 @@
-// Dart imports:
-import 'dart:io';
-
 // Flutter imports:
 import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:social_doge/component/modal.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // Project imports:
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:social_doge/component/modal.dart';
 
 part 'accessibility.g.dart';
 
