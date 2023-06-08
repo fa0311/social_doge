@@ -9,7 +9,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:social_doge/view/settings/settings.dart';
 
 // Project imports:
-import 'package:social_doge/view/settings/accessibility.dart';
 import 'package:social_doge/view/web/login.dart';
 
 class NormalDrawer extends ConsumerWidget {
