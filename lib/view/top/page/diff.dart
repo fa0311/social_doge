@@ -10,6 +10,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 // Project imports:
 import 'package:social_doge/component/loading.dart';
 import 'package:social_doge/view/sub/synchronized.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 part 'diff.g.dart';
 
@@ -58,46 +59,69 @@ class SocialDogeUnsubscribe extends ConsumerWidget {
       data: (time) {
         if (time.length < 2) return Center(child: Text(AppLocalizations.of(context)!.noData));
         return ListView.builder(
-          itemCount: time.length - 1,
           itemBuilder: (context, i) {
-            final unsubscribe = ref.watch(getUnsubscribeProvider(i + 1));
-            return unsubscribe.when(
-              data: (unsubscribe) {
-                if (unsubscribe.isEmpty) return Container();
-                final date = DateTime.fromMillisecondsSinceEpoch(time[time.length - i - 1], isUtc: true);
-                return Column(
-                  children: [
-                    Text(DateFormat(AppLocalizations.of(context)!.dateFormat1).format(date).toString()),
-                    for (final e in unsubscribe)
-                      ref.watch(getUserProvider(e)).when(
-                            data: (user) {
-                              return ListTile(
-                                leading: Image.network(user.profileImageUrl),
-                                title: Text(user.name),
-                                subtitle: Text(user.description),
-                                trailing: Text(user.twitterId),
-                              );
-                            },
-                            error: (error, stackTrace) => Column(children: [
-                              for (final e in [error.toString(), stackTrace.toString()]) Text(e)
-                            ]),
-                            loading: () => const Loading(),
-                          ),
-                  ],
-                );
+            final date = DateTime.fromMillisecondsSinceEpoch(time[time.length - i - 1], isUtc: true);
+            return ListTile(
+              title: Text(DateFormat(AppLocalizations.of(context)!.dateFormat1).format(date).toString()),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => SocialDogeUnsubscribeDetail(count: i)));
               },
-              error: (error, stackTrace) => Column(children: [
-                for (final e in [error.toString(), stackTrace.toString()]) Text(e)
-              ]),
-              loading: () => const Loading(),
             );
           },
+          itemCount: time.length - 1,
         );
       },
       error: (error, stackTrace) => Column(children: [
         for (final e in [error.toString(), stackTrace.toString()]) Text(e)
       ]),
       loading: () => const Loading(),
+    );
+  }
+}
+
+class SocialDogeUnsubscribeDetail extends ConsumerWidget {
+  final int count;
+  const SocialDogeUnsubscribeDetail({super.key, required this.count});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final unsubscribe = ref.watch(getUnsubscribeProvider(count + 1));
+    return Scaffold(
+      appBar: AppBar(title: const Text('Diff')),
+      body: unsubscribe.when(
+        data: (unsubscribe) {
+          if (unsubscribe.isEmpty) return Container();
+          return ListView.builder(
+            itemBuilder: (context, i) {
+              return ref.watch(getUserProvider(unsubscribe[i])).when(
+                    data: (user) {
+                      return ListTile(
+                        leading: Image.network(user.profileImageUrl),
+                        title: Text(user.name),
+                        subtitle: Text(user.description, maxLines: 3, overflow: TextOverflow.ellipsis),
+                        trailing: Text(user.screenName),
+                        onTap: () async {
+                          final url = Uri.https("twitter.com", user.screenName);
+                          if (await canLaunchUrl(url)) {
+                            launchUrl(url, mode: LaunchMode.externalApplication);
+                          }
+                        },
+                      );
+                    },
+                    error: (error, stackTrace) => Column(children: [
+                      for (final e in [error.toString(), stackTrace.toString()]) Text(e)
+                    ]),
+                    loading: () => const Loading(),
+                  );
+            },
+            itemCount: unsubscribe.length,
+          );
+        },
+        error: (error, stackTrace) => Column(children: [
+          for (final e in [error.toString(), stackTrace.toString()]) Text(e)
+        ]),
+        loading: () => const Loading(),
+      ),
     );
   }
 }
