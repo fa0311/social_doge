@@ -9,6 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:social_doge/component/label.dart';
 import 'package:social_doge/component/loading.dart';
 import 'package:social_doge/view/top/home.dart';
 import 'package:social_doge/view/top/page/main.dart';
@@ -193,6 +194,10 @@ class TwitterClientResponse {
   });
 }
 
+int secondsSinceEpoch() {
+  return DateTime.now().millisecondsSinceEpoch ~/ 1000;
+}
+
 @riverpod
 Stream<TwitterClientResponse> twitterClient(TwitterClientRef ref) async* {
   final api = TwitterOpenapiDart()..addBeforeInterceptor(FlutterInappwebviewDio());
@@ -209,10 +214,9 @@ Stream<TwitterClientResponse> twitterClient(TwitterClientRef ref) async* {
 
   final response = await client.getUserListApi().getFollowers(userId: user.data.restId, count: 200);
   final userJoin = await Future.wait(response.data.map((e) => insertDB(db, time, "user_followers", e.user)));
-
   userList.addEntries(userJoin.map((e) => MapEntry<String, UserDB>(e.twitterId, e)));
-  while (response.header.rateLimitRemaining < 5 && response.header.rateLimitReset - DateTime.now().millisecondsSinceEpoch < 0) {
-    yield TwitterClientResponse(length: length, progress: userList.length, wait: response.header.rateLimitReset - DateTime.now().millisecondsSinceEpoch);
+  while (response.header.rateLimitRemaining < 5 && response.header.rateLimitReset - secondsSinceEpoch() > 0) {
+    yield TwitterClientResponse(length: length, progress: userList.length, wait: response.header.rateLimitReset - secondsSinceEpoch());
     await Future.delayed(const Duration(seconds: 1));
   }
   yield TwitterClientResponse(length: length, progress: userList.length);
@@ -226,8 +230,8 @@ Stream<TwitterClientResponse> twitterClient(TwitterClientRef ref) async* {
     final userJoin = await Future.wait(response.data.map((e) => insertDB(db, time, "user_followers", e.user)));
     userList.addEntries(userJoin.map((e) => MapEntry<String, UserDB>(e.twitterId, e)));
     topCursor = userListLen < userList.length ? response.cursor.top?.value : null;
-    while (response.header.rateLimitRemaining < 5 && response.header.rateLimitReset - DateTime.now().millisecondsSinceEpoch < 0) {
-      yield TwitterClientResponse(length: length, progress: userList.length, wait: response.header.rateLimitReset - DateTime.now().millisecondsSinceEpoch);
+    while (response.header.rateLimitRemaining < 5 && response.header.rateLimitReset - secondsSinceEpoch() > 0) {
+      yield TwitterClientResponse(length: length, progress: userList.length, wait: response.header.rateLimitReset - secondsSinceEpoch());
       await Future.delayed(const Duration(seconds: 1));
     }
     yield TwitterClientResponse(length: length, progress: userList.length);
@@ -239,8 +243,8 @@ Stream<TwitterClientResponse> twitterClient(TwitterClientRef ref) async* {
     final userJoin = await Future.wait(response.data.map((e) => insertDB(db, time, "user_followers", e.user)));
     userList.addEntries(userJoin.map((e) => MapEntry<String, UserDB>(e.twitterId, e)));
     bottomCursor = userListLen < userList.length ? response.cursor.bottom?.value : null;
-    while (response.header.rateLimitRemaining < 5 && response.header.rateLimitReset - DateTime.now().millisecondsSinceEpoch < 0) {
-      yield TwitterClientResponse(length: length, progress: userList.length, wait: response.header.rateLimitReset - DateTime.now().millisecondsSinceEpoch);
+    while (response.header.rateLimitRemaining < 5 && response.header.rateLimitReset - secondsSinceEpoch() > 0) {
+      yield TwitterClientResponse(length: length, progress: userList.length, wait: response.header.rateLimitReset - secondsSinceEpoch());
       await Future.delayed(const Duration(seconds: 1));
     }
     yield TwitterClientResponse(length: length, progress: userList.length);
@@ -276,8 +280,27 @@ class Synchronize extends ConsumerWidget {
             data: (messages) {
               return Column(
                 children: [
-                  Expanded(child: Text("${messages.progress}/${messages.length}")),
-                  if (messages.wait != null) Text("API limit! Wait ${messages.wait} seconds remaining."),
+                  Text("${messages.progress}/${messages.length}"),
+                  ClipRRect(
+                    child: LinearProgressIndicator(
+                      value: messages.progress / messages.length,
+                    ),
+                  ),
+                  if (!messages.finish)
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: AlertLabel(child: Text(AppLocalizations.of(context)!.syncAlert)),
+                    ),
+                  if (messages.finish)
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: SuccessLabel(child: Text(AppLocalizations.of(context)!.syncSuccess)),
+                    ),
+                  Expanded(child: Container()),
+                  if (messages.wait != null) ...[
+                    Text(AppLocalizations.of(context)!.apiLimit),
+                    Text(AppLocalizations.of(context)!.apiLimitDetails(messages.wait!)),
+                  ],
                   if (messages.finish)
                     ElevatedButton(
                       onPressed: () {

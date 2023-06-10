@@ -14,12 +14,17 @@
   "setting": "Setting",
   "logout": "Logout",
   "@____________________DATE____________________": {},
-  "dateFormat1": "MM/dd/yy",
+  "dateFormat1": "MM/dd/yy H:mm",
   "dateFormat2": "MM/dd",
   "oneMonth": "1 Month",
   "threeMonths": "3 Months",
   "oneYear": "1 Year",
   "totalPeriod": "Total Period",
+  "@____________________SYNC____________________": {},
+  "apiLimit": "API Limit!",
+  "apiLimitDetails": "API limit reached, retry in {sec} seconds.",
+  "syncAlert": "Synchronization is in progress. Please wait without closing the application.",
+  "syncSuccess": "Synchronization completed successfully.",
   "@____________________HELP____________________": {},
   "help": "Help",
   "contribution": "Contribution",
@@ -53,6 +58,12 @@
   "log": "Log",
   "viewDetailedLogs": "View detailed logs",
   "@____________________PLACEHOLDER____________________": {},
+  "@__SYNC__": {},
+  "@apiLimitDetails": {
+    "placeholders": {
+      "sec": {}
+    }
+  },
   "@__HELP__": {},
   "@versionDetails": {
     "placeholders": {

@@ -177,7 +177,7 @@ class FollowerChart extends ConsumerWidget {
           leftTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              reservedSize: data.sorted((a, b) => a.count.compareTo(b.count)).first.count.toString().length * 10 + 5,
+              reservedSize: data.sorted((a, b) => a.count.compareTo(b.count)).first.count.toString().length * 8 + 5,
               getTitlesWidget: (value, meta) {
                 if (meta.min == meta.max) return Text(value.toInt().toString());
                 if (meta.min == value || meta.max == value) return Container();
