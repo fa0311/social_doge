@@ -1,7 +1,10 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// Project imports:
 import 'package:social_doge/component/future/button.dart';
 
 class ConfirmDialog extends StatefulWidget {

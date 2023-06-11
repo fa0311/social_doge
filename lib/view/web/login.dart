@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:social_doge/database/self_account.dart';
-import 'package:social_doge/view/settings/account.dart';
 
 // Project imports:
+import 'package:social_doge/database/self_account.dart';
+import 'package:social_doge/view/settings/account.dart';
 import 'package:social_doge/view/top/home.dart';
 
 class TwitterLogin extends ConsumerWidget {

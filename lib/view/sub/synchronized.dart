@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:twitter_openapi_dart_generated/twitter_openapi_dart_generated.dart';
+
+// Project imports:
 import 'package:social_doge/component/confirm.dart';
 import 'package:social_doge/component/label.dart';
 import 'package:social_doge/component/loading.dart';
@@ -14,8 +18,6 @@ import 'package:social_doge/database/user.dart';
 import 'package:social_doge/interface/twitter.dart';
 import 'package:social_doge/view/top/home.dart';
 import 'package:social_doge/view/top/page/main.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:twitter_openapi_dart_generated/twitter_openapi_dart_generated.dart';
 
 // Project imports:
 

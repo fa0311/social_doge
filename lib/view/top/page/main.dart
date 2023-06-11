@@ -8,9 +8,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:social_doge/component/confirm.dart';
 
 // Project imports:
+import 'package:social_doge/component/confirm.dart';
 import 'package:social_doge/component/loading.dart';
 import 'package:social_doge/database/core.dart';
 import 'package:social_doge/database/self_account.dart';

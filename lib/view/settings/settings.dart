@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// Project imports:
 import 'package:social_doge/view/settings/accessibility.dart';
 import 'package:social_doge/view/settings/account.dart';
-
 import 'help.dart';
 
 // Project imports:

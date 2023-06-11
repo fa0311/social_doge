@@ -1,11 +1,14 @@
 // Dart imports:
 
+// Flutter imports:
 import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// Project imports:
 import 'package:social_doge/component/future/button.dart';
 import 'package:social_doge/database/self_account.dart';
 import 'package:social_doge/view/top/home.dart';

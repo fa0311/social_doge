@@ -1,5 +1,9 @@
+// Package imports:
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// Project imports:
 import 'package:social_doge/database/core.dart';
+
 part 'user.g.dart';
 
 @Riverpod(keepAlive: true)

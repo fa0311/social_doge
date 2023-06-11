@@ -6,14 +6,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// Project imports:
 import 'package:social_doge/component/confirm.dart';
 import 'package:social_doge/component/loading.dart';
 import 'package:social_doge/component/twitter/user_profile.dart';
 import 'package:social_doge/database/self_account.dart';
 import 'package:social_doge/interface/twitter.dart';
 import 'package:social_doge/view/settings/settings.dart';
-
-// Project imports:
 import 'package:social_doge/view/web/login.dart';
 
 class NormalDrawer extends ConsumerWidget {

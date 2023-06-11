@@ -1,4 +1,4 @@
-// Dart imports:
+// Package imports:
 import 'package:path/path.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sqflite/sqflite.dart';

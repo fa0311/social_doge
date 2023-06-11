@@ -9,8 +9,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 // Project imports:
 import 'package:social_doge/component/physics.dart';
 import 'package:social_doge/view/drawer/drawer.dart';
-import 'package:social_doge/view/top/page/unfollowed_user.dart';
 import 'package:social_doge/view/top/page/main.dart';
+import 'package:social_doge/view/top/page/unfollowed_user.dart';
 
 part 'home.g.dart';
 

@@ -6,15 +6,14 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-// Package imports:
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+// Project imports:
 import 'package:social_doge/component/future/tile.dart';
 import 'package:social_doge/component/loading.dart';
 import 'package:social_doge/constant/config.dart';
-
-import 'package:url_launcher/url_launcher.dart';
 
 part 'help.g.dart';
 

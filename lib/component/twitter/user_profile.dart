@@ -1,9 +1,13 @@
 // Flutter imports:
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:social_doge/database/user.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+// Project imports:
+import 'package:social_doge/database/user.dart';
 
 class ProfileImageUrlHttps {
   static RegExp from = RegExp(r'^(https://.*?)_[a-zA-Z0-9]+?\.([a-z]+?)$');
