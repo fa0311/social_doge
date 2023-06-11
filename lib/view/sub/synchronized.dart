@@ -8,13 +8,13 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:social_doge/component/label.dart';
 import 'package:social_doge/component/loading.dart';
 import 'package:social_doge/database/core.dart';
+import 'package:social_doge/database/self_account.dart';
 import 'package:social_doge/database/user.dart';
+import 'package:social_doge/interface/twitter.dart';
 import 'package:social_doge/view/top/home.dart';
 import 'package:social_doge/view/top/page/main.dart';
-import 'package:twitter_openapi_dart/twitter_openapi_dart.dart';
 
 // Project imports:
-import 'package:social_doge/auth/inappwebview.dart';
 
 part 'synchronized.g.dart';
 
@@ -38,19 +38,19 @@ int secondsSinceEpoch() {
 
 @riverpod
 Stream<TwitterClientResponse> twitterClient(TwitterClientRef ref) async* {
-  final api = TwitterOpenapiDart()..addBeforeInterceptor(FlutterInappwebviewDio());
-  final client = await api.getClient(initCookie: false);
+  final client = await ref.watch(getTwitterClientProvider.future);
 
   final userList = <String, UserDB>{};
   final now = DateTime.now();
   final time = now.millisecondsSinceEpoch;
   final db = await ref.read(getDatabaseProvider.future);
+  final userId = ref.read(selfAccountProvider);
+  final user = await ref.read(twitterUserProvider(userId!).future);
 
-  final user = await client.getUserApi().getUserByScreenName(screenName: "faa0311");
-  final length = user.data.legacy.followersCount;
+  final length = user.legacy.followersCount;
   yield TwitterClientResponse(length: length, progress: userList.length);
 
-  final response = await client.getUserListApi().getFollowers(userId: user.data.restId, count: 200);
+  final response = await client.getUserListApi().getFollowers(userId: user.restId, count: 200);
   final userJoin = await Future.wait(response.data.map((e) => insertDB(db, time, "user_followers", e.user)));
   userList.addEntries(userJoin.map((e) => MapEntry<String, UserDB>(e.twitterId, e)));
   while (response.header.rateLimitRemaining < 5 && response.header.rateLimitReset - secondsSinceEpoch() > 0) {
@@ -64,7 +64,7 @@ Stream<TwitterClientResponse> twitterClient(TwitterClientRef ref) async* {
 
   while (topCursor != null) {
     final userListLen = userList.length;
-    final response = await client.getUserListApi().getFollowers(userId: user.data.restId, cursor: topCursor, count: 200);
+    final response = await client.getUserListApi().getFollowers(userId: user.restId, cursor: topCursor, count: 200);
     final userJoin = await Future.wait(response.data.map((e) => insertDB(db, time, "user_followers", e.user)));
     userList.addEntries(userJoin.map((e) => MapEntry<String, UserDB>(e.twitterId, e)));
     topCursor = userListLen < userList.length ? response.cursor.top?.value : null;
@@ -77,7 +77,7 @@ Stream<TwitterClientResponse> twitterClient(TwitterClientRef ref) async* {
 
   while (bottomCursor != null) {
     final userListLen = userList.length;
-    final response = await client.getUserListApi().getFollowers(userId: user.data.restId, cursor: bottomCursor, count: 200);
+    final response = await client.getUserListApi().getFollowers(userId: user.restId, cursor: bottomCursor, count: 200);
     final userJoin = await Future.wait(response.data.map((e) => insertDB(db, time, "user_followers", e.user)));
     userList.addEntries(userJoin.map((e) => MapEntry<String, UserDB>(e.twitterId, e)));
     bottomCursor = userListLen < userList.length ? response.cursor.bottom?.value : null;

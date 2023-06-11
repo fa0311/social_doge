@@ -68,7 +68,7 @@ enum LanguageCodeEnum {
   const LanguageCodeEnum(this.text);
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class LanguageCode extends _$LanguageCode {
   static String key = "language_code";
   @override
@@ -155,7 +155,7 @@ enum ThemeBrightnessEnum {
   }
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class ThemeBrightness extends _$ThemeBrightness {
   static String key = "theme_brightness";
 

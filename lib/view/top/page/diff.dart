@@ -39,15 +39,8 @@ Future<List<String>> getUnsubscribe(GetUnsubscribeRef ref, int count) async {
 @riverpod
 Future<UserDB> getUser(GetUserRef ref, String id) async {
   final db = await ref.read(getDatabaseProvider.future);
-  final user = (await db.query("user", where: "twitter_id = ?", whereArgs: [id]))[0];
-  return UserDB(
-    twitterId: user["twitter_id"] as String,
-    screenName: user["screen_name"] as String,
-    name: user["name"] as String,
-    description: user["description"] as String,
-    profileImageUrl: user["profile_image_url"] as String,
-    profileBannerUrl: user["profile_banner_url"] as String?,
-  );
+  final user = await db.query("user", where: "twitter_id = ?", whereArgs: [id]);
+  return UserDB.fromQuery(user.first);
 }
 
 class SocialDogeUnsubscribe extends ConsumerWidget {

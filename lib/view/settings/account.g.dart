@@ -1,25 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'synchronized.dart';
+part of 'account.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$twitterClientHash() => r'd1eba3f2766220f02f8d4ca94dd6ebead98858a8';
+String _$accountControllerHash() => r'b98961115188cbec84690e12ab5a5add96bf282e';
 
-/// See also [twitterClient].
-@ProviderFor(twitterClient)
-final twitterClientProvider =
-    AutoDisposeStreamProvider<TwitterClientResponse>.internal(
-  twitterClient,
-  name: r'twitterClientProvider',
+/// See also [accountController].
+@ProviderFor(accountController)
+final accountControllerProvider =
+    AutoDisposeProvider<TextEditingController>.internal(
+  accountController,
+  name: r'accountControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$twitterClientHash,
+      : _$accountControllerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef TwitterClientRef = AutoDisposeStreamProviderRef<TwitterClientResponse>;
+typedef AccountControllerRef = AutoDisposeProviderRef<TextEditingController>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

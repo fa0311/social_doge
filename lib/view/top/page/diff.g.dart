@@ -125,7 +125,7 @@ class GetUnsubscribeProvider extends AutoDisposeFutureProvider<List<String>> {
   }
 }
 
-String _$getUserHash() => r'20ed3d327c87bd5a11e2d14acf59aa2ea8cbc44e';
+String _$getUserHash() => r'cd46e27998a2de0bc8b80ce8c3cb0fdc2bc39f96';
 typedef GetUserRef = AutoDisposeFutureProviderRef<UserDB>;
 
 /// See also [getUser].

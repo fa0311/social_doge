@@ -32,11 +32,12 @@ Future<Database> getDatabase(GetDatabaseRef ref) async {
       */
       // await testInsert(database);
       await database.execute(
-        "CREATE TABLE self_twitter(id INTEGER PRIMARY KEY AUTOINCREMENT, self_twitter_id TEXT)",
+        "CREATE TABLE self_account(id INTEGER PRIMARY KEY AUTOINCREMENT, self_twitter_id TEXT, login_time INTEGER)",
       );
     },
     version: 1,
   );
+
   return db;
 }
 

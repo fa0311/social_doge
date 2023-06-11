@@ -39,7 +39,7 @@ class Settings extends ConsumerWidget {
                 children: const [Icon(Icons.account_circle)],
               ),
               onTap: () async {
-                await Navigator.push(context, MaterialPageRoute(builder: (_) => const Account()));
+                await Navigator.push(context, MaterialPageRoute(builder: (_) => const AccountSettingsScaffold()));
               },
             ),
             ListTile(

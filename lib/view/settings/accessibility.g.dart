@@ -6,12 +6,12 @@ part of 'accessibility.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$languageCodeHash() => r'75dde41f28681b368826327d00874734b971263d';
+String _$languageCodeHash() => r'8203f127ec2409bc59b2b1e7939ed37c24768126';
 
 /// See also [LanguageCode].
 @ProviderFor(LanguageCode)
 final languageCodeProvider =
-    AutoDisposeNotifierProvider<LanguageCode, LanguageCodeEnum>.internal(
+    NotifierProvider<LanguageCode, LanguageCodeEnum>.internal(
   LanguageCode.new,
   name: r'languageCodeProvider',
   debugGetCreateSourceHash:
@@ -20,8 +20,8 @@ final languageCodeProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$LanguageCode = AutoDisposeNotifier<LanguageCodeEnum>;
-String _$themeBrightnessHash() => r'72fa00c68b41a8d392784e6d22e16ee37392c521';
+typedef _$LanguageCode = Notifier<LanguageCodeEnum>;
+String _$themeBrightnessHash() => r'6093b77167c6a16b442b5e989c4035886d5cf1df';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -45,7 +45,7 @@ class _SystemHash {
 }
 
 abstract class _$ThemeBrightness
-    extends BuildlessAutoDisposeNotifier<ThemeBrightnessEnum> {
+    extends BuildlessNotifier<ThemeBrightnessEnum> {
   late final bool dark;
 
   ThemeBrightnessEnum build(
@@ -96,8 +96,8 @@ class ThemeBrightnessFamily extends Family<ThemeBrightnessEnum> {
 }
 
 /// See also [ThemeBrightness].
-class ThemeBrightnessProvider extends AutoDisposeNotifierProviderImpl<
-    ThemeBrightness, ThemeBrightnessEnum> {
+class ThemeBrightnessProvider
+    extends NotifierProviderImpl<ThemeBrightness, ThemeBrightnessEnum> {
   /// See also [ThemeBrightness].
   ThemeBrightnessProvider(
     this.dark,

@@ -1,4 +1,5 @@
 // Flutter imports:
+
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -8,10 +9,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:social_doge/component/loading.dart';
 import 'package:social_doge/constant/config.dart';
+import 'package:social_doge/database/self_account.dart';
 import 'package:social_doge/view/settings/accessibility.dart';
+import 'package:social_doge/view/web/login.dart';
 
 // Project imports:
-import 'package:social_doge/view/web/login.dart';
 
 part 'main.g.dart';
 
@@ -23,9 +25,12 @@ main() {
 
 @riverpod
 Future init(InitRef ref) async {
-  ref.read(languageCodeProvider.notifier).get();
-  ref.read(themeBrightnessProvider(false).notifier).get();
-  ref.read(themeBrightnessProvider(true).notifier).get();
+  await Future.wait([
+    ref.read(languageCodeProvider.notifier).get(),
+    ref.read(themeBrightnessProvider(false).notifier).get(),
+    ref.read(themeBrightnessProvider(true).notifier).get(),
+    ref.read(selfAccountProvider.notifier).get(),
+  ]);
 }
 
 class SocialDoge extends ConsumerWidget {

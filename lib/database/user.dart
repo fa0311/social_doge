@@ -18,6 +18,14 @@ class UserDB {
     this.profileBannerUrl,
   });
 
+  UserDB.fromQuery(Map<String, Object?> data)
+      : twitterId = data["twitter_id"] as String,
+        screenName = data["screen_name"] as String,
+        name = data["name"] as String,
+        description = data["description"] as String,
+        profileImageUrl = data["profile_image_url"] as String,
+        profileBannerUrl = data["profile_banner_url"] as String?;
+
   Map<String, dynamic> toMap() {
     return {
       'twitter_id': twitterId,
@@ -41,6 +49,11 @@ class UserStatusDB {
     required this.time,
   });
 
+  UserStatusDB.fromQuery(Map<String, Object?> data)
+      : twitterId = data["twitter_id"] as String,
+        selfTwitterId = data["self_twitter_id"] as String,
+        time = data["time"] as int;
+
   Map<String, dynamic> toMap() {
     return {
       'twitter_id': twitterId,
@@ -52,14 +65,21 @@ class UserStatusDB {
 
 class SelfTwitter {
   final String selfTwitterId;
+  final int loginTime;
 
   const SelfTwitter({
     required this.selfTwitterId,
+    required this.loginTime,
   });
+
+  SelfTwitter.fromQuery(Map<String, Object?> data)
+      : selfTwitterId = data["self_twitter_id"] as String,
+        loginTime = data["login_time"] as int;
 
   Map<String, dynamic> toMap() {
     return {
       'self_twitter_id': selfTwitterId,
+      'login_time': loginTime,
     };
   }
 }
