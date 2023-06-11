@@ -41,6 +41,7 @@
   "@____________________SETTING____________________": {},
   "@__ACCESSIBILITY__": {},
   "accessibility": "Accessibility",
+  "account": "Account",
   "language": "Language",
   "translatorDetails": "Translated by {name}",
   "deviceLightTheme": "If the device is light theme",

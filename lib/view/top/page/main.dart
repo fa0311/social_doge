@@ -11,6 +11,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
 import 'package:social_doge/component/loading.dart';
+import 'package:social_doge/database/core.dart';
 import 'package:social_doge/view/sub/synchronized.dart';
 import 'package:social_doge/view/top/home.dart';
 

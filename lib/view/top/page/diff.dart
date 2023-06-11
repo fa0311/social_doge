@@ -9,7 +9,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
 import 'package:social_doge/component/loading.dart';
-import 'package:social_doge/view/sub/synchronized.dart';
+import 'package:social_doge/database/core.dart';
+import 'package:social_doge/database/user.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 part 'diff.g.dart';
