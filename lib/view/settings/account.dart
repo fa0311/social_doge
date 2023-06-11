@@ -84,7 +84,7 @@ class AccountSettingsWalkthrough extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("==-"),
+        title: Text(AppLocalizations.of(context)!.account),
       ),
       body: const SafeArea(
         child: AccountSettings(),
