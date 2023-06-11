@@ -177,6 +177,7 @@ class Synchronize extends ConsumerWidget {
                           context: context,
                           builder: (BuildContext context) => ConfirmDialog(
                             pop: false,
+                            content: Text(AppLocalizations.of(context)!.syncCancelConfirm),
                             onPressed: () async {
                               await Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const SynchronizeRemove()), (_) => false);
                             },

@@ -107,9 +107,7 @@ class SocialDogeMain extends ConsumerWidget {
           title: Text(AppLocalizations.of(context)!.synchronize),
           subtitle: Text(AppLocalizations.of(context)!.synchronizeDetails),
           onTap: () {
-            Navigator.of(context)
-              ..pop()
-              ..push(MaterialPageRoute(builder: (context) => const Synchronize()));
+            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const Synchronize()), (_) => false);
           },
         ),
         data.last.provider.when(

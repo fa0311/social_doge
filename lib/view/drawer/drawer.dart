@@ -6,6 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:social_doge/component/confirm.dart';
 import 'package:social_doge/component/loading.dart';
 import 'package:social_doge/component/twitter/user_profile.dart';
 import 'package:social_doge/database/self_account.dart';
@@ -21,7 +22,7 @@ class NormalDrawer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userId = ref.watch(selfAccountProvider);
-    final user = ref.watch(twitterUserProvider(userId ?? ""));
+    final user = ref.watch(twitterUserProvider(userId!));
 
     return Drawer(
       child: SafeArea(
@@ -51,10 +52,18 @@ class NormalDrawer extends ConsumerWidget {
                 child: Column(
                   children: [
                     ListTile(
-                      onTap: () async {
-                        final cookie = CookieManager.instance();
-                        await cookie.deleteAllCookies();
-                        await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const TwitterLogin()), (_) => false);
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) => ConfirmDialog(
+                            content: Text(AppLocalizations.of(context)!.logoutConfirm),
+                            onPressed: () async {
+                              final cookie = CookieManager.instance();
+                              await cookie.deleteAllCookies();
+                              await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const TwitterLogin()), (_) => false);
+                            },
+                          ),
+                        );
                       },
                       leading: const Icon(Icons.home),
                       title: Text(AppLocalizations.of(context)!.logout),
