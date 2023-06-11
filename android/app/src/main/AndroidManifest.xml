@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.yuki0311.social_dogee">
+    package="com.yuki0311.social_doge">
    <application
         android:label="social_doge"
         android:name="${applicationName}"
