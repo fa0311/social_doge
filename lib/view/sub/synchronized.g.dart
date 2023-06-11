@@ -6,7 +6,7 @@ part of 'synchronized.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$twitterClientHash() => r'd1eba3f2766220f02f8d4ca94dd6ebead98858a8';
+String _$twitterClientHash() => r'59d920028983e686aeafa37d513b00171ef331f7';
 
 /// See also [twitterClient].
 @ProviderFor(twitterClient)

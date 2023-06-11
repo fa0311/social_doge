@@ -16,22 +16,26 @@ class FutureTile extends StatefulWidget {
 }
 
 class FutureTileState extends State<FutureTile> {
-  late bool state;
+  late Widget? state;
   late GlobalKey key;
 
   @override
   void initState() {
-    state = false;
+    state = null;
     key = GlobalKey();
     super.initState();
   }
 
   Future onTap() async {
     try {
-      setState(() => state = true);
+      setState(() => state = const LoadingIcon());
       await widget.onTap();
+    } catch (e) {
+      setState(() => state = const Icon(Icons.error, color: Colors.red));
+      await Future.delayed(const Duration(seconds: 2));
+      rethrow;
     } finally {
-      setState(() => state = false);
+      setState(() => state = null);
     }
   }
 
@@ -43,7 +47,7 @@ class FutureTileState extends State<FutureTile> {
       title: widget.title,
       subtitle: widget.subtitle,
       leading: widget.leading,
-      trailing: state ? const LoadingIcon() : widget.trailing,
+      trailing: state ?? widget.trailing,
     );
   }
 }

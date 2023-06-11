@@ -13,6 +13,7 @@ import 'package:social_doge/component/confirm.dart';
 // Project imports:
 import 'package:social_doge/component/loading.dart';
 import 'package:social_doge/database/core.dart';
+import 'package:social_doge/database/self_account.dart';
 import 'package:social_doge/view/sub/synchronized.dart';
 import 'package:social_doge/view/top/home.dart';
 
@@ -21,13 +22,23 @@ part 'main.g.dart';
 @riverpod
 Future<List<FollowersCount>> getFollowersCount(GetFollowersCountRef ref, int? time) async {
   final args = time == null ? 0 : DateTime.now().millisecondsSinceEpoch - time;
+  final userId = ref.watch(selfAccountProvider);
 
   final db = await ref.read(getDatabaseProvider.future);
-  final response = await db.query("user_followers", columns: ["time", "count(*)"], groupBy: "time", having: "time > ?", whereArgs: [args], orderBy: "time ASC");
+  final response = await db.query(
+    "user_followers",
+    columns: ["time", "count(*)"],
+    where: "self_twitter_id = ?",
+    groupBy: "time",
+    having: "time > ?",
+    whereArgs: [userId, args],
+    orderBy: "time ASC",
+  );
   return response.map((row) => FollowersCount(row["time"] as int, row["count(*)"] as int)).toList();
 }
 
-Future removeLastSynchronized(WidgetRef ref) async {
+@riverpod
+Future<void> removeLastSynchronized(RemoveLastSynchronizedRef ref) async {
   final db = await ref.read(getDatabaseProvider.future);
   final time = await db.query("user_followers", columns: ["time"], orderBy: "time DESC", limit: 1);
   await db.delete("user_followers", where: "time = ?", whereArgs: [time.first["time"] as int]);
@@ -101,26 +112,30 @@ class SocialDogeMain extends ConsumerWidget {
               ..push(MaterialPageRoute(builder: (context) => const Synchronize()));
           },
         ),
-        ListTile(
-          title: Text(AppLocalizations.of(context)!.deleteLastSynchronize),
-          subtitle: Text(AppLocalizations.of(context)!.deleteLastSynchronizeDetails),
-          enabled: data.isNotEmpty,
-          onTap: () async {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) => ConfirmDialog(
-                content: Text(AppLocalizations.of(context)!.deleteLastSynchronize),
-                onPressed: () => removeLastSynchronized(ref),
-              ),
+        data.last.provider.when(
+          data: (data) {
+            return ListTile(
+              title: Text(AppLocalizations.of(context)!.deleteLastSynchronize),
+              subtitle: Text(AppLocalizations.of(context)!.deleteLastSynchronizeDetails),
+              enabled: data.isNotEmpty,
+              onTap: () async {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) => ConfirmDialog(
+                    content: Text(AppLocalizations.of(context)!.deleteLastSynchronize),
+                    onPressed: () async {
+                      await ref.read(removeLastSynchronizedProvider.future);
+                    },
+                  ),
+                );
+              },
+              trailing: null,
             );
           },
-          trailing: data.last.provider.when(
-            data: (data) => null,
-            error: (error, stackTrace) => Column(children: [
-              for (final e in [error.toString(), stackTrace.toString()]) Text(e)
-            ]),
-            loading: () => const LoadingIcon(),
-          ),
+          error: (error, stackTrace) => Column(children: [
+            for (final e in [error.toString(), stackTrace.toString()]) Text(e)
+          ]),
+          loading: () => const LoadingIcon(),
         ),
       ],
     );
@@ -172,6 +187,7 @@ class FollowerChart extends ConsumerWidget {
               reservedSize: 30,
               interval: data.last.time.toDouble() - data.first.time.toDouble() / 5,
               getTitlesWidget: (value, meta) {
+                if (meta.min == meta.max) return Text(value.toInt().toString());
                 if (meta.min == value || meta.max == value) return Container();
                 final year = meta.max - meta.min > 60 * 60 * 24 * 365 * 1000;
                 final date = DateTime.fromMillisecondsSinceEpoch(value.toInt(), isUtc: true);
@@ -195,7 +211,7 @@ class FollowerChart extends ConsumerWidget {
         lineBarsData: [
           LineChartBarData(
             spots: data.map((e) => FlSpot(e.time.toDouble(), e.count.toDouble())).toList(),
-            isCurved: true,
+            // isCurved: true,
             gradient: LinearGradient(colors: gradientColors),
             dotData: FlDotData(show: false),
             belowBarData: BarAreaData(

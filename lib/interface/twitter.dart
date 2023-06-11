@@ -7,14 +7,14 @@ import 'package:twitter_openapi_dart_generated/twitter_openapi_dart_generated.da
 
 part 'twitter.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<TwitterOpenapiDartClient> getTwitterClient(GetTwitterClientRef ref) async {
   final api = TwitterOpenapiDart()..addBeforeInterceptor(FlutterInappwebviewDio());
   final client = await api.getClient(initCookie: false);
   return client;
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<User> twitterUser(TwitterUserRef ref, String twitterId) async {
   final client = await ref.watch(getTwitterClientProvider.future);
   final user = await client.getUserApi().getUserByScreenName(screenName: twitterId);

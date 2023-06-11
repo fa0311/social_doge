@@ -6,12 +6,12 @@ part of 'twitter.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getTwitterClientHash() => r'5797f94fa29ed05a20dc477b597ad9ce8a2a0e6d';
+String _$getTwitterClientHash() => r'80f6c57f847a1abe22a68303535e3905ac5b954f';
 
 /// See also [getTwitterClient].
 @ProviderFor(getTwitterClient)
 final getTwitterClientProvider =
-    AutoDisposeFutureProvider<TwitterOpenapiDartClient>.internal(
+    FutureProvider<TwitterOpenapiDartClient>.internal(
   getTwitterClient,
   name: r'getTwitterClientProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,9 +21,8 @@ final getTwitterClientProvider =
   allTransitiveDependencies: null,
 );
 
-typedef GetTwitterClientRef
-    = AutoDisposeFutureProviderRef<TwitterOpenapiDartClient>;
-String _$twitterUserHash() => r'07454f668fa0081a20d5a427e563238253faeca2';
+typedef GetTwitterClientRef = FutureProviderRef<TwitterOpenapiDartClient>;
+String _$twitterUserHash() => r'2330ba228519c3cfe64e7eff736c394994822573';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -46,7 +45,7 @@ class _SystemHash {
   }
 }
 
-typedef TwitterUserRef = AutoDisposeFutureProviderRef<User>;
+typedef TwitterUserRef = FutureProviderRef<User>;
 
 /// See also [twitterUser].
 @ProviderFor(twitterUser)
@@ -91,7 +90,7 @@ class TwitterUserFamily extends Family<AsyncValue<User>> {
 }
 
 /// See also [twitterUser].
-class TwitterUserProvider extends AutoDisposeFutureProvider<User> {
+class TwitterUserProvider extends FutureProvider<User> {
   /// See also [twitterUser].
   TwitterUserProvider(
     this.twitterId,

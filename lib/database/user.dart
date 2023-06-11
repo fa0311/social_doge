@@ -1,5 +1,13 @@
-import 'package:sqflite/sqflite.dart';
-import 'package:twitter_openapi_dart_generated/twitter_openapi_dart_generated.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:social_doge/database/core.dart';
+part 'user.g.dart';
+
+@Riverpod(keepAlive: true)
+Future<UserDB> getUser(GetUserRef ref, String id) async {
+  final db = await ref.read(getDatabaseProvider.future);
+  final user = await db.query("user", where: "twitter_id = ?", whereArgs: [id]);
+  return UserDB.fromQuery(user.first);
+}
 
 class UserDB {
   final String twitterId;
@@ -82,35 +90,4 @@ class SelfTwitter {
       'login_time': loginTime,
     };
   }
-}
-
-Future<UserDB> insertDB(Database db, int time, String table, User user) async {
-  final userDB = UserDB(
-    twitterId: user.restId,
-    screenName: user.legacy.screenName,
-    name: user.legacy.name,
-    description: user.legacy.description,
-    profileBannerUrl: user.legacy.profileBannerUrl,
-    profileImageUrl: user.legacy.profileImageUrlHttps,
-  );
-
-  final userStatusDB = UserStatusDB(
-    twitterId: user.restId,
-    selfTwitterId: '114514',
-    time: time,
-  );
-
-  final userStatusFetch = await db.query('user_followers', where: 'twitter_id = ? AND time = ?', whereArgs: [user.restId, time]);
-
-  if (userStatusFetch.isEmpty) {
-    await db.insert("user_followers", userStatusDB.toMap());
-
-    final userFetch = await db.query('user', where: 'twitter_id = ?', whereArgs: [user.restId]);
-    if (userFetch.isEmpty) {
-      await db.insert("user", userDB.toMap());
-    } else {
-      await db.update("user", userDB.toMap(), where: 'twitter_id = ?', whereArgs: [user.restId]);
-    }
-  }
-  return userDB;
 }

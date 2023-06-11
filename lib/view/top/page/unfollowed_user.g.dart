@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'diff.dart';
+part of 'unfollowed_user.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getFollowerTimeHash() => r'03ec042aa0338307c6b8ac027fc055887eac6c8f';
+String _$getFollowerTimeHash() => r'60222c10ff6815f30f404fdeae34ad2c7afa18c1';
 
 /// See also [getFollowerTime].
 @ProviderFor(getFollowerTime)
@@ -21,7 +21,7 @@ final getFollowerTimeProvider = AutoDisposeFutureProvider<List<int>>.internal(
 );
 
 typedef GetFollowerTimeRef = AutoDisposeFutureProviderRef<List<int>>;
-String _$getUnsubscribeHash() => r'8b7b3b5cd42c0c44eb70ff07644485bb446accea';
+String _$getUnsubscribeHash() => r'f8bcf6266bf9fee3c900a9f24573c8d536db30d0';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -120,87 +120,6 @@ class GetUnsubscribeProvider extends AutoDisposeFutureProvider<List<String>> {
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, count.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-String _$getUserHash() => r'cd46e27998a2de0bc8b80ce8c3cb0fdc2bc39f96';
-typedef GetUserRef = AutoDisposeFutureProviderRef<UserDB>;
-
-/// See also [getUser].
-@ProviderFor(getUser)
-const getUserProvider = GetUserFamily();
-
-/// See also [getUser].
-class GetUserFamily extends Family<AsyncValue<UserDB>> {
-  /// See also [getUser].
-  const GetUserFamily();
-
-  /// See also [getUser].
-  GetUserProvider call(
-    String id,
-  ) {
-    return GetUserProvider(
-      id,
-    );
-  }
-
-  @override
-  GetUserProvider getProviderOverride(
-    covariant GetUserProvider provider,
-  ) {
-    return call(
-      provider.id,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'getUserProvider';
-}
-
-/// See also [getUser].
-class GetUserProvider extends AutoDisposeFutureProvider<UserDB> {
-  /// See also [getUser].
-  GetUserProvider(
-    this.id,
-  ) : super.internal(
-          (ref) => getUser(
-            ref,
-            id,
-          ),
-          from: getUserProvider,
-          name: r'getUserProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$getUserHash,
-          dependencies: GetUserFamily._dependencies,
-          allTransitiveDependencies: GetUserFamily._allTransitiveDependencies,
-        );
-
-  final String id;
-
-  @override
-  bool operator ==(Object other) {
-    return other is GetUserProvider && other.id == id;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, id.hashCode);
 
     return _SystemHash.finish(hash);
   }

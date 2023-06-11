@@ -23,7 +23,13 @@ class SelfAccount extends _$SelfAccount {
       selfTwitterId: twitterId,
       loginTime: DateTime.now().millisecondsSinceEpoch,
     );
-    await db.update("self_account", user.toMap(), where: "self_twitter_id = ?", whereArgs: [state]);
+
+    final userFetch = await db.query("self_account", where: "self_twitter_id = ?", whereArgs: [state]);
+    if (userFetch.isEmpty) {
+      await db.insert("self_account", user.toMap());
+    } else {
+      await db.update("self_account", user.toMap(), where: "self_twitter_id = ?", whereArgs: [state]);
+    }
 
     state = twitterId;
   }

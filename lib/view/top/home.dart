@@ -9,12 +9,12 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 // Project imports:
 import 'package:social_doge/component/physics.dart';
 import 'package:social_doge/view/drawer/drawer.dart';
-import 'package:social_doge/view/top/page/diff.dart';
+import 'package:social_doge/view/top/page/unfollowed_user.dart';
 import 'package:social_doge/view/top/page/main.dart';
 
 part 'home.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class CurrentIndex extends _$CurrentIndex {
   @override
   CurrentIndexEnum build() => CurrentIndexEnum.home;
@@ -29,18 +29,14 @@ class FollowersCount {
 
 enum CurrentIndexEnum {
   home(icon: Icons.home),
-  latestTimeline(icon: Icons.home),
-  bbb(icon: Icons.home);
+  unfollowedBy(icon: Icons.person_remove);
 
   Widget toWidget() {
     switch (this) {
       case CurrentIndexEnum.home:
         return SocialDogeMain();
-      case CurrentIndexEnum.latestTimeline:
+      case CurrentIndexEnum.unfollowedBy:
         return const SocialDogeUnsubscribe();
-      // return const socialDogeLatestTimeline();
-      case CurrentIndexEnum.bbb:
-        return Container();
     }
   }
 
@@ -48,10 +44,8 @@ enum CurrentIndexEnum {
     switch (this) {
       case CurrentIndexEnum.home:
         return AppLocalizations.of(context)!.home;
-      case CurrentIndexEnum.latestTimeline:
-        return AppLocalizations.of(context)!.home;
-      case CurrentIndexEnum.bbb:
-        return AppLocalizations.of(context)!.home;
+      case CurrentIndexEnum.unfollowedBy:
+        return AppLocalizations.of(context)!.unfollowed;
     }
   }
 
@@ -60,7 +54,7 @@ enum CurrentIndexEnum {
 }
 
 class SocialDogeHome extends ConsumerWidget {
-  const SocialDogeHome({Key? key}) : super(key: key);
+  const SocialDogeHome({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

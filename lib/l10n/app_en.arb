@@ -4,6 +4,8 @@
   "contributor": "fa0311",
   "@____________________TOP____________________": {},
   "home": "Home",
+  "unfollowed": "Unfollowed",
+  "unfollowedUsersList": "List of unfollowed users",
   "synchronize": "Synchronize",
   "synchronizeDetails": "Get the latest from Twitter",
   "deleteLastSynchronize": "Delete last synchronize",

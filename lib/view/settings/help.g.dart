@@ -1,24 +1,24 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'home.dart';
+part of 'help.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$currentIndexHash() => r'5d678b7a14ec027597896017ab04f1742dbf4aac';
+String _$packageVersionHash() => r'bcc95f65cea8a93fc6ef91c26f5f86c92c5f9e60';
 
-/// See also [CurrentIndex].
-@ProviderFor(CurrentIndex)
-final currentIndexProvider =
-    NotifierProvider<CurrentIndex, CurrentIndexEnum>.internal(
-  CurrentIndex.new,
-  name: r'currentIndexProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$currentIndexHash,
+/// See also [packageVersion].
+@ProviderFor(packageVersion)
+final packageVersionProvider = FutureProvider<PackageInfo>.internal(
+  packageVersion,
+  name: r'packageVersionProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$packageVersionHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$CurrentIndex = Notifier<CurrentIndexEnum>;
+typedef PackageVersionRef = FutureProviderRef<PackageInfo>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

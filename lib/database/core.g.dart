@@ -6,11 +6,11 @@ part of 'core.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getDatabaseHash() => r'b41408bb75ccdbe71d1eb434fc3f005388688fa1';
+String _$getDatabaseHash() => r'4d0cb1d6d8e20b0369706848624411a5fb509f06';
 
 /// See also [getDatabase].
 @ProviderFor(getDatabase)
-final getDatabaseProvider = AutoDisposeFutureProvider<Database>.internal(
+final getDatabaseProvider = FutureProvider<Database>.internal(
   getDatabase,
   name: r'getDatabaseProvider',
   debugGetCreateSourceHash:
@@ -19,5 +19,5 @@ final getDatabaseProvider = AutoDisposeFutureProvider<Database>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef GetDatabaseRef = AutoDisposeFutureProviderRef<Database>;
+typedef GetDatabaseRef = FutureProviderRef<Database>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

@@ -9,20 +9,24 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Package imports:
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:social_doge/component/future/tile.dart';
 import 'package:social_doge/component/loading.dart';
 import 'package:social_doge/constant/config.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
-final versionProvider = FutureProvider((ref) async => await PackageInfo.fromPlatform());
+part 'help.g.dart';
+
+@Riverpod(keepAlive: true)
+Future<PackageInfo> packageVersion(PackageVersionRef ref) => PackageInfo.fromPlatform();
 
 class Help extends ConsumerWidget {
   const Help({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    AsyncValue<PackageInfo> version = ref.watch(versionProvider);
+    AsyncValue<PackageInfo> version = ref.watch(packageVersionProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.help),

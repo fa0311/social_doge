@@ -6,19 +6,23 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:social_doge/component/future/tile.dart';
 
 // Project imports:
 import 'package:social_doge/component/loading.dart';
+import 'package:social_doge/component/modal.dart';
+import 'package:social_doge/component/twitter/user_profile.dart';
 import 'package:social_doge/database/core.dart';
+import 'package:social_doge/database/self_account.dart';
 import 'package:social_doge/database/user.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-part 'diff.g.dart';
+part 'unfollowed_user.g.dart';
 
 @riverpod
 Future<List<int>> getFollowerTime(GetFollowerTimeRef ref) async {
+  final userId = ref.watch(selfAccountProvider);
   final db = await ref.watch(getDatabaseProvider.future);
-  final response = await db.query("user_followers", columns: ["time"], groupBy: "time", orderBy: "time ASC");
+  final response = await db.query("user_followers", where: "self_twitter_id = ?", whereArgs: [userId], columns: ["time"], groupBy: "time", orderBy: "time ASC");
 
   return [for (final e in response) e["time"] as int];
 }
@@ -27,20 +31,24 @@ Future<List<int>> getFollowerTime(GetFollowerTimeRef ref) async {
 Future<List<String>> getUnsubscribe(GetUnsubscribeRef ref, int count) async {
   final db = await ref.watch(getDatabaseProvider.future);
   final followerTime = await ref.watch(getFollowerTimeProvider.future);
+  final userId = ref.watch(selfAccountProvider);
   final time = followerTime[followerTime.length - count];
   final timeBefore = followerTime[followerTime.length - count - 1];
-  final userList = (await db.query("user_followers", columns: ["twitter_id"], where: "time = ?", whereArgs: [time]));
-  final userListBefore = (await db.query("user_followers", columns: ["twitter_id"], where: "time = ?", whereArgs: [timeBefore]));
+  final userList = (await db.query(
+    "user_followers",
+    columns: ["twitter_id"],
+    where: "time = ? AND self_twitter_id = ?",
+    whereArgs: [time, userId],
+  ));
+  final userListBefore = (await db.query(
+    "user_followers",
+    columns: ["twitter_id"],
+    where: "time = ? AND self_twitter_id = ?",
+    whereArgs: [timeBefore, userId],
+  ));
   final userListId = userList.map((e) => e["twitter_id"] as String);
   final userListBeforeId = userListBefore.map((e) => e["twitter_id"] as String);
   return userListBeforeId.where((e) => !userListId.contains(e)).toList();
-}
-
-@riverpod
-Future<UserDB> getUser(GetUserRef ref, String id) async {
-  final db = await ref.read(getDatabaseProvider.future);
-  final user = await db.query("user", where: "twitter_id = ?", whereArgs: [id]);
-  return UserDB.fromQuery(user.first);
 }
 
 class SocialDogeUnsubscribe extends ConsumerWidget {
@@ -81,7 +89,7 @@ class SocialDogeUnsubscribeDetail extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final unsubscribe = ref.watch(getUnsubscribeProvider(count + 1));
     return Scaffold(
-      appBar: AppBar(title: const Text('Diff')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.unfollowedUsersList)),
       body: unsubscribe.when(
         data: (unsubscribe) {
           if (unsubscribe.isEmpty) return Container();
@@ -89,16 +97,18 @@ class SocialDogeUnsubscribeDetail extends ConsumerWidget {
             itemBuilder: (context, i) {
               return ref.watch(getUserProvider(unsubscribe[i])).when(
                     data: (user) {
-                      return ListTile(
+                      return FutureTile(
                         leading: Image.network(user.profileImageUrl),
                         title: Text(user.name),
                         subtitle: Text(user.description, maxLines: 3, overflow: TextOverflow.ellipsis),
                         trailing: Text(user.screenName),
                         onTap: () async {
-                          final url = Uri.https("twitter.com", user.screenName);
-                          if (await canLaunchUrl(url)) {
-                            launchUrl(url, mode: LaunchMode.externalApplication);
-                          }
+                          showModalBottomSheetStatelessWidget(
+                            context: context,
+                            builder: () {
+                              return UserProfile(user: user);
+                            },
+                          );
                         },
                       );
                     },

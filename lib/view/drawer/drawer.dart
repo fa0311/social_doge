@@ -6,6 +6,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:social_doge/component/loading.dart';
+import 'package:social_doge/component/twitter/user_profile.dart';
+import 'package:social_doge/database/self_account.dart';
+import 'package:social_doge/interface/twitter.dart';
 import 'package:social_doge/view/settings/settings.dart';
 
 // Project imports:
@@ -16,20 +20,31 @@ class NormalDrawer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final userId = ref.watch(selfAccountProvider);
+    final user = ref.watch(twitterUserProvider(userId ?? ""));
+
     return Drawer(
       child: SafeArea(
         child: Column(
           children: [
-            UserAccountsDrawerHeader(
-              decoration: BoxDecoration(color: Theme.of(context).colorScheme.background),
-              accountName: const Text("accountName"),
-              accountEmail: const Text("accountEmail"),
-              currentAccountPicture: CachedNetworkImage(
-                imageUrl: "https://pbs.twimg.com/profile_images/1449745429801811978/lHINmMuy_400x400.jpg",
-                fit: BoxFit.fitWidth,
-                errorWidget: (context, url, error) => const Icon(Icons.error),
-                imageBuilder: (context, imageProvider) => CircleAvatar(backgroundImage: imageProvider),
-              ),
+            user.when(
+              data: (data) {
+                return UserAccountsDrawerHeader(
+                  decoration: BoxDecoration(color: Theme.of(context).colorScheme.background),
+                  accountName: Text(data.legacy.screenName),
+                  accountEmail: Text(data.restId),
+                  currentAccountPicture: CachedNetworkImage(
+                    imageUrl: ProfileImageUrlHttps(data.legacy.profileImageUrlHttps).original,
+                    fit: BoxFit.fitWidth,
+                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                    imageBuilder: (context, imageProvider) => CircleAvatar(backgroundImage: imageProvider),
+                  ),
+                );
+              },
+              error: (error, stackTrace) => Column(children: [
+                for (final e in [error.toString(), stackTrace.toString()]) Text(e)
+              ]),
+              loading: () => const Loading(),
             ),
             Expanded(
               child: SingleChildScrollView(

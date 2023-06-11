@@ -6,7 +6,7 @@ part of 'main.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getFollowersCountHash() => r'db66f4d64b5753c1504ee56717f0c98194b2273d';
+String _$getFollowersCountHash() => r'7eaf51e0de85dfc16b4700815a6a9812eb3dcc1e';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -111,4 +111,21 @@ class GetFollowersCountProvider
     return _SystemHash.finish(hash);
   }
 }
+
+String _$removeLastSynchronizedHash() =>
+    r'372870bf360b74779d9ac34a64f3cb02ecd54f06';
+
+/// See also [removeLastSynchronized].
+@ProviderFor(removeLastSynchronized)
+final removeLastSynchronizedProvider = AutoDisposeFutureProvider<void>.internal(
+  removeLastSynchronized,
+  name: r'removeLastSynchronizedProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$removeLastSynchronizedHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef RemoveLastSynchronizedRef = AutoDisposeFutureProviderRef<void>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
