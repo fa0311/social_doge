@@ -8,6 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:social_doge/component/confirm.dart';
 
 // Project imports:
 import 'package:social_doge/component/loading.dart';
@@ -105,7 +106,13 @@ class SocialDogeMain extends ConsumerWidget {
           subtitle: Text(AppLocalizations.of(context)!.deleteLastSynchronizeDetails),
           enabled: data.isNotEmpty,
           onTap: () async {
-            await removeLastSynchronized(ref);
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => ConfirmDialog(
+                content: Text(AppLocalizations.of(context)!.deleteLastSynchronize),
+                onPressed: () => removeLastSynchronized(ref),
+              ),
+            );
           },
           trailing: data.last.provider.when(
             data: (data) => null,
@@ -121,11 +128,9 @@ class SocialDogeMain extends ConsumerWidget {
 }
 
 class FollowerChart extends ConsumerWidget {
-  FollowerChart({super.key, required this.data});
-
   final List<FollowersCount> data;
-
   final List<Color> gradientColors = [Colors.cyan, Colors.blue];
+  FollowerChart({super.key, required this.data});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -178,7 +183,7 @@ class FollowerChart extends ConsumerWidget {
           leftTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              reservedSize: data.sorted((a, b) => a.count.compareTo(b.count)).first.count.toString().length * 8 + 5,
+              reservedSize: data.sorted((a, b) => a.count.compareTo(b.count)).last.count.toString().length * 8 + 5,
               getTitlesWidget: (value, meta) {
                 if (meta.min == meta.max) return Text(value.toInt().toString());
                 if (meta.min == value || meta.max == value) return Container();

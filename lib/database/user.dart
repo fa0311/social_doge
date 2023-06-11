@@ -50,6 +50,20 @@ class UserStatusDB {
   }
 }
 
+class SelfTwitter {
+  final String selfTwitterId;
+
+  const SelfTwitter({
+    required this.selfTwitterId,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'self_twitter_id': selfTwitterId,
+    };
+  }
+}
+
 Future<UserDB> insertDB(Database db, int time, String table, User user) async {
   final userDB = UserDB(
     twitterId: user.restId,

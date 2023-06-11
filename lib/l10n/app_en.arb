@@ -9,6 +9,8 @@
   "deleteLastSynchronize": "Delete last synchronize",
   "deleteLastSynchronizeDetails": "If the last synchronization was interrupted",
   "noData": "No data",
+  "confirm": "Confirm",
+  "ok": "OK",
   "@____________________DRAWER____________________": {},
   "close": "Close",
   "setting": "Setting",

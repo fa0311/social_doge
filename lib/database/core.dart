@@ -31,6 +31,9 @@ Future<Database> getDatabase(GetDatabaseRef ref) async {
       );
       */
       // await testInsert(database);
+      await database.execute(
+        "CREATE TABLE self_twitter(id INTEGER PRIMARY KEY AUTOINCREMENT, self_twitter_id TEXT)",
+      );
     },
     version: 1,
   );
