@@ -25,9 +25,9 @@ class Settings extends ConsumerWidget {
           children: [
             ListTile(
               title: Text(AppLocalizations.of(context)!.accessibility),
-              leading: Column(
+              leading: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [Icon(Icons.accessibility)],
+                children: [Icon(Icons.accessibility)],
               ),
               onTap: () async {
                 await Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsAccessibility()));
@@ -35,9 +35,9 @@ class Settings extends ConsumerWidget {
             ),
             ListTile(
               title: Text(AppLocalizations.of(context)!.account),
-              leading: Column(
+              leading: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [Icon(Icons.account_circle)],
+                children: [Icon(Icons.account_circle)],
               ),
               onTap: () async {
                 await Navigator.push(context, MaterialPageRoute(builder: (_) => const AccountSettingsScaffold()));
@@ -45,9 +45,9 @@ class Settings extends ConsumerWidget {
             ),
             ListTile(
               title: Text(AppLocalizations.of(context)!.help),
-              leading: Column(
+              leading: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [Icon(Icons.help)],
+                children: [Icon(Icons.help)],
               ),
               onTap: () async {
                 await Navigator.push(context, MaterialPageRoute(builder: (_) => const Help()));

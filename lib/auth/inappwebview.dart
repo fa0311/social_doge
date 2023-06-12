@@ -15,7 +15,7 @@ class FlutterInappwebviewDio extends Interceptor {
       }
       handler.next(options);
     } catch (e) {
-      handler.reject(DioError(requestOptions: options, error: e), true);
+      handler.reject(DioException(requestOptions: options, error: e), true);
     }
   }
 
