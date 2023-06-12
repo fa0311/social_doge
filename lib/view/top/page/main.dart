@@ -157,7 +157,7 @@ class FollowerChart extends ConsumerWidget {
           getTouchedSpotIndicator: (LineChartBarData barData, List<int> spotIndexes) {
             return spotIndexes.map((spotIndex) {
               return TouchedSpotIndicatorData(
-                FlLine(color: Colors.blue),
+                const FlLine(color: Colors.blue),
                 FlDotData(
                   getDotPainter: (spot, percent, barData, index) {
                     return FlDotCirclePainter(color: Colors.blue, radius: 3, strokeWidth: 0);
@@ -174,11 +174,11 @@ class FollowerChart extends ConsumerWidget {
             },
           ),
         ),
-        gridData: FlGridData(show: false, drawVerticalLine: true, horizontalInterval: 1, verticalInterval: 1),
+        gridData: const FlGridData(show: false, drawVerticalLine: true, horizontalInterval: 1, verticalInterval: 1),
         titlesData: FlTitlesData(
           show: true,
-          rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
@@ -211,7 +211,7 @@ class FollowerChart extends ConsumerWidget {
             spots: data.map((e) => FlSpot(e.time.toDouble(), e.count.toDouble())).toList(),
             // isCurved: true,
             gradient: LinearGradient(colors: gradientColors),
-            dotData: FlDotData(show: false),
+            dotData: const FlDotData(show: false),
             belowBarData: BarAreaData(
               show: true,
               gradient: LinearGradient(colors: gradientColors.map((color) => color.withOpacity(0.4)).toList()),
