@@ -66,7 +66,6 @@ class Help extends ConsumerWidget {
                 version.when(
                   loading: () => ListTile(
                     title: Text(AppLocalizations.of(context)!.version),
-                    subtitle: const Text(""),
                     trailing: const LoadingIcon(),
                   ),
                   error: (e, trace) {

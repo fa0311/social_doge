@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 // Project imports:
 import 'package:social_doge/database/user.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileImageUrlHttps {
   static RegExp from = RegExp(r'^(https://.*?)_[a-zA-Z0-9]+?\.([a-z]+?)$');
@@ -79,12 +80,12 @@ class UserProfile extends ConsumerWidget {
                             await launchUrl(url, mode: LaunchMode.externalApplication);
                           }
                         },
-                        child: const Text("View web"),
+                        child: Text(AppLocalizations.of(context)!.viewWeb),
                       ),
                     ],
                   ),
                   Text(user.name, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
-                  Text("@${user.screenName}", style: Theme.of(context).textTheme.bodySmall),
+                  Text("${AppLocalizations.of(context)!.twitterAccountPrefix}${user.screenName}", style: Theme.of(context).textTheme.bodySmall),
                   Text(user.description),
                   /*
                   Row(

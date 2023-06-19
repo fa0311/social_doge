@@ -186,14 +186,14 @@ class Synchronize extends ConsumerWidget {
                           ),
                         );
                       },
-                      child: const Text("Cancel"),
+                      child: Text(AppLocalizations.of(context)!.cancel),
                     ),
                   if (messages.finish)
                     ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const SocialDogeHome()), (_) => false);
                       },
-                      child: const Text("閉じる"),
+                      child: Text(AppLocalizations.of(context)!.close),
                     )
                 ],
               );

@@ -32,9 +32,9 @@ class AccountSettings extends ConsumerWidget {
         children: [
           TextField(
             controller: textController,
-            decoration: const InputDecoration(
-              labelText: "account id",
-              prefixText: "@",
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context)!.accountId,
+              prefixText: AppLocalizations.of(context)!.twitterAccountPrefix,
             ),
           ),
           ButtonBar(
@@ -45,7 +45,7 @@ class AccountSettings extends ConsumerWidget {
                 onPressed: () async {
                   await ref.read(selfAccountProvider.notifier).update(textController.text);
                 },
-                child: const Text('save'),
+                child: Text(AppLocalizations.of(context)!.save),
               ),
             ],
           ),
