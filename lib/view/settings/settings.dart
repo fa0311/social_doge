@@ -1,16 +1,9 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
-
-// Package imports:
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-// Project imports:
 import 'package:social_doge/view/settings/accessibility.dart';
 import 'package:social_doge/view/settings/account.dart';
 import 'help.dart';
-
-// Project imports:
 
 class Settings extends ConsumerWidget {
   const Settings({super.key});
@@ -30,7 +23,7 @@ class Settings extends ConsumerWidget {
                 children: [Icon(Icons.accessibility)],
               ),
               onTap: () async {
-                await Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsAccessibility()));
+                await Navigator.push(context, MaterialPageRoute<void>(builder: (_) => const SettingsAccessibility()));
               },
             ),
             ListTile(
@@ -40,7 +33,7 @@ class Settings extends ConsumerWidget {
                 children: [Icon(Icons.account_circle)],
               ),
               onTap: () async {
-                await Navigator.push(context, MaterialPageRoute(builder: (_) => const AccountSettingsScaffold()));
+                await Navigator.push(context, MaterialPageRoute<void>(builder: (_) => const AccountSettingsScaffold()));
               },
             ),
             ListTile(
@@ -50,7 +43,7 @@ class Settings extends ConsumerWidget {
                 children: [Icon(Icons.help)],
               ),
               onTap: () async {
-                await Navigator.push(context, MaterialPageRoute(builder: (_) => const Help()));
+                await Navigator.push(context, MaterialPageRoute<void>(builder: (_) => const Help()));
               },
             ),
           ],

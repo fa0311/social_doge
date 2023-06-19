@@ -1,9 +1,8 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
 ThemeData blackTheme() {
-  Color black = const Color.fromARGB(255, 0, 0, 0);
-  Color grey = const Color.fromARGB(255, 20, 20, 20);
+  const black = Color.fromARGB(255, 0, 0, 0);
+  const grey = Color.fromARGB(255, 20, 20, 20);
   return ThemeData(
     brightness: Brightness.dark,
     canvasColor: grey,
@@ -14,14 +13,14 @@ ThemeData blackTheme() {
     primaryColorLight: black,
     scaffoldBackgroundColor: black,
     secondaryHeaderColor: black,
-    appBarTheme: AppBarTheme(color: grey),
-    bottomAppBarTheme: BottomAppBarTheme(color: black),
+    appBarTheme: const AppBarTheme(color: grey),
+    bottomAppBarTheme: const BottomAppBarTheme(color: black),
     colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.grey, brightness: Brightness.dark).copyWith(background: black),
   );
 }
 
 ThemeData trueBlackTheme() {
-  Color black = const Color.fromARGB(255, 0, 0, 0);
+  const black = Color.fromARGB(255, 0, 0, 0);
   return ThemeData(
     brightness: Brightness.dark,
     canvasColor: black,
@@ -34,8 +33,8 @@ ThemeData trueBlackTheme() {
     scaffoldBackgroundColor: black,
     secondaryHeaderColor: black,
     splashColor: const Color.fromARGB(255, 20, 20, 20),
-    appBarTheme: AppBarTheme(color: black),
-    bottomAppBarTheme: BottomAppBarTheme(color: black),
+    appBarTheme: const AppBarTheme(color: black),
+    bottomAppBarTheme: const BottomAppBarTheme(color: black),
     colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.grey, brightness: Brightness.dark).copyWith(background: black),
   );
 }

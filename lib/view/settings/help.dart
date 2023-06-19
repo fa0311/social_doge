@@ -1,31 +1,23 @@
-// Dart imports:
-
-// Flutter imports:
 import 'package:flutter/material.dart';
-
-// Package imports:
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-// Project imports:
 import 'package:social_doge/component/future/tile.dart';
 import 'package:social_doge/component/loading.dart';
 import 'package:social_doge/constant/config.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 part 'help.g.dart';
 
 @Riverpod(keepAlive: true)
 Future<PackageInfo> packageVersion(PackageVersionRef ref) => PackageInfo.fromPlatform();
 
 class Help extends ConsumerWidget {
-  const Help({Key? key}) : super(key: key);
+  const Help({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    AsyncValue<PackageInfo> version = ref.watch(packageVersionProvider);
+    final version = ref.watch(packageVersionProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.help),
@@ -99,7 +91,7 @@ class Help extends ConsumerWidget {
 }
 
 Future<void> showLicense(BuildContext context) async {
-  final PackageInfo info = await PackageInfo.fromPlatform();
+  final info = await PackageInfo.fromPlatform();
 
   showLicensePage(
     context: context,

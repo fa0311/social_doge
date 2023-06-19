@@ -1,17 +1,14 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
-
-// Project imports:
 import 'package:social_doge/component/loading.dart';
 
 class FutureTile extends StatefulWidget {
+  const FutureTile({super.key, this.title, this.subtitle, this.leading, this.trailing, required this.onTap});
   final Widget? title;
   final Widget? subtitle;
   final Widget? leading;
   final Widget? trailing;
 
-  final Future Function() onTap;
-  const FutureTile({super.key, this.title, this.subtitle, this.leading, this.trailing, required this.onTap});
+  final Future<void> Function() onTap;
 
   @override
   FutureTileState createState() => FutureTileState();
@@ -28,13 +25,13 @@ class FutureTileState extends State<FutureTile> {
     super.initState();
   }
 
-  Future onTap() async {
+  Future<void> onTap() async {
     try {
       setState(() => state = const LoadingIcon());
       await widget.onTap();
-    } catch (e) {
+    } on Exception {
       setState(() => state = const Icon(Icons.error, color: Colors.red));
-      await Future.delayed(const Duration(seconds: 2));
+      await Future<void>.delayed(const Duration(seconds: 2));
       rethrow;
     } finally {
       setState(() => state = null);

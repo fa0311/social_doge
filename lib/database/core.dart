@@ -1,8 +1,6 @@
-// Package imports:
 import 'package:path/path.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sqflite/sqflite.dart';
-
 part 'core.g.dart';
 
 @Riverpod(keepAlive: true)
@@ -13,7 +11,7 @@ Future<Database> getDatabase(GetDatabaseRef ref) async {
     join(await getDatabasesPath(), 'twitter.db'),
     onCreate: (database, version) async {
       await database.execute(
-        "CREATE TABLE user(id INTEGER PRIMARY KEY AUTOINCREMENT, twitter_id TEXT UNIQUE, screen_name TEXT, name TEXT, description TEXT, profile_banner_url TEXT, profile_image_url TEXT)",
+        'CREATE TABLE user(id INTEGER PRIMARY KEY AUTOINCREMENT, twitter_id TEXT UNIQUE, screen_name TEXT, name TEXT, description TEXT, profile_banner_url TEXT, profile_image_url TEXT)',
       );
       /*
       await database.execute(
@@ -21,7 +19,7 @@ Future<Database> getDatabase(GetDatabaseRef ref) async {
       );
       */
       await database.execute(
-        "CREATE TABLE user_followers(id INTEGER PRIMARY KEY AUTOINCREMENT, twitter_id TEXT, self_twitter_id TEXT, time INTEGER)",
+        'CREATE TABLE user_followers(id INTEGER PRIMARY KEY AUTOINCREMENT, twitter_id TEXT, self_twitter_id TEXT, time INTEGER)',
       );
       /*
       await database.execute(
@@ -30,7 +28,7 @@ Future<Database> getDatabase(GetDatabaseRef ref) async {
       */
       // await testInsert(database);
       await database.execute(
-        "CREATE TABLE self_account(id INTEGER PRIMARY KEY AUTOINCREMENT, self_twitter_id TEXT, login_time INTEGER)",
+        'CREATE TABLE self_account(id INTEGER PRIMARY KEY AUTOINCREMENT, self_twitter_id TEXT, login_time INTEGER)',
       );
     },
     version: 1,

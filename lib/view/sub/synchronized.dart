@@ -1,14 +1,7 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
-
-// Package imports:
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:twitter_openapi_dart_generated/twitter_openapi_dart_generated.dart';
-
-// Project imports:
 import 'package:social_doge/component/confirm.dart';
 import 'package:social_doge/component/label.dart';
 import 'package:social_doge/component/loading.dart';
@@ -18,23 +11,21 @@ import 'package:social_doge/database/user.dart';
 import 'package:social_doge/interface/twitter.dart';
 import 'package:social_doge/view/top/home.dart';
 import 'package:social_doge/view/top/page/main.dart';
-
-// Project imports:
-
+import 'package:sqflite/sqflite.dart';
+import 'package:twitter_openapi_dart_generated/twitter_openapi_dart_generated.dart';
 part 'synchronized.g.dart';
 
 class TwitterClientResponse {
-  final int length;
-  final int progress;
-  final bool finish;
-  final int? wait;
-
   TwitterClientResponse({
     required this.length,
     required this.progress,
     this.finish = false,
     this.wait,
   });
+  final int length;
+  final int progress;
+  final bool finish;
+  final int? wait;
 }
 
 int secondsSinceEpoch() {
@@ -60,13 +51,13 @@ Future<UserDB> insertDB(Database db, int time, String table, User user, String s
   final userStatusFetch = await db.query('user_followers', where: 'twitter_id = ? AND time = ?', whereArgs: [user.restId, time]);
 
   if (userStatusFetch.isEmpty) {
-    await db.insert("user_followers", userStatusDB.toMap());
+    await db.insert('user_followers', userStatusDB.toMap());
 
     final userFetch = await db.query('user', where: 'twitter_id = ?', whereArgs: [user.restId]);
     if (userFetch.isEmpty) {
-      await db.insert("user", userDB.toMap());
+      await db.insert('user', userDB.toMap());
     } else {
-      await db.update("user", userDB.toMap(), where: 'twitter_id = ?', whereArgs: [user.restId]);
+      await db.update('user', userDB.toMap(), where: 'twitter_id = ?', whereArgs: [user.restId]);
     }
   }
   return userDB;
@@ -87,26 +78,26 @@ Stream<TwitterClientResponse> twitterClient(TwitterClientRef ref) async* {
   yield TwitterClientResponse(length: length, progress: userList.length);
 
   final response = await client.getUserListApi().getFollowers(userId: user.restId, count: 200);
-  final userJoin = await Future.wait(response.data.map((e) => insertDB(db, time, "user_followers", e.user, userId)));
+  final userJoin = await Future.wait(response.data.map((e) => insertDB(db, time, 'user_followers', e.user, userId)));
   userList.addEntries(userJoin.map((e) => MapEntry<String, UserDB>(e.twitterId, e)));
   while (response.header.rateLimitRemaining < 5 && response.header.rateLimitReset - secondsSinceEpoch() > 0) {
     yield TwitterClientResponse(length: length, progress: userList.length, wait: response.header.rateLimitReset - secondsSinceEpoch());
-    await Future.delayed(const Duration(seconds: 1));
+    await Future<void>.delayed(const Duration(seconds: 1));
   }
   yield TwitterClientResponse(length: length, progress: userList.length);
 
-  String? topCursor = response.cursor.top?.value;
-  String? bottomCursor = response.cursor.bottom?.value;
+  var topCursor = response.cursor.top?.value;
+  var bottomCursor = response.cursor.bottom?.value;
 
   while (topCursor != null) {
     final userListLen = userList.length;
     final response = await client.getUserListApi().getFollowers(userId: user.restId, cursor: topCursor, count: 200);
-    final userJoin = await Future.wait(response.data.map((e) => insertDB(db, time, "user_followers", e.user, userId)));
+    final userJoin = await Future.wait(response.data.map((e) => insertDB(db, time, 'user_followers', e.user, userId)));
     userList.addEntries(userJoin.map((e) => MapEntry<String, UserDB>(e.twitterId, e)));
     topCursor = userListLen < userList.length ? response.cursor.top?.value : null;
     while (response.header.rateLimitRemaining < 5 && response.header.rateLimitReset - secondsSinceEpoch() > 0) {
       yield TwitterClientResponse(length: length, progress: userList.length, wait: response.header.rateLimitReset - secondsSinceEpoch());
-      await Future.delayed(const Duration(seconds: 1));
+      await Future<void>.delayed(const Duration(seconds: 1));
     }
     yield TwitterClientResponse(length: length, progress: userList.length);
   }
@@ -114,12 +105,12 @@ Stream<TwitterClientResponse> twitterClient(TwitterClientRef ref) async* {
   while (bottomCursor != null) {
     final userListLen = userList.length;
     final response = await client.getUserListApi().getFollowers(userId: user.restId, cursor: bottomCursor, count: 200);
-    final userJoin = await Future.wait(response.data.map((e) => insertDB(db, time, "user_followers", e.user, userId)));
+    final userJoin = await Future.wait(response.data.map((e) => insertDB(db, time, 'user_followers', e.user, userId)));
     userList.addEntries(userJoin.map((e) => MapEntry<String, UserDB>(e.twitterId, e)));
     bottomCursor = userListLen < userList.length ? response.cursor.bottom?.value : null;
     while (response.header.rateLimitRemaining < 5 && response.header.rateLimitReset - secondsSinceEpoch() > 0) {
       yield TwitterClientResponse(length: length, progress: userList.length, wait: response.header.rateLimitReset - secondsSinceEpoch());
-      await Future.delayed(const Duration(seconds: 1));
+      await Future<void>.delayed(const Duration(seconds: 1));
     }
     yield TwitterClientResponse(length: length, progress: userList.length);
   }
@@ -150,7 +141,7 @@ class Synchronize extends ConsumerWidget {
             data: (messages) {
               return Column(
                 children: [
-                  Text("${messages.progress}/${messages.length}"),
+                  Text('${messages.progress}/${messages.length}'),
                   ClipRRect(
                     child: LinearProgressIndicator(
                       value: messages.progress / messages.length,
@@ -175,13 +166,14 @@ class Synchronize extends ConsumerWidget {
                     ElevatedButton(
                       style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red)),
                       onPressed: () {
-                        showDialog(
+                        showDialog<void>(
                           context: context,
                           builder: (BuildContext context) => ConfirmDialog(
                             pop: false,
                             content: Text(AppLocalizations.of(context)!.syncCancelConfirm),
                             onPressed: () async {
-                              await Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const SynchronizeRemove()), (_) => false);
+                              await Navigator.of(context)
+                                  .pushAndRemoveUntil(MaterialPageRoute<void>(builder: (context) => const SynchronizeRemove()), (_) => false);
                             },
                           ),
                         );
@@ -191,16 +183,18 @@ class Synchronize extends ConsumerWidget {
                   if (messages.finish)
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const SocialDogeHome()), (_) => false);
+                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute<void>(builder: (context) => const SocialDogeHome()), (_) => false);
                       },
                       child: Text(AppLocalizations.of(context)!.close),
                     )
                 ],
               );
             },
-            error: (error, stackTrace) => Column(children: [
-              for (final e in [error.toString(), stackTrace.toString()]) Text(e)
-            ]),
+            error: (error, stackTrace) => Column(
+              children: [
+                for (final e in [error.toString(), stackTrace.toString()]) Text(e)
+              ],
+            ),
             loading: () => const Loading(),
           ),
         ),
@@ -220,13 +214,15 @@ class SynchronizeRemove extends ConsumerWidget {
       body: remover.when(
         data: (_) {
           WidgetsBinding.instance.addPostFrameCallback((_) async {
-            await Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const SocialDogeHome()), (_) => false);
+            await Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute<void>(builder: (context) => const SocialDogeHome()), (_) => false);
           });
           return SizedBox(height: MediaQuery.of(context).size.height, child: const Center(child: Loading()));
         },
-        error: (error, stackTrace) => Column(children: [
-          for (final e in [error.toString(), stackTrace.toString()]) Text(e)
-        ]),
+        error: (error, stackTrace) => Column(
+          children: [
+            for (final e in [error.toString(), stackTrace.toString()]) Text(e)
+          ],
+        ),
         loading: () => SizedBox(height: MediaQuery.of(context).size.height, child: const Center(child: Loading())),
       ),
     );

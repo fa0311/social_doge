@@ -1,22 +1,16 @@
-// Flutter imports:
-import 'package:flutter/material.dart';
-
-// Package imports:
 import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-// Project imports:
 import 'package:social_doge/component/confirm.dart';
 import 'package:social_doge/component/loading.dart';
 import 'package:social_doge/database/core.dart';
 import 'package:social_doge/database/self_account.dart';
 import 'package:social_doge/view/sub/synchronized.dart';
 import 'package:social_doge/view/top/home.dart';
-
 part 'main.g.dart';
 
 @riverpod
@@ -26,22 +20,22 @@ Future<List<FollowersCount>> getFollowersCount(GetFollowersCountRef ref, int? ti
 
   final db = await ref.read(getDatabaseProvider.future);
   final response = await db.query(
-    "user_followers",
-    columns: ["time", "count(*)"],
-    where: "self_twitter_id = ?",
-    groupBy: "time",
-    having: "time > ?",
+    'user_followers',
+    columns: ['time', 'count(*)'],
+    where: 'self_twitter_id = ?',
+    groupBy: 'time',
+    having: 'time > ?',
     whereArgs: [userId, args],
-    orderBy: "time ASC",
+    orderBy: 'time ASC',
   );
-  return response.map((row) => FollowersCount(row["time"] as int, row["count(*)"] as int)).toList();
+  return response.map((row) => FollowersCount(row['time']! as int, row['count(*)']! as int)).toList();
 }
 
 @riverpod
 Future<void> removeLastSynchronized(RemoveLastSynchronizedRef ref) async {
   final db = await ref.read(getDatabaseProvider.future);
-  final time = await db.query("user_followers", columns: ["time"], orderBy: "time DESC", limit: 1);
-  await db.delete("user_followers", where: "time = ?", whereArgs: [time.first["time"] as int]);
+  final time = await db.query('user_followers', columns: ['time'], orderBy: 'time DESC', limit: 1);
+  await db.delete('user_followers', where: 'time = ?', whereArgs: [time.first['time']! as int]);
   await Future.wait([
     ref.refresh(getFollowersCountProvider(60 * 60 * 24 * 30 * 1000).future),
     ref.refresh(getFollowersCountProvider(60 * 60 * 24 * 90 * 1000).future),
@@ -57,7 +51,7 @@ class SocialDogeMainPageView {
 }
 
 class SocialDogeMain extends ConsumerWidget {
-  SocialDogeMain({Key? key}) : super(key: key);
+  SocialDogeMain({super.key});
 
   final List<Color> gradientColors = [Colors.cyan, Colors.blue];
 
@@ -86,12 +80,14 @@ class SocialDogeMain extends ConsumerWidget {
                         Text(e.label),
                         Expanded(
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(8),
                             child: e.provider.when(
                               data: (data) => FollowerChart(data: data),
-                              error: (error, stackTrace) => Column(children: [
-                                for (final e in [error.toString(), stackTrace.toString()]) Text(e)
-                              ]),
+                              error: (error, stackTrace) => Column(
+                                children: [
+                                  for (final e in [error.toString(), stackTrace.toString()]) Text(e)
+                                ],
+                              ),
                               loading: () => const Loading(),
                             ),
                           ),
@@ -107,7 +103,7 @@ class SocialDogeMain extends ConsumerWidget {
           title: Text(AppLocalizations.of(context)!.synchronize),
           subtitle: Text(AppLocalizations.of(context)!.synchronizeDetails),
           onTap: () {
-            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const Synchronize()), (_) => false);
+            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute<void>(builder: (context) => const Synchronize()), (_) => false);
           },
         ),
         data.last.provider.when(
@@ -117,7 +113,7 @@ class SocialDogeMain extends ConsumerWidget {
               subtitle: Text(AppLocalizations.of(context)!.deleteLastSynchronizeDetails),
               enabled: data.isNotEmpty,
               onTap: () async {
-                showDialog(
+                await showDialog<void>(
                   context: context,
                   builder: (BuildContext context) => ConfirmDialog(
                     content: Text(AppLocalizations.of(context)!.deleteLastSynchronize),
@@ -127,12 +123,13 @@ class SocialDogeMain extends ConsumerWidget {
                   ),
                 );
               },
-              trailing: null,
             );
           },
-          error: (error, stackTrace) => Column(children: [
-            for (final e in [error.toString(), stackTrace.toString()]) Text(e)
-          ]),
+          error: (error, stackTrace) => Column(
+            children: [
+              for (final e in [error.toString(), stackTrace.toString()]) Text(e)
+            ],
+          ),
           loading: () => const LoadingIcon(),
         ),
       ],
@@ -141,13 +138,15 @@ class SocialDogeMain extends ConsumerWidget {
 }
 
 class FollowerChart extends ConsumerWidget {
+  FollowerChart({super.key, required this.data});
   final List<FollowersCount> data;
   final List<Color> gradientColors = [Colors.cyan, Colors.blue];
-  FollowerChart({super.key, required this.data});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (data.isEmpty) return Center(child: Text(AppLocalizations.of(context)!.noData));
+    if (data.isEmpty) {
+      return Center(child: Text(AppLocalizations.of(context)!.noData));
+    }
     if (data.length == 1) {
       data.add(FollowersCount(data.first.time + 1, data.first.count));
     }
@@ -168,29 +167,32 @@ class FollowerChart extends ConsumerWidget {
           },
           touchTooltipData: LineTouchTooltipData(
             tooltipBgColor: Colors.white.withAlpha(0),
-            tooltipPadding: const EdgeInsets.all(0),
+            tooltipPadding: EdgeInsets.zero,
             getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
               return touchedBarSpots.map((barSpot) => LineTooltipItem(barSpot.y.toInt().toString(), const TextStyle(color: Colors.blue))).toList();
             },
           ),
         ),
-        gridData: const FlGridData(show: false, drawVerticalLine: true, horizontalInterval: 1, verticalInterval: 1),
+        gridData: const FlGridData(show: false, horizontalInterval: 1, verticalInterval: 1),
         titlesData: FlTitlesData(
-          show: true,
-          rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          rightTitles: const AxisTitles(),
+          topTitles: const AxisTitles(),
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 30,
               interval: data.last.time.toDouble() - data.first.time.toDouble() / 5,
               getTitlesWidget: (value, meta) {
-                if (meta.min == meta.max) return Text(value.toInt().toString());
-                if (meta.min == value || meta.max == value) return Container();
+                if (meta.min == meta.max) {
+                  return Text(value.toInt().toString());
+                }
+                if (meta.min == value || meta.max == value) {
+                  return Container();
+                }
                 final year = meta.max - meta.min > 60 * 60 * 24 * 365 * 1000;
                 final date = DateTime.fromMillisecondsSinceEpoch(value.toInt(), isUtc: true);
                 final format = year ? DateFormat(AppLocalizations.of(context)!.dateFormat1) : DateFormat(AppLocalizations.of(context)!.dateFormat2);
-                return Text(format.format(date).toString(), softWrap: false);
+                return Text(format.format(date), softWrap: false);
               },
             ),
           ),
@@ -199,8 +201,12 @@ class FollowerChart extends ConsumerWidget {
               showTitles: true,
               reservedSize: data.sorted((a, b) => a.count.compareTo(b.count)).last.count.toString().length * 8 + 5,
               getTitlesWidget: (value, meta) {
-                if (meta.min == meta.max) return Text(value.toInt().toString());
-                if (meta.min == value || meta.max == value) return Container();
+                if (meta.min == meta.max) {
+                  return Text(value.toInt().toString());
+                }
+                if (meta.min == value || meta.max == value) {
+                  return Container();
+                }
                 return Text(value.toInt().toString());
               },
             ),

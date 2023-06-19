@@ -1,11 +1,7 @@
-// Package imports:
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:social_doge/auth/inappwebview.dart';
 import 'package:twitter_openapi_dart/twitter_openapi_dart.dart';
 import 'package:twitter_openapi_dart_generated/twitter_openapi_dart_generated.dart';
-
-// Project imports:
-import 'package:social_doge/auth/inappwebview.dart';
-
 part 'twitter.g.dart';
 
 @Riverpod(keepAlive: true)

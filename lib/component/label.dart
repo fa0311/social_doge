@@ -1,12 +1,11 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
 class BaseLabel extends StatefulWidget {
+  const BaseLabel({super.key, required this.child, required this.color, required this.backgroundColor, required this.icon});
   final Widget child;
   final Color color;
   final Color backgroundColor;
   final IconData icon;
-  const BaseLabel({super.key, required this.child, required this.color, required this.backgroundColor, required this.icon});
 
   @override
   BaseLabelState createState() => BaseLabelState();
@@ -38,8 +37,8 @@ class BaseLabelState extends State<BaseLabel> {
 }
 
 class ErrorLabel extends StatefulWidget {
-  final Widget child;
   const ErrorLabel({super.key, required this.child});
+  final Widget child;
 
   @override
   ErrorLabelState createState() => ErrorLabelState();
@@ -58,8 +57,8 @@ class ErrorLabelState extends State<ErrorLabel> {
 }
 
 class AlertLabel extends StatefulWidget {
-  final Widget child;
   const AlertLabel({super.key, required this.child});
+  final Widget child;
 
   @override
   AlertLabelState createState() => AlertLabelState();
@@ -78,8 +77,8 @@ class AlertLabelState extends State<AlertLabel> {
 }
 
 class SuccessLabel extends StatefulWidget {
-  final Widget child;
   const SuccessLabel({super.key, required this.child});
+  final Widget child;
 
   @override
   SuccessLabelState createState() => SuccessLabelState();

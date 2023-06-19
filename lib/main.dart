@@ -1,33 +1,21 @@
-// Flutter imports:
-
-// Flutter imports:
 import 'package:flutter/material.dart';
-
-// Package imports:
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-// Project imports:
 import 'package:social_doge/component/loading.dart';
 import 'package:social_doge/constant/config.dart';
 import 'package:social_doge/database/self_account.dart';
 import 'package:social_doge/view/settings/accessibility.dart';
 import 'package:social_doge/view/web/login.dart';
-
-// Project imports:
-
 part 'main.g.dart';
 
-// Package imports:
-
-main() {
+void main() {
   runApp(const ProviderScope(child: SocialDoge()));
 }
 
 @riverpod
-Future init(InitRef ref) async {
+Future<void> init(InitRef ref) async {
   await Future.wait([
     ref.read(languageCodeProvider.notifier).get(),
     ref.read(themeBrightnessProvider(false).notifier).get(),
@@ -71,9 +59,11 @@ class SocialDogeInit extends ConsumerWidget {
 
     return init.when(
       data: (_) => const TwitterLogin(),
-      error: (error, stackTrace) => Column(children: [
-        for (final e in [error.toString(), stackTrace.toString()]) Text(e)
-      ]),
+      error: (error, stackTrace) => Column(
+        children: [
+          for (final e in [error.toString(), stackTrace.toString()]) Text(e)
+        ],
+      ),
       loading: () => SizedBox(height: MediaQuery.of(context).size.height, child: const Center(child: Loading())),
     );
   }

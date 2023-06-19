@@ -1,22 +1,14 @@
-// Dart imports:
-
-// Flutter imports:
 import 'package:flutter/material.dart';
-
-// Package imports:
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-// Project imports:
 import 'package:social_doge/component/modal.dart';
 import 'package:social_doge/view/settings/true_black.dart';
-
 part 'accessibility.g.dart';
 
 class SettingsAccessibility extends ConsumerWidget {
-  const SettingsAccessibility({Key? key}) : super(key: key);
+  const SettingsAccessibility({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -39,17 +31,17 @@ class SettingsAccessibility extends ConsumerWidget {
                 ListTile(
                   title: Text(AppLocalizations.of(context)!.language),
                   subtitle: Text(languageCode.text),
-                  onTap: () => showModalBottomSheetStatelessWidget(context: context, builder: () => const LocaleModal()),
+                  onTap: () => showModalBottomSheetStatelessWidget<Widget>(context: context, builder: () => const LocaleModal()),
                 ),
                 ListTile(
                   title: Text(AppLocalizations.of(context)!.deviceLightTheme),
                   subtitle: Text(themeBrightness.toLocalization(context)),
-                  onTap: () => showModalBottomSheetStatelessWidget(context: context, builder: () => const ThemeBrightnessModal(dark: false)),
+                  onTap: () => showModalBottomSheetStatelessWidget<Widget>(context: context, builder: () => const ThemeBrightnessModal(dark: false)),
                 ),
                 ListTile(
                   title: Text(AppLocalizations.of(context)!.deviceDarkTheme),
                   subtitle: Text(darkThemeBrightness.toLocalization(context)),
-                  onTap: () => showModalBottomSheetStatelessWidget(context: context, builder: () => const ThemeBrightnessModal(dark: true)),
+                  onTap: () => showModalBottomSheetStatelessWidget<Widget>(context: context, builder: () => const ThemeBrightnessModal(dark: true)),
                 ),
               ],
             ),
@@ -61,26 +53,27 @@ class SettingsAccessibility extends ConsumerWidget {
 }
 
 enum LanguageCodeEnum {
-  en("English"),
-  ja("日本語");
+  en('English'),
+  ja('日本語');
+
+  const LanguageCodeEnum(this.text);
 
   final String text;
-  const LanguageCodeEnum(this.text);
 }
 
 @Riverpod(keepAlive: true)
 class LanguageCode extends _$LanguageCode {
-  static String key = "language_code";
+  static String key = 'language_code';
   @override
   LanguageCodeEnum build() => LanguageCodeEnum.ja;
   Future<void> update(LanguageCodeEnum method) async {
     state = method;
-    final SharedPreferences pref = await SharedPreferences.getInstance();
+    final pref = await SharedPreferences.getInstance();
     await pref.setString(key, method.name);
   }
 
   Future<void> get() async {
-    final SharedPreferences pref = await SharedPreferences.getInstance();
+    final pref = await SharedPreferences.getInstance();
     if (pref.getString(key) != null) {
       state = LanguageCodeEnum.values.byName(pref.getString(key)!);
     }
@@ -101,7 +94,7 @@ class LocaleModal extends ConsumerWidget {
             ListTile(
               title: Text(value.text),
               trailing: languageCode == value ? const Icon(Icons.check) : null,
-              subtitle: Text(AppLocalizations.of(context)!.translatorDetails(lookupAppLocalizations(Locale(value.name, "")).contributor)),
+              subtitle: Text(AppLocalizations.of(context)!.translatorDetails(lookupAppLocalizations(Locale(value.name, '')).contributor)),
               onTap: () {
                 ref.read(languageCodeProvider.notifier).update(value);
               },
@@ -157,18 +150,18 @@ enum ThemeBrightnessEnum {
 
 @Riverpod(keepAlive: true)
 class ThemeBrightness extends _$ThemeBrightness {
-  static String key = "theme_brightness";
+  static String key = 'theme_brightness';
 
   @override
   ThemeBrightnessEnum build(bool dark) => ThemeBrightnessEnum.light;
   Future<void> update(ThemeBrightnessEnum method) async {
     state = method;
-    final SharedPreferences pref = await SharedPreferences.getInstance();
+    final pref = await SharedPreferences.getInstance();
     await pref.setString(key, method.name);
   }
 
   Future<void> get() async {
-    final SharedPreferences pref = await SharedPreferences.getInstance();
+    final pref = await SharedPreferences.getInstance();
     if (pref.getString(key) != null) {
       state = ThemeBrightnessEnum.values.byName(pref.getString(key)!);
     }
@@ -176,9 +169,8 @@ class ThemeBrightness extends _$ThemeBrightness {
 }
 
 class ThemeBrightnessModal extends ConsumerWidget {
-  final bool dark;
-
   const ThemeBrightnessModal({super.key, required this.dark});
+  final bool dark;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

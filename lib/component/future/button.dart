@@ -1,4 +1,3 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
@@ -9,10 +8,10 @@ enum ButtonType {
 }
 
 class FutureButton extends StatefulWidget {
-  final Widget child;
-  final Future Function() onPressed;
-  final ButtonType type;
   const FutureButton({super.key, required this.child, required this.onPressed, this.type = ButtonType.textButton});
+  final Widget child;
+  final Future<void> Function() onPressed;
+  final ButtonType type;
 
   @override
   FutureButtonState createState() => FutureButtonState();
@@ -30,7 +29,7 @@ class FutureButtonState extends State<FutureButton> {
     super.initState();
   }
 
-  Future onPressed() async {
+  Future<void> onPressed() async {
     try {
       setState(() => state = true);
       await widget.onPressed();

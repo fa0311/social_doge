@@ -1,13 +1,8 @@
-// Flutter imports:
-import 'package:flutter/material.dart';
-
-// Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-// Project imports:
 import 'package:social_doge/component/confirm.dart';
 import 'package:social_doge/component/loading.dart';
 import 'package:social_doge/component/twitter/user_profile.dart';
@@ -42,9 +37,11 @@ class NormalDrawer extends ConsumerWidget {
                   ),
                 );
               },
-              error: (error, stackTrace) => Column(children: [
-                for (final e in [error.toString(), stackTrace.toString()]) Text(e)
-              ]),
+              error: (error, stackTrace) => Column(
+                children: [
+                  for (final e in [error.toString(), stackTrace.toString()]) Text(e)
+                ],
+              ),
               loading: () => const Loading(),
             ),
             Expanded(
@@ -53,14 +50,18 @@ class NormalDrawer extends ConsumerWidget {
                   children: [
                     ListTile(
                       onTap: () {
-                        showDialog(
+                        showDialog<void>(
                           context: context,
                           builder: (BuildContext context) => ConfirmDialog(
                             content: Text(AppLocalizations.of(context)!.logoutConfirm),
                             onPressed: () async {
                               final cookie = CookieManager.instance();
                               await cookie.deleteAllCookies();
-                              await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const TwitterLogin()), (_) => false);
+                              await Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute<void>(builder: (_) => const TwitterLogin()),
+                                (_) => false,
+                              );
                             },
                           ),
                         );
@@ -81,7 +82,7 @@ class NormalDrawer extends ConsumerWidget {
                 const Divider(),
                 ListTile(
                   onTap: () async {
-                    await Navigator.push(context, MaterialPageRoute(builder: (_) => const Settings()));
+                    await Navigator.push(context, MaterialPageRoute<void>(builder: (_) => const Settings()));
                   },
                   leading: const Icon(Icons.settings),
                   title: Text(AppLocalizations.of(context)!.setting),

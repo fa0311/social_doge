@@ -1,24 +1,19 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
-
-// Package imports:
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-// Project imports:
 import 'package:social_doge/component/physics.dart';
 import 'package:social_doge/view/drawer/drawer.dart';
 import 'package:social_doge/view/top/page/main.dart';
 import 'package:social_doge/view/top/page/unfollowed_user.dart';
-
 part 'home.g.dart';
 
 @Riverpod(keepAlive: true)
 class CurrentIndex extends _$CurrentIndex {
   @override
   CurrentIndexEnum build() => CurrentIndexEnum.home;
-  void update(CurrentIndexEnum method) => state = method;
+  set update(CurrentIndexEnum method) => state = method;
+  CurrentIndexEnum get update => state;
 }
 
 class FollowersCount {
@@ -30,6 +25,8 @@ class FollowersCount {
 enum CurrentIndexEnum {
   home(icon: Icons.home),
   unfollowedBy(icon: Icons.person_remove);
+
+  const CurrentIndexEnum({required this.icon});
 
   Widget toWidget() {
     switch (this) {
@@ -50,7 +47,6 @@ enum CurrentIndexEnum {
   }
 
   final IconData icon;
-  const CurrentIndexEnum({required this.icon});
 }
 
 class SocialDogeHome extends ConsumerWidget {
@@ -74,14 +70,14 @@ class SocialDogeHome extends ConsumerWidget {
           children: [for (CurrentIndexEnum scene in CurrentIndexEnum.values) scene.toWidget()],
           onPageChanged: (int index) {
             WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
-            ref.read(currentIndexProvider.notifier).update(CurrentIndexEnum.values[index]);
+            ref.read(currentIndexProvider.notifier).update = CurrentIndexEnum.values[index];
           },
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: [for (CurrentIndexEnum scene in CurrentIndexEnum.values) BottomNavigationBarItem(icon: Icon(scene.icon), label: scene.toLocalization(context))],
         currentIndex: currentIndex.index,
-        onTap: (int index) => controller.jumpToPage(index),
+        onTap: controller.jumpToPage,
         showSelectedLabels: false,
         showUnselectedLabels: false,
         type: BottomNavigationBarType.fixed,
