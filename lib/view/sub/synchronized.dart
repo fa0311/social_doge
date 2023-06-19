@@ -7,7 +7,6 @@ import 'package:social_doge/component/label.dart';
 import 'package:social_doge/component/loading.dart';
 import 'package:social_doge/database/core.dart';
 import 'package:social_doge/database/self_account.dart';
-import 'package:social_doge/database/user.dart';
 import 'package:social_doge/interface/twitter.dart';
 import 'package:social_doge/view/top/home.dart';
 import 'package:social_doge/view/top/page/main.dart';

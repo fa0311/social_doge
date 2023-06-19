@@ -1,7 +1,20 @@
 import 'package:path/path.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:social_doge/database/user.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:drift/drift.dart';
+
 part 'core.g.dart';
+
+@DriftDatabase(tables: [UserDB])
+class TwitterDatabase extends _$TwitterDatabase {
+  TwitterDatabase(super.e);
+
+  @override
+  int get schemaVersion => 1;
+}
+
+/*
 
 @Riverpod(keepAlive: true)
 Future<Database> getDatabase(GetDatabaseRef ref) async {
@@ -34,5 +47,6 @@ Future<Database> getDatabase(GetDatabaseRef ref) async {
     version: 1,
   );
 
-  return db;
-}
+
+
+*/

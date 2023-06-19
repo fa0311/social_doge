@@ -6,7 +6,7 @@ part of 'main.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getFollowersCountHash() => r'7eaf51e0de85dfc16b4700815a6a9812eb3dcc1e';
+String _$getFollowersCountHash() => r'88583b9e5ca19d4289e782ab92f2cb009408d48e';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -113,7 +113,7 @@ class GetFollowersCountProvider
 }
 
 String _$removeLastSynchronizedHash() =>
-    r'372870bf360b74779d9ac34a64f3cb02ecd54f06';
+    r'259cc7e71b1de8c57ed3ef56b4cc6eb97dc59694';
 
 /// See also [removeLastSynchronized].
 @ProviderFor(removeLastSynchronized)

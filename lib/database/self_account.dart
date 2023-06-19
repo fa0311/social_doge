@@ -1,6 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:social_doge/database/core.dart';
-import 'package:social_doge/database/user.dart';
 part 'self_account.g.dart';
 
 @Riverpod(keepAlive: true)
