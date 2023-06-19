@@ -7,9 +7,7 @@ import 'package:social_doge/component/future/tile.dart';
 import 'package:social_doge/component/loading.dart';
 import 'package:social_doge/component/modal.dart';
 import 'package:social_doge/component/twitter/user_profile.dart';
-import 'package:social_doge/database/core.dart';
 import 'package:social_doge/database/self_account.dart';
-import 'package:social_doge/database/user.dart';
 part 'unfollowed_user.g.dart';
 
 @riverpod

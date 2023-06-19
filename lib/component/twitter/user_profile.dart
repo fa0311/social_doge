@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:social_doge/database/core.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfileImageUrlHttps {
@@ -22,7 +23,7 @@ class ProfileImageUrlHttps {
 
 class UserProfile extends ConsumerWidget {
   const UserProfile({super.key, required this.user});
-  final UserDB user;
+  final UserTableData user;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

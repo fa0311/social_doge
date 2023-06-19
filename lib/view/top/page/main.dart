@@ -7,7 +7,6 @@ import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:social_doge/component/confirm.dart';
 import 'package:social_doge/component/loading.dart';
-import 'package:social_doge/database/core.dart';
 import 'package:social_doge/database/self_account.dart';
 import 'package:social_doge/view/sub/synchronized.dart';
 import 'package:social_doge/view/top/home.dart';

@@ -6,8 +6,8 @@ part 'twitter.g.dart';
 
 @Riverpod(keepAlive: true)
 Future<TwitterOpenapiDartClient> getTwitterClient(GetTwitterClientRef ref) async {
-  final api = TwitterOpenapiDart()..addBeforeInterceptor(FlutterInappwebviewDio());
-  final client = await api.getClient(initCookie: false);
+  final client = await TwitterOpenapiDart().getClient();
+  client.api.dio.interceptors.add(FlutterInappwebviewDio());
   return client;
 }
 

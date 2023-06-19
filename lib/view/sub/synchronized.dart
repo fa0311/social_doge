@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,6 +13,8 @@ import 'package:social_doge/view/top/home.dart';
 import 'package:social_doge/view/top/page/main.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:twitter_openapi_dart_generated/twitter_openapi_dart_generated.dart';
+import 'package:twitter_openapi_dart/twitter_openapi_dart.dart';
+
 part 'synchronized.g.dart';
 
 class TwitterClientResponse {
@@ -31,42 +34,57 @@ int secondsSinceEpoch() {
   return DateTime.now().millisecondsSinceEpoch ~/ 1000;
 }
 
-Future<UserDB> insertDB(Database db, int time, String table, User user, String selfTwitterId) async {
-  final userDB = UserDB(
-    twitterId: user.restId,
-    screenName: user.legacy.screenName,
-    name: user.legacy.name,
-    description: user.legacy.description,
-    profileBannerUrl: user.legacy.profileBannerUrl,
-    profileImageUrl: user.legacy.profileImageUrlHttps,
-  );
+Future<String> insertDB({
+  required SocialDogeDatabase db,
+  required DateTime time,
+  required String selfTwitterId,
+  required User user,
+}) async {
+  final getUser = await db.getUser(twitterId: user.restId);
+  if (getUser == null) {
+    final insertUser = UserTableCompanion.insert(
+      twitterId: user.restId,
+      screenName: user.legacy.screenName,
+      name: user.legacy.name,
+      description: user.legacy.description,
+      profileBannerUrl: Value(user.legacy.profileBannerUrl),
+      profileImageUrl: user.legacy.profileImageUrlHttps,
+      followersCount: user.legacy.followersCount,
+      friendsCount: user.legacy.friendsCount,
+      createdAt: dateFormatFromTwitterFormat(user.legacy.createdAt),
+      lastUpdated: DateTime.now(),
+    );
+    await db.addUser(insertUser);
+  } else {
+    final newUser = getUser.copyWith(
+      screenName: user.legacy.screenName,
+      name: user.legacy.name,
+      description: user.legacy.description,
+      profileBannerUrl: Value(user.legacy.profileBannerUrl),
+      profileImageUrl: user.legacy.profileImageUrlHttps,
+      followersCount: user.legacy.followersCount,
+      friendsCount: user.legacy.friendsCount,
+      createdAt: dateFormatFromTwitterFormat(user.legacy.createdAt),
+      lastUpdated: DateTime.now(),
+    );
+    await db.updateUser(newUser);
+  }
 
-  final userStatusDB = UserStatusDB(
+  final userFollowers = UserFollowersTableCompanion.insert(
     twitterId: user.restId,
     selfTwitterId: selfTwitterId,
     time: time,
   );
 
-  final userStatusFetch = await db.query('user_followers', where: 'twitter_id = ? AND time = ?', whereArgs: [user.restId, time]);
-
-  if (userStatusFetch.isEmpty) {
-    await db.insert('user_followers', userStatusDB.toMap());
-
-    final userFetch = await db.query('user', where: 'twitter_id = ?', whereArgs: [user.restId]);
-    if (userFetch.isEmpty) {
-      await db.insert('user', userDB.toMap());
-    } else {
-      await db.update('user', userDB.toMap(), where: 'twitter_id = ?', whereArgs: [user.restId]);
-    }
-  }
-  return userDB;
+  await db.addFollowers(userFollowers);
+  return user.restId;
 }
 
 @riverpod
 Stream<TwitterClientResponse> twitterClient(TwitterClientRef ref) async* {
   final client = await ref.watch(getTwitterClientProvider.future);
 
-  final userList = <String, UserDB>{};
+  final userList = <String>[];
   final now = DateTime.now();
   final time = now.millisecondsSinceEpoch;
   final db = await ref.watch(getDatabaseProvider.future);

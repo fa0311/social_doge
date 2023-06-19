@@ -6,7 +6,7 @@ part of 'twitter.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getTwitterClientHash() => r'80f6c57f847a1abe22a68303535e3905ac5b954f';
+String _$getTwitterClientHash() => r'cd486b3e08866aeb0562ac16e53528e1ae3acfc8';
 
 /// See also [getTwitterClient].
 @ProviderFor(getTwitterClient)
