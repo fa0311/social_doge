@@ -5,7 +5,7 @@
   "@____________________TOP____________________": {},
   "home": "ホーム",
   "unfollowed": "フォロー解除",
-  "unfollowedUsersList": "フォロー解除されたユーザーリスト",
+  "unfollowedUsersList": "解除したユーザ－",
   "synchronize": "同期",
   "synchronizeDetails": "最新の情報をTwitterから取得します",
   "deleteLastSynchronize": "最後の同期を削除",
