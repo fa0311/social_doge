@@ -1,4 +1,4 @@
-import 'package:drift/drift.dart';
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,13 +7,13 @@ import 'package:social_doge/component/confirm.dart';
 import 'package:social_doge/component/label.dart';
 import 'package:social_doge/component/loading.dart';
 import 'package:social_doge/database/core.dart';
+import 'package:social_doge/database/provider.dart';
 import 'package:social_doge/database/self_account.dart';
 import 'package:social_doge/interface/twitter.dart';
 import 'package:social_doge/view/top/home.dart';
 import 'package:social_doge/view/top/page/main.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:twitter_openapi_dart_generated/twitter_openapi_dart_generated.dart';
 import 'package:twitter_openapi_dart/twitter_openapi_dart.dart';
+import 'package:twitter_openapi_dart_generated/twitter_openapi_dart_generated.dart';
 
 part 'synchronized.g.dart';
 
@@ -34,60 +34,35 @@ int secondsSinceEpoch() {
   return DateTime.now().millisecondsSinceEpoch ~/ 1000;
 }
 
-Future<String> insertDB({
+Future<MapEntry<String, User>> insertDB({
   required SocialDogeDatabase db,
   required DateTime time,
   required String selfTwitterId,
   required User user,
 }) async {
-  final getUser = await db.getUser(twitterId: user.restId);
-  if (getUser == null) {
-    final insertUser = UserTableCompanion.insert(
-      twitterId: user.restId,
-      screenName: user.legacy.screenName,
-      name: user.legacy.name,
-      description: user.legacy.description,
-      profileBannerUrl: Value(user.legacy.profileBannerUrl),
-      profileImageUrl: user.legacy.profileImageUrlHttps,
-      followersCount: user.legacy.followersCount,
-      friendsCount: user.legacy.friendsCount,
-      createdAt: dateFormatFromTwitterFormat(user.legacy.createdAt),
-      lastUpdated: DateTime.now(),
-    );
-    await db.addUser(insertUser);
-  } else {
-    final newUser = getUser.copyWith(
-      screenName: user.legacy.screenName,
-      name: user.legacy.name,
-      description: user.legacy.description,
-      profileBannerUrl: Value(user.legacy.profileBannerUrl),
-      profileImageUrl: user.legacy.profileImageUrlHttps,
-      followersCount: user.legacy.followersCount,
-      friendsCount: user.legacy.friendsCount,
-      createdAt: dateFormatFromTwitterFormat(user.legacy.createdAt),
-      lastUpdated: DateTime.now(),
-    );
-    await db.updateUser(newUser);
-  }
-
-  final userFollowers = UserFollowersTableCompanion.insert(
+  final insertUser = UserTableCompanion.insert(
     twitterId: user.restId,
-    selfTwitterId: selfTwitterId,
-    time: time,
+    screenName: user.legacy.screenName,
+    name: user.legacy.name,
+    description: user.legacy.description,
+    profileBannerUrl: Value(user.legacy.profileBannerUrl),
+    profileImageUrl: user.legacy.profileImageUrlHttps,
+    followersCount: user.legacy.followersCount,
+    friendsCount: user.legacy.friendsCount,
+    createdAt: dateFormatFromTwitterFormat(user.legacy.createdAt),
+    lastUpdated: DateTime.now(),
   );
-
-  await db.addFollowers(userFollowers);
-  return user.restId;
+  await db.upsertUser(insertUser);
+  return MapEntry<String, User>(user.restId, user);
 }
 
 @riverpod
 Stream<TwitterClientResponse> twitterClient(TwitterClientRef ref) async* {
   final client = await ref.watch(getTwitterClientProvider.future);
 
-  final userList = <String>[];
-  final now = DateTime.now();
-  final time = now.millisecondsSinceEpoch;
-  final db = await ref.watch(getDatabaseProvider.future);
+  final userList = <String, User>{};
+  final time = DateTime.now();
+  final db = ref.watch(getDatabaseProvider);
   final userId = ref.watch(selfAccountProvider);
   final user = await ref.watch(twitterUserProvider(userId!).future);
   final length = user.legacy.followersCount;
@@ -95,8 +70,8 @@ Stream<TwitterClientResponse> twitterClient(TwitterClientRef ref) async* {
   yield TwitterClientResponse(length: length, progress: userList.length);
 
   final response = await client.getUserListApi().getFollowers(userId: user.restId, count: 200);
-  final userJoin = await Future.wait(response.data.map((e) => insertDB(db, time, 'user_followers', e.user, userId)));
-  userList.addEntries(userJoin.map((e) => MapEntry<String, UserDB>(e.twitterId, e)));
+  userList.addEntries(await Future.wait(response.data.map((e) => insertDB(db: db, time: time, selfTwitterId: userId, user: e.user))));
+
   while (response.header.rateLimitRemaining < 5 && response.header.rateLimitReset - secondsSinceEpoch() > 0) {
     yield TwitterClientResponse(length: length, progress: userList.length, wait: response.header.rateLimitReset - secondsSinceEpoch());
     await Future<void>.delayed(const Duration(seconds: 1));
@@ -109,8 +84,7 @@ Stream<TwitterClientResponse> twitterClient(TwitterClientRef ref) async* {
   while (topCursor != null) {
     final userListLen = userList.length;
     final response = await client.getUserListApi().getFollowers(userId: user.restId, cursor: topCursor, count: 200);
-    final userJoin = await Future.wait(response.data.map((e) => insertDB(db, time, 'user_followers', e.user, userId)));
-    userList.addEntries(userJoin.map((e) => MapEntry<String, UserDB>(e.twitterId, e)));
+    userList.addEntries(await Future.wait(response.data.map((e) => insertDB(db: db, time: time, selfTwitterId: userId, user: e.user))));
     topCursor = userListLen < userList.length ? response.cursor.top?.value : null;
     while (response.header.rateLimitRemaining < 5 && response.header.rateLimitReset - secondsSinceEpoch() > 0) {
       yield TwitterClientResponse(length: length, progress: userList.length, wait: response.header.rateLimitReset - secondsSinceEpoch());
@@ -122,8 +96,7 @@ Stream<TwitterClientResponse> twitterClient(TwitterClientRef ref) async* {
   while (bottomCursor != null) {
     final userListLen = userList.length;
     final response = await client.getUserListApi().getFollowers(userId: user.restId, cursor: bottomCursor, count: 200);
-    final userJoin = await Future.wait(response.data.map((e) => insertDB(db, time, 'user_followers', e.user, userId)));
-    userList.addEntries(userJoin.map((e) => MapEntry<String, UserDB>(e.twitterId, e)));
+    userList.addEntries(await Future.wait(response.data.map((e) => insertDB(db: db, time: time, selfTwitterId: userId, user: e.user))));
     bottomCursor = userListLen < userList.length ? response.cursor.bottom?.value : null;
     while (response.header.rateLimitRemaining < 5 && response.header.rateLimitReset - secondsSinceEpoch() > 0) {
       yield TwitterClientResponse(length: length, progress: userList.length, wait: response.header.rateLimitReset - secondsSinceEpoch());
@@ -132,10 +105,10 @@ Stream<TwitterClientResponse> twitterClient(TwitterClientRef ref) async* {
     yield TwitterClientResponse(length: length, progress: userList.length);
   }
   await Future.wait([
-    ref.refresh(getFollowersCountProvider(60 * 60 * 24 * 30 * 1000).future),
-    ref.refresh(getFollowersCountProvider(60 * 60 * 24 * 90 * 1000).future),
-    ref.refresh(getFollowersCountProvider(60 * 60 * 24 * 365 * 1000).future),
-    ref.refresh(getFollowersCountProvider(null).future),
+    ref.refresh(getFollowersCountProvider(const Duration(days: 30)).future),
+    ref.refresh(getFollowersCountProvider(const Duration(days: 60)).future),
+    ref.refresh(getFollowersCountProvider(const Duration(days: 365)).future),
+    ref.refresh(getFollowersCountProvider(const Duration(days: 365 * 30)).future),
   ]);
   yield TwitterClientResponse(length: length, progress: userList.length, finish: true);
 }

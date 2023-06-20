@@ -7,39 +7,31 @@ import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:social_doge/component/confirm.dart';
 import 'package:social_doge/component/loading.dart';
+import 'package:social_doge/database/core.dart';
+import 'package:social_doge/database/provider.dart';
 import 'package:social_doge/database/self_account.dart';
 import 'package:social_doge/view/sub/synchronized.dart';
-import 'package:social_doge/view/top/home.dart';
 part 'main.g.dart';
 
 @riverpod
-Future<List<FollowersCount>> getFollowersCount(GetFollowersCountRef ref, int? time) async {
-  final args = time == null ? 0 : DateTime.now().millisecondsSinceEpoch - time;
-  final userId = ref.watch(selfAccountProvider);
-
-  final db = await ref.read(getDatabaseProvider.future);
-  final response = await db.query(
-    'user_followers',
-    columns: ['time', 'count(*)'],
-    where: 'self_twitter_id = ?',
-    groupBy: 'time',
-    having: 'time > ?',
-    whereArgs: [userId, args],
-    orderBy: 'time ASC',
-  );
-  return response.map((row) => FollowersCount(row['time']! as int, row['count(*)']! as int)).toList();
+Future<List<FollowersCount>> getFollowersCount(GetFollowersCountRef ref, Duration duration) async {
+  final userId = ref.watch(selfAccountProvider.notifier).id;
+  final db = ref.watch(getDatabaseProvider);
+  final response = await db.followersCountByTime(userId: userId, duration: duration);
+  return response;
 }
 
 @riverpod
 Future<void> removeLastSynchronized(RemoveLastSynchronizedRef ref) async {
-  final db = await ref.read(getDatabaseProvider.future);
-  final time = await db.query('user_followers', columns: ['time'], orderBy: 'time DESC', limit: 1);
-  await db.delete('user_followers', where: 'time = ?', whereArgs: [time.first['time']! as int]);
+  final userId = ref.watch(selfAccountProvider.notifier).id;
+  final db = ref.watch(getDatabaseProvider);
+  final time = await db.followersLastTime(userId: userId);
+  await db.deleteFollowers(userId: userId, time: time);
   await Future.wait([
-    ref.refresh(getFollowersCountProvider(60 * 60 * 24 * 30 * 1000).future),
-    ref.refresh(getFollowersCountProvider(60 * 60 * 24 * 90 * 1000).future),
-    ref.refresh(getFollowersCountProvider(60 * 60 * 24 * 365 * 1000).future),
-    ref.refresh(getFollowersCountProvider(null).future),
+    ref.refresh(getFollowersCountProvider(const Duration(days: 30)).future),
+    ref.refresh(getFollowersCountProvider(const Duration(days: 60)).future),
+    ref.refresh(getFollowersCountProvider(const Duration(days: 365)).future),
+    ref.refresh(getFollowersCountProvider(const Duration(days: 365 * 30)).future),
   ]);
 }
 
@@ -57,10 +49,10 @@ class SocialDogeMain extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final data = [
-      SocialDogeMainPageView(AppLocalizations.of(context)!.oneMonth, ref.watch(getFollowersCountProvider(60 * 60 * 24 * 30 * 1000))),
-      SocialDogeMainPageView(AppLocalizations.of(context)!.threeMonths, ref.watch(getFollowersCountProvider(60 * 60 * 24 * 90 * 1000))),
-      SocialDogeMainPageView(AppLocalizations.of(context)!.oneYear, ref.watch(getFollowersCountProvider(60 * 60 * 24 * 365 * 1000))),
-      SocialDogeMainPageView(AppLocalizations.of(context)!.totalPeriod, ref.watch(getFollowersCountProvider(null))),
+      SocialDogeMainPageView(AppLocalizations.of(context)!.oneMonth, ref.watch(getFollowersCountProvider(const Duration(days: 30)))),
+      SocialDogeMainPageView(AppLocalizations.of(context)!.threeMonths, ref.watch(getFollowersCountProvider(const Duration(days: 60)))),
+      SocialDogeMainPageView(AppLocalizations.of(context)!.oneYear, ref.watch(getFollowersCountProvider(const Duration(days: 365)))),
+      SocialDogeMainPageView(AppLocalizations.of(context)!.totalPeriod, ref.watch(getFollowersCountProvider(const Duration(days: 365 * 30)))),
     ];
 
     return Column(
@@ -147,7 +139,7 @@ class FollowerChart extends ConsumerWidget {
       return Center(child: Text(AppLocalizations.of(context)!.noData));
     }
     if (data.length == 1) {
-      data.add(FollowersCount(data.first.time + 1, data.first.count));
+      data.add(FollowersCount(data.first.time.add(const Duration(seconds: 1)), data.first.count));
     }
     return LineChart(
       LineChartData(
@@ -180,7 +172,7 @@ class FollowerChart extends ConsumerWidget {
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 30,
-              interval: data.last.time.toDouble() - data.first.time.toDouble() / 5,
+              interval: data.last.time.millisecondsSinceEpoch - data.first.time.millisecondsSinceEpoch / 5,
               getTitlesWidget: (value, meta) {
                 if (meta.min == meta.max) {
                   return Text(value.toInt().toString());
@@ -213,7 +205,7 @@ class FollowerChart extends ConsumerWidget {
         ),
         lineBarsData: [
           LineChartBarData(
-            spots: data.map((e) => FlSpot(e.time.toDouble(), e.count.toDouble())).toList(),
+            spots: data.map((e) => FlSpot(e.time.millisecondsSinceEpoch.toDouble(), e.count.toDouble())).toList(),
             // isCurved: true,
             gradient: LinearGradient(colors: gradientColors),
             dotData: const FlDotData(show: false),

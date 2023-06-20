@@ -28,6 +28,7 @@
     "unfocus",
     "unfollowed",
     "unmention",
+    "upsert",
     "yuki"
   ],
   "ignorePaths": [

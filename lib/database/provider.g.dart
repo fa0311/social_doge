@@ -1,23 +1,23 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'self_account.dart';
+part of 'provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$selfAccountHash() => r'551276052a5fdf9efd9cc339f3eff867dd4df3bd';
+String _$getDatabaseHash() => r'ef5b38e60576647339fab73676bb5b68a949c2c8';
 
-/// See also [SelfAccount].
-@ProviderFor(SelfAccount)
-final selfAccountProvider = NotifierProvider<SelfAccount, String?>.internal(
-  SelfAccount.new,
-  name: r'selfAccountProvider',
+/// See also [getDatabase].
+@ProviderFor(getDatabase)
+final getDatabaseProvider = Provider<SocialDogeDatabase>.internal(
+  getDatabase,
+  name: r'getDatabaseProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$selfAccountHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$getDatabaseHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$SelfAccount = Notifier<String?>;
+typedef GetDatabaseRef = ProviderRef<SocialDogeDatabase>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

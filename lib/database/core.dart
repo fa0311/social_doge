@@ -4,40 +4,15 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:social_doge/database/data.dart';
+import 'package:social_doge/database/table.dart';
 
 part 'core.g.dart';
 
-class UserTable extends Table {
-  TextColumn get twitterId => text().unique()();
-  TextColumn get screenName => text()();
-  TextColumn get name => text()();
-  TextColumn get description => text()();
-  TextColumn get profileImageUrl => text()();
-  TextColumn get profileBannerUrl => text().nullable()();
-  IntColumn get followersCount => integer()();
-  IntColumn get friendsCount => integer()();
-  DateTimeColumn get createdAt => dateTime()();
-  DateTimeColumn get lastUpdated => dateTime()();
-
-  @override
-  Set<Column> get primaryKey => {twitterId};
-}
-
-class UserFollowersTable extends Table {
-  TextColumn get twitterId => text()();
-  TextColumn get selfTwitterId => text()();
-  DateTimeColumn get time => dateTime()();
-  @override
-  Set<Column> get primaryKey => {twitterId, selfTwitterId};
-}
-
-class SelfAccountTable extends Table {
-  TextColumn get selfTwitterId => text().unique()();
-  DateTimeColumn get loginTime => dateTime()();
-
-  @override
-  Set<Column> get primaryKey => {selfTwitterId};
+class FollowersCount {
+  FollowersCount(this.time, this.count);
+  final DateTime time;
+  final int count;
 }
 
 @DriftDatabase(tables: [UserTable, UserFollowersTable, SelfAccountTable])
@@ -53,12 +28,8 @@ class SocialDogeDatabase extends _$SocialDogeDatabase {
     return query.getSingleOrNull();
   }
 
-  Future<int> addAccount(SelfAccountTableCompanion entry) {
-    return into(selfAccountTable).insert(entry);
-  }
-
-  Future<bool> updateAccount(SelfAccountTableData entry) {
-    return update(selfAccountTable).replace(entry);
+  Future<int> upsertAccount(SelfAccountTableCompanion entry) {
+    return into(selfAccountTable).insertOnConflictUpdate(entry);
   }
 
   /* UserTable */
@@ -70,18 +41,79 @@ class SocialDogeDatabase extends _$SocialDogeDatabase {
     return query.getSingleOrNull();
   }
 
-  Future<int> addUser(UserTableCompanion entry) {
-    return into(userTable).insert(entry);
-  }
-
-  Future<bool> updateUser(UserTableData entry) {
-    return update(userTable).replace(entry);
+  Future<int> upsertUser(UserTableCompanion entry) {
+    return into(userTable).insertOnConflictUpdate(entry);
   }
 
   /* UserFollowersTable */
 
   Future<int> addFollowers(UserFollowersTableCompanion entry) {
     return into(userFollowersTable).insert(entry);
+  }
+
+  Future<List<FollowersCount>> followersCountByTime({
+    required String userId,
+    required Duration duration,
+    OrderingMode mode = OrderingMode.asc,
+  }) {
+    final time = DateTime.now().subtract(duration);
+    final query = selectOnly(userFollowersTable)
+      ..addColumns([userFollowersTable.time, userFollowersTable.twitterId.count()])
+      ..where(userFollowersTable.selfTwitterId.equals(userId))
+      ..groupBy([userFollowersTable.time], having: userFollowersTable.time.isBiggerThanValue(time))
+      ..orderBy([OrderingTerm(expression: userFollowersTable.twitterId, mode: mode)]);
+    return query.map((row) => FollowersCount(row.read(userFollowersTable.time)!, row.read(userFollowersTable.twitterId.count())!)).get();
+  }
+
+  Future<List<String>> followers({
+    required String userId,
+    required DateTime time,
+    OrderingMode mode = OrderingMode.asc,
+  }) {
+    final query = selectOnly(userFollowersTable)
+      ..addColumns([userFollowersTable.twitterId])
+      ..where(userFollowersTable.twitterId.equals(userId) & userFollowersTable.time.equals(time));
+    return query.map((row) => row.read(userFollowersTable.twitterId)!).get();
+  }
+
+  Future<List<DateTime>> followersTime({
+    required String userId,
+    OrderingMode mode = OrderingMode.asc,
+  }) {
+    final query = selectOnly(userFollowersTable)
+      ..addColumns([userFollowersTable.time, userFollowersTable.twitterId.count()])
+      ..where(userFollowersTable.selfTwitterId.equals(userId))
+      ..groupBy([userFollowersTable.time])
+      ..orderBy([OrderingTerm(expression: userFollowersTable.twitterId, mode: mode)]);
+    return query.map((row) => row.read(userFollowersTable.time)!).get();
+  }
+
+  Future<DateTime> followersLastTime({
+    required String userId,
+    OrderingMode mode = OrderingMode.asc,
+  }) {
+    final query = selectOnly(userFollowersTable)
+      ..addColumns([userFollowersTable.time])
+      ..where(userFollowersTable.selfTwitterId.equals(userId))
+      ..groupBy([userFollowersTable.time])
+      ..orderBy([OrderingTerm(expression: userFollowersTable.twitterId, mode: mode)])
+      ..limit(1);
+    return query.map((row) => row.read(userFollowersTable.time)!).getSingle();
+  }
+
+  Future<int> deleteFollowers({
+    required String userId,
+    required DateTime time,
+  }) {
+    final query = delete(userFollowersTable)..where((t) => t.selfTwitterId.equals(userId) & t.time.equals(time));
+    return query.go();
+  }
+
+  Future<UserTableData> user({required String userId}) {
+    final query = select(userTable)
+      ..where((t) => t.twitterId.equals(userId))
+      ..limit(1);
+    return query.getSingle();
   }
 
   @override
@@ -94,9 +126,4 @@ LazyDatabase _openConnection() {
     final file = File(join(dbFolder.path, 'db.sqlite'));
     return NativeDatabase.createInBackground(file);
   });
-}
-
-@Riverpod(keepAlive: true)
-SocialDogeDatabase getDatabase(GetDatabaseRef ref) {
-  return SocialDogeDatabase();
 }

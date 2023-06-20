@@ -6,7 +6,7 @@ part of 'main.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getFollowersCountHash() => r'88583b9e5ca19d4289e782ab92f2cb009408d48e';
+String _$getFollowersCountHash() => r'47f7e3c509d14c2b11be2497b4c26026e81054ad';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -43,10 +43,10 @@ class GetFollowersCountFamily extends Family<AsyncValue<List<FollowersCount>>> {
 
   /// See also [getFollowersCount].
   GetFollowersCountProvider call(
-    int? time,
+    Duration duration,
   ) {
     return GetFollowersCountProvider(
-      time,
+      duration,
     );
   }
 
@@ -55,7 +55,7 @@ class GetFollowersCountFamily extends Family<AsyncValue<List<FollowersCount>>> {
     covariant GetFollowersCountProvider provider,
   ) {
     return call(
-      provider.time,
+      provider.duration,
     );
   }
 
@@ -79,11 +79,11 @@ class GetFollowersCountProvider
     extends AutoDisposeFutureProvider<List<FollowersCount>> {
   /// See also [getFollowersCount].
   GetFollowersCountProvider(
-    this.time,
+    this.duration,
   ) : super.internal(
           (ref) => getFollowersCount(
             ref,
-            time,
+            duration,
           ),
           from: getFollowersCountProvider,
           name: r'getFollowersCountProvider',
@@ -96,24 +96,24 @@ class GetFollowersCountProvider
               GetFollowersCountFamily._allTransitiveDependencies,
         );
 
-  final int? time;
+  final Duration duration;
 
   @override
   bool operator ==(Object other) {
-    return other is GetFollowersCountProvider && other.time == time;
+    return other is GetFollowersCountProvider && other.duration == duration;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, time.hashCode);
+    hash = _SystemHash.combine(hash, duration.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
 String _$removeLastSynchronizedHash() =>
-    r'259cc7e71b1de8c57ed3ef56b4cc6eb97dc59694';
+    r'b06977556eed9c5b1d5e849f6ebd02cb49d5edc7';
 
 /// See also [removeLastSynchronized].
 @ProviderFor(removeLastSynchronized)
