@@ -19,11 +19,13 @@ class UserTable extends Table {
 }
 
 class UserFollowersTable extends Table {
+  IntColumn get key => integer().unique().autoIncrement()();
   TextColumn get twitterId => text()();
   TextColumn get selfTwitterId => text()();
   DateTimeColumn get time => dateTime()();
+
   @override
-  Set<Column> get primaryKey => {twitterId, selfTwitterId};
+  Set<Column> get primaryKey => {key};
 }
 
 class SelfAccountTable extends Table {

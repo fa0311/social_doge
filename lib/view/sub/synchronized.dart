@@ -52,7 +52,14 @@ Future<MapEntry<String, User>> insertDB({
     createdAt: dateFormatFromTwitterFormat(user.legacy.createdAt),
     lastUpdated: DateTime.now(),
   );
+  final userFollowers = UserFollowersTableCompanion.insert(
+    twitterId: user.restId,
+    selfTwitterId: selfTwitterId,
+    time: time,
+  );
   await db.upsertUser(insertUser);
+  await db.addFollowers(userFollowers);
+
   return MapEntry<String, User>(user.restId, user);
 }
 
@@ -62,7 +69,7 @@ Stream<TwitterClientResponse> twitterClient(TwitterClientRef ref) async* {
 
   final userList = <String, User>{};
   final time = DateTime.now();
-  final db = ref.watch(getDatabaseProvider);
+  final db = ref.read(getDatabaseProvider);
   final userId = ref.watch(selfAccountProvider);
   final user = await ref.watch(twitterUserProvider(userId!).future);
   final length = user.legacy.followersCount;
@@ -104,12 +111,6 @@ Stream<TwitterClientResponse> twitterClient(TwitterClientRef ref) async* {
     }
     yield TwitterClientResponse(length: length, progress: userList.length);
   }
-  await Future.wait([
-    ref.refresh(getFollowersCountProvider(const Duration(days: 30)).future),
-    ref.refresh(getFollowersCountProvider(const Duration(days: 60)).future),
-    ref.refresh(getFollowersCountProvider(const Duration(days: 365)).future),
-    ref.refresh(getFollowersCountProvider(const Duration(days: 365 * 30)).future),
-  ]);
   yield TwitterClientResponse(length: length, progress: userList.length, finish: true);
 }
 

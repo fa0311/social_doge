@@ -10,19 +10,20 @@ import 'package:social_doge/component/twitter/user_profile.dart';
 import 'package:social_doge/database/data.dart';
 import 'package:social_doge/database/provider.dart';
 import 'package:social_doge/database/self_account.dart';
+
 part 'unfollowed_user.g.dart';
 
 @riverpod
 Future<List<DateTime>> getFollowerTime(GetFollowerTimeRef ref) async {
   final userId = ref.watch(selfAccountProvider.notifier).id;
-  final db = ref.watch(getDatabaseProvider);
+  final db = ref.read(getDatabaseProvider);
   final response = await db.followersTime(userId: userId);
   return response;
 }
 
 @riverpod
 Future<List<String>> getUnsubscribe(GetUnsubscribeRef ref, int count) async {
-  final db = ref.watch(getDatabaseProvider);
+  final db = ref.read(getDatabaseProvider);
   final followerTime = await ref.watch(getFollowerTimeProvider.future);
   final userId = ref.watch(selfAccountProvider.notifier).id;
   final time = followerTime[followerTime.length - count];
@@ -30,6 +31,9 @@ Future<List<String>> getUnsubscribe(GetUnsubscribeRef ref, int count) async {
 
   final userList = await db.followers(userId: userId, time: time);
   final userListBefore = await db.followers(userId: userId, time: timeBefore);
+
+  final a = await db.followersTest();
+  // 2023-06-21 01:45:14.000
 
   return userListBefore.where(userList.contains).toList();
 }

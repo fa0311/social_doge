@@ -65,6 +65,11 @@ class SocialDogeDatabase extends _$SocialDogeDatabase {
     return query.map((row) => FollowersCount(row.read(userFollowersTable.time)!, row.read(userFollowersTable.twitterId.count())!)).get();
   }
 
+  Future<List<UserFollowersTableData>> followersTest() {
+    final query = select(userFollowersTable);
+    return query.get();
+  }
+
   Future<List<String>> followers({
     required String userId,
     required DateTime time,
@@ -72,7 +77,7 @@ class SocialDogeDatabase extends _$SocialDogeDatabase {
   }) {
     final query = selectOnly(userFollowersTable)
       ..addColumns([userFollowersTable.twitterId])
-      ..where(userFollowersTable.twitterId.equals(userId) & userFollowersTable.time.equals(time));
+      ..where(userFollowersTable.selfTwitterId.equals(userId) & userFollowersTable.time.equals(time));
     return query.map((row) => row.read(userFollowersTable.twitterId)!).get();
   }
 
