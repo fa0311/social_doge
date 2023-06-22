@@ -16,12 +16,6 @@ class CurrentIndex extends _$CurrentIndex {
   CurrentIndexEnum get update => state;
 }
 
-class FollowersCount {
-  FollowersCount(this.time, this.count);
-  final int time;
-  final int count;
-}
-
 enum CurrentIndexEnum {
   home(icon: Icons.home),
   unfollowedBy(icon: Icons.person_remove);
