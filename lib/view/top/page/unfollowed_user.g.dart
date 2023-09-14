@@ -6,11 +6,12 @@ part of 'unfollowed_user.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getFollowerTimeHash() => r'60222c10ff6815f30f404fdeae34ad2c7afa18c1';
+String _$getFollowerTimeHash() => r'da3c8b02ea4b026d240f0f602ff8f72956ac98d3';
 
 /// See also [getFollowerTime].
 @ProviderFor(getFollowerTime)
-final getFollowerTimeProvider = AutoDisposeFutureProvider<List<int>>.internal(
+final getFollowerTimeProvider =
+    AutoDisposeFutureProvider<List<DateTime>>.internal(
   getFollowerTime,
   name: r'getFollowerTimeProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -20,8 +21,8 @@ final getFollowerTimeProvider = AutoDisposeFutureProvider<List<int>>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef GetFollowerTimeRef = AutoDisposeFutureProviderRef<List<int>>;
-String _$getUnsubscribeHash() => r'f8bcf6266bf9fee3c900a9f24573c8d536db30d0';
+typedef GetFollowerTimeRef = AutoDisposeFutureProviderRef<List<DateTime>>;
+String _$getUnsubscribeHash() => r'264ee77cf05c94569efb37ce5d51c9e4863516b3';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -120,6 +121,87 @@ class GetUnsubscribeProvider extends AutoDisposeFutureProvider<List<String>> {
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, count.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+String _$getUserHash() => r'420213d1b54c811f48f4961317cd70cc09e12f19';
+typedef GetUserRef = AutoDisposeFutureProviderRef<UserTableData>;
+
+/// See also [getUser].
+@ProviderFor(getUser)
+const getUserProvider = GetUserFamily();
+
+/// See also [getUser].
+class GetUserFamily extends Family<AsyncValue<UserTableData>> {
+  /// See also [getUser].
+  const GetUserFamily();
+
+  /// See also [getUser].
+  GetUserProvider call(
+    String id,
+  ) {
+    return GetUserProvider(
+      id,
+    );
+  }
+
+  @override
+  GetUserProvider getProviderOverride(
+    covariant GetUserProvider provider,
+  ) {
+    return call(
+      provider.id,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'getUserProvider';
+}
+
+/// See also [getUser].
+class GetUserProvider extends AutoDisposeFutureProvider<UserTableData> {
+  /// See also [getUser].
+  GetUserProvider(
+    this.id,
+  ) : super.internal(
+          (ref) => getUser(
+            ref,
+            id,
+          ),
+          from: getUserProvider,
+          name: r'getUserProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getUserHash,
+          dependencies: GetUserFamily._dependencies,
+          allTransitiveDependencies: GetUserFamily._allTransitiveDependencies,
+        );
+
+  final String id;
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetUserProvider && other.id == id;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, id.hashCode);
 
     return _SystemHash.finish(hash);
   }

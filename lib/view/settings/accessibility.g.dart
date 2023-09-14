@@ -6,7 +6,7 @@ part of 'accessibility.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$languageCodeHash() => r'8203f127ec2409bc59b2b1e7939ed37c24768126';
+String _$languageCodeHash() => r'01f339f9d3a0e421e47ff8cfe260a60ef399f75d';
 
 /// See also [LanguageCode].
 @ProviderFor(LanguageCode)
@@ -21,7 +21,7 @@ final languageCodeProvider =
 );
 
 typedef _$LanguageCode = Notifier<LanguageCodeEnum>;
-String _$themeBrightnessHash() => r'6093b77167c6a16b442b5e989c4035886d5cf1df';
+String _$themeBrightnessHash() => r'0d9d98b23bba453ca6c6cf7897fecf357613cf7f';
 
 /// Copied from Dart SDK
 class _SystemHash {

@@ -61,7 +61,7 @@ class SocialDogeInit extends ConsumerWidget {
       data: (_) => const TwitterLogin(),
       error: (error, stackTrace) => Column(
         children: [
-          for (final e in [error.toString(), stackTrace.toString()]) Text(e)
+          for (final e in [error.toString(), stackTrace.toString()]) Text(e),
         ],
       ),
       loading: () => SizedBox(height: MediaQuery.of(context).size.height, child: const Center(child: Loading())),

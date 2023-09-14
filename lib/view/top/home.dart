@@ -16,12 +16,6 @@ class CurrentIndex extends _$CurrentIndex {
   CurrentIndexEnum get update => state;
 }
 
-class FollowersCount {
-  FollowersCount(this.time, this.count);
-  final int time;
-  final int count;
-}
-
 enum CurrentIndexEnum {
   home(icon: Icons.home),
   unfollowedBy(icon: Icons.person_remove);
@@ -67,7 +61,7 @@ class SocialDogeHome extends ConsumerWidget {
         child: PageView(
           controller: controller,
           physics: const FastScrollPhysics(),
-          children: [for (CurrentIndexEnum scene in CurrentIndexEnum.values) scene.toWidget()],
+          children: [for (final CurrentIndexEnum scene in CurrentIndexEnum.values) scene.toWidget()],
           onPageChanged: (int index) {
             WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
             ref.read(currentIndexProvider.notifier).update = CurrentIndexEnum.values[index];
@@ -75,7 +69,7 @@ class SocialDogeHome extends ConsumerWidget {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: [for (CurrentIndexEnum scene in CurrentIndexEnum.values) BottomNavigationBarItem(icon: Icon(scene.icon), label: scene.toLocalization(context))],
+        items: [for (final CurrentIndexEnum scene in CurrentIndexEnum.values) BottomNavigationBarItem(icon: Icon(scene.icon), label: scene.toLocalization(context))],
         currentIndex: currentIndex.index,
         onTap: controller.jumpToPage,
         showSelectedLabels: false,
