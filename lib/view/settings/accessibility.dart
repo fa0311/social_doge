@@ -90,7 +90,7 @@ class LocaleModal extends ConsumerWidget {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          for (LanguageCodeEnum value in LanguageCodeEnum.values)
+          for (final LanguageCodeEnum value in LanguageCodeEnum.values)
             ListTile(
               title: Text(value.text),
               trailing: languageCode == value ? const Icon(Icons.check) : null,

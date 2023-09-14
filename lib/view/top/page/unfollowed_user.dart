@@ -71,7 +71,7 @@ class SocialDogeUnsubscribe extends ConsumerWidget {
       },
       error: (error, stackTrace) => Column(
         children: [
-          for (final e in [error.toString(), stackTrace.toString()]) Text(e)
+          for (final e in [error.toString(), stackTrace.toString()]) Text(e),
         ],
       ),
       loading: () => const Loading(),
@@ -115,7 +115,7 @@ class SocialDogeUnsubscribeDetail extends ConsumerWidget {
                 },
                 error: (error, stackTrace) => Column(
                   children: [
-                    for (final e in [error.toString(), stackTrace.toString()]) Text(e)
+                    for (final e in [error.toString(), stackTrace.toString()]) Text(e),
                   ],
                 ),
                 loading: () => const Loading(),
@@ -126,7 +126,7 @@ class SocialDogeUnsubscribeDetail extends ConsumerWidget {
         },
         error: (error, stackTrace) => Column(
           children: [
-            for (final e in [error.toString(), stackTrace.toString()]) Text(e)
+            for (final e in [error.toString(), stackTrace.toString()]) Text(e),
           ],
         ),
         loading: () => const Loading(),

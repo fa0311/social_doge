@@ -177,13 +177,13 @@ class Synchronize extends ConsumerWidget {
                         Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute<void>(builder: (context) => const SocialDogeHome()), (_) => false);
                       },
                       child: Text(AppLocalizations.of(context)!.close),
-                    )
+                    ),
                 ],
               );
             },
             error: (error, stackTrace) => Column(
               children: [
-                for (final e in [error.toString(), stackTrace.toString()]) Text(e)
+                for (final e in [error.toString(), stackTrace.toString()]) Text(e),
               ],
             ),
             loading: () => const Loading(),
@@ -211,7 +211,7 @@ class SynchronizeRemove extends ConsumerWidget {
         },
         error: (error, stackTrace) => Column(
           children: [
-            for (final e in [error.toString(), stackTrace.toString()]) Text(e)
+            for (final e in [error.toString(), stackTrace.toString()]) Text(e),
           ],
         ),
         loading: () => SizedBox(height: MediaQuery.of(context).size.height, child: const Center(child: Loading())),
