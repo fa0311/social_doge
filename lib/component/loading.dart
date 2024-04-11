@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class Loading extends ConsumerWidget {
+class Loading extends HookConsumerWidget {
   const Loading({super.key});
 
   @override
@@ -13,7 +13,7 @@ class Loading extends ConsumerWidget {
   }
 }
 
-class LoadingIcon extends ConsumerWidget {
+class LoadingIcon extends HookConsumerWidget {
   const LoadingIcon({super.key});
 
   @override

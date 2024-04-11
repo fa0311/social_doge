@@ -1,12 +1,12 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:social_doge/app/router.dart';
 import 'package:social_doge/database/self_account.dart';
-import 'package:social_doge/view/settings/account.dart';
-import 'package:social_doge/view/top/home.dart';
 
-class TwitterLogin extends ConsumerWidget {
+class TwitterLogin extends HookConsumerWidget {
   const TwitterLogin({super.key});
   static Uri url = Uri.https('twitter.com', '/');
 
@@ -23,9 +23,9 @@ class TwitterLogin extends ConsumerWidget {
             if (!context.mounted) {
               return;
             } else if (ref.read(selfAccountProvider) == null) {
-              await Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute<void>(builder: (context) => const AccountSettingsWalkthrough()), (_) => false);
+              // await Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute<void>(builder: (context) => const AccountSettingsWalkthrough()), (_) => false);
             } else {
-              await Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute<void>(builder: (context) => const SocialDogeHome()), (_) => false);
+              await context.router.push(const SocialDogeRoute());
             }
           }
         } on Exception catch (e) {

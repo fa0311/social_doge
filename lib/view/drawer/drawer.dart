@@ -1,17 +1,18 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:social_doge/app/router.dart';
 import 'package:social_doge/component/confirm.dart';
 import 'package:social_doge/component/loading.dart';
 import 'package:social_doge/component/twitter/user_profile.dart';
 import 'package:social_doge/database/self_account.dart';
 import 'package:social_doge/interface/twitter.dart';
 import 'package:social_doge/view/settings/settings.dart';
-import 'package:social_doge/view/web/login.dart';
 
-class NormalDrawer extends ConsumerWidget {
+class NormalDrawer extends HookConsumerWidget {
   const NormalDrawer({super.key});
 
   @override
@@ -57,11 +58,7 @@ class NormalDrawer extends ConsumerWidget {
                             onPressed: () async {
                               final cookie = CookieManager.instance();
                               await cookie.deleteAllCookies();
-                              await Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute<void>(builder: (_) => const TwitterLogin()),
-                                (_) => false,
-                              );
+                              await context.router.push(const SocialDogeRoute());
                             },
                           ),
                         );

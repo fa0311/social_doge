@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:social_doge/component/modal.dart';
 import 'package:social_doge/view/settings/true_black.dart';
+
 part 'accessibility.g.dart';
 
-class SettingsAccessibility extends ConsumerWidget {
+class SettingsAccessibility extends HookConsumerWidget {
   const SettingsAccessibility({super.key});
 
   @override
@@ -80,7 +81,7 @@ class LanguageCode extends _$LanguageCode {
   }
 }
 
-class LocaleModal extends ConsumerWidget {
+class LocaleModal extends HookConsumerWidget {
   const LocaleModal({super.key});
 
   @override
@@ -168,7 +169,7 @@ class ThemeBrightness extends _$ThemeBrightness {
   }
 }
 
-class ThemeBrightnessModal extends ConsumerWidget {
+class ThemeBrightnessModal extends HookConsumerWidget {
   const ThemeBrightnessModal({super.key, required this.dark});
   final bool dark;
 

@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:social_doge/component/confirm.dart';
@@ -41,7 +41,7 @@ class SocialDogeMainPageView {
   final AsyncValue<List<FollowersCount>> provider;
 }
 
-class SocialDogeMain extends ConsumerWidget {
+class SocialDogeMain extends HookConsumerWidget {
   SocialDogeMain({super.key});
 
   final List<Color> gradientColors = [Colors.cyan, Colors.blue];
@@ -127,7 +127,7 @@ class SocialDogeMain extends ConsumerWidget {
   }
 }
 
-class FollowerChart extends ConsumerWidget {
+class FollowerChart extends HookConsumerWidget {
   FollowerChart({super.key, required this.data});
   final List<FollowersCount> data;
   final List<Color> gradientColors = [Colors.cyan, Colors.blue];

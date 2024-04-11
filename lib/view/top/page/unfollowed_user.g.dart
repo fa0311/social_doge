@@ -22,7 +22,7 @@ final getFollowerTimeProvider =
 );
 
 typedef GetFollowerTimeRef = AutoDisposeFutureProviderRef<List<DateTime>>;
-String _$getUnsubscribeHash() => r'264ee77cf05c94569efb37ce5d51c9e4863516b3';
+String _$getUnsubscribeHash() => r'3a2a92d7d840ad6be5bb4bd58346b65736d5c406';
 
 /// Copied from Dart SDK
 class _SystemHash {

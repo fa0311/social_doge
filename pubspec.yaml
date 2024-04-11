@@ -4,9 +4,10 @@ publish_to: none
 description: Twitter follow/follower manager
 
 environment:
-  sdk: ">=2.19.6 <4.0.0"
+  sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
+  auto_route: ^8.0.3
   cached_network_image: ^3.2.3
   collection: ^1.17.0
   cupertino_icons: ^1.0.5
@@ -15,11 +16,13 @@ dependencies:
   fl_chart: ^0.67.0
   flutter:
     sdk: flutter
+  flutter_hooks: ^0.20.5
   flutter_inappwebview: ^5.7.2+3
   flutter_localizations:
     sdk: flutter
-  flutter_riverpod: ^2.3.2
+  flutter_secure_storage: ^4.2.1
   freezed_annotation: ^2.2.0
+  hooks_riverpod: ^2.5.1
   intl: ^0.18.0
   json_annotation: ^4.8.0
   logger: ^2.2.0
@@ -35,6 +38,7 @@ dependencies:
   url_launcher: ^6.1.11
 
 dev_dependencies:
+  auto_route_generator: ^8.0.0
   build_runner: ^2.4.5
   custom_lint: ^0.6.4
   drift_dev: ^2.9.0

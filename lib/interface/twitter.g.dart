@@ -6,7 +6,7 @@ part of 'twitter.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getTwitterClientHash() => r'c3497236322619f8a177244960e048270df72577';
+String _$getTwitterClientHash() => r'51b48f19855e8030b28769438bf0011764722265';
 
 /// See also [getTwitterClient].
 @ProviderFor(getTwitterClient)
@@ -22,7 +22,7 @@ final getTwitterClientProvider =
 );
 
 typedef GetTwitterClientRef = FutureProviderRef<TwitterOpenapiDartClient>;
-String _$twitterUserHash() => r'2330ba228519c3cfe64e7eff736c394994822573';
+String _$twitterUserHash() => r'74e3d35a0d66e95ff2fb37f3cfd53500a5fb9c4d';
 
 /// Copied from Dart SDK
 class _SystemHash {

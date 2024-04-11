@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:social_doge/component/future/tile.dart';
 import 'package:social_doge/component/loading.dart';
 import 'package:social_doge/constant/config.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 part 'help.g.dart';
 
 @Riverpod(keepAlive: true)
 Future<PackageInfo> packageVersion(PackageVersionRef ref) => PackageInfo.fromPlatform();
 
-class Help extends ConsumerWidget {
+class Help extends HookConsumerWidget {
   const Help({super.key});
 
   @override

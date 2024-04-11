@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:social_doge/component/future/tile.dart';
@@ -42,7 +42,7 @@ Future<UserTableData> getUser(GetUserRef ref, String id) async {
   return response;
 }
 
-class SocialDogeUnsubscribe extends ConsumerWidget {
+class SocialDogeUnsubscribe extends HookConsumerWidget {
   const SocialDogeUnsubscribe({super.key});
 
   @override
@@ -76,7 +76,7 @@ class SocialDogeUnsubscribe extends ConsumerWidget {
   }
 }
 
-class SocialDogeUnsubscribeDetail extends ConsumerWidget {
+class SocialDogeUnsubscribeDetail extends HookConsumerWidget {
   const SocialDogeUnsubscribeDetail({super.key, required this.count});
   final int count;
 

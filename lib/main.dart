@@ -1,41 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:social_doge/component/loading.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:social_doge/app/router.dart';
 import 'package:social_doge/constant/config.dart';
-import 'package:social_doge/database/self_account.dart';
-import 'package:social_doge/view/settings/accessibility.dart';
-import 'package:social_doge/view/web/login.dart';
-part 'main.g.dart';
+import 'package:social_doge/provider/key_value_storage/storage.dart';
 
 void main() {
   runApp(const ProviderScope(child: SocialDoge()));
 }
 
-@riverpod
-Future<void> init(InitRef ref) async {
-  await Future.wait([
-    ref.read(languageCodeProvider.notifier).get(),
-    ref.read(themeBrightnessProvider(false).notifier).get(),
-    ref.read(themeBrightnessProvider(true).notifier).get(),
-    ref.read(selfAccountProvider.notifier).get(),
-  ]);
-}
-
-class SocialDoge extends ConsumerWidget {
+class SocialDoge extends HookConsumerWidget {
   const SocialDoge({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final languageCode = ref.watch(languageCodeProvider);
-    final themeBrightness = ref.watch(themeBrightnessProvider(false));
-    final darkThemeBrightness = ref.watch(themeBrightnessProvider(true));
+    final appRouter = useMemoized(AppRouter.new, []);
+    final locale = ref.watch(languageSettingProvider);
+    final theme = ref.watch(themeSettingProvider);
 
-    return MaterialApp(
+    return MaterialApp.router(
       title: Config.title,
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: Config.debugShowCheckedModeBanner,
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -43,28 +30,26 @@ class SocialDoge extends ConsumerWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: Locale(languageCode.name, ''),
-      theme: themeBrightness.toTheme(),
-      darkTheme: darkThemeBrightness.toTheme(),
-      home: const SocialDogeInit(),
-    );
-  }
-}
-
-class SocialDogeInit extends ConsumerWidget {
-  const SocialDogeInit({super.key});
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final init = ref.watch(initProvider);
-
-    return init.when(
-      data: (_) => const TwitterLogin(),
-      error: (error, stackTrace) => Column(
-        children: [
-          for (final e in [error.toString(), stackTrace.toString()]) Text(e),
-        ],
+      locale: locale.valueOrNull,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Config.seedColor,
+          brightness: switch (theme.valueOrNull) {
+            ThemeMode.dark => Brightness.dark,
+            _ => Brightness.light,
+          },
+        ),
       ),
-      loading: () => SizedBox(height: MediaQuery.of(context).size.height, child: const Center(child: Loading())),
+      darkTheme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Config.seedColor,
+          brightness: switch (theme.valueOrNull) {
+            ThemeMode.light => Brightness.light,
+            _ => Brightness.dark,
+          },
+        ),
+      ),
+      routerConfig: appRouter.config(),
     );
   }
 }

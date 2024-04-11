@@ -1,12 +1,14 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:social_doge/component/physics.dart';
 import 'package:social_doge/view/drawer/drawer.dart';
 import 'package:social_doge/view/top/page/main.dart';
 import 'package:social_doge/view/top/page/unfollowed_user.dart';
-part 'home.g.dart';
+
+part 'page.g.dart';
 
 @Riverpod(keepAlive: true)
 class CurrentIndex extends _$CurrentIndex {
@@ -43,8 +45,9 @@ enum CurrentIndexEnum {
   final IconData icon;
 }
 
-class SocialDogeHome extends ConsumerWidget {
-  const SocialDogeHome({super.key});
+@RoutePage()
+class SocialDogePage extends HookConsumerWidget {
+  const SocialDogePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -69,7 +72,9 @@ class SocialDogeHome extends ConsumerWidget {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: [for (final CurrentIndexEnum scene in CurrentIndexEnum.values) BottomNavigationBarItem(icon: Icon(scene.icon), label: scene.toLocalization(context))],
+        items: [
+          for (final CurrentIndexEnum scene in CurrentIndexEnum.values) BottomNavigationBarItem(icon: Icon(scene.icon), label: scene.toLocalization(context)),
+        ],
         currentIndex: currentIndex.index,
         onTap: controller.jumpToPage,
         showSelectedLabels: false,

@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Config {
   Config._();
   static String title = 'Social Doge';
@@ -17,4 +19,7 @@ class Config {
   static Uri report = Config.github.replace(path: '/fa0311/social_doge/issues/new', queryParameters: {'template': 'redirected-from-app.yml'});
   // static Uri report = Config.github.replace(path: "/fa0311/social_doge/issues/new", queryParameters: {"template": "redirected-from-app.yml"});
   // static Uri userPolicy = Config.github.resolve("/fa0311/social_doge/blob/master/docs/user_policies/ja.md");
+
+  static bool debugShowCheckedModeBanner = false;
+  static MaterialColor seedColor = Colors.blue;
 }

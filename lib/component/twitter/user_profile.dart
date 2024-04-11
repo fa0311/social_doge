@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:social_doge/database/data.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -21,7 +21,7 @@ class ProfileImageUrlHttps {
   String get size_400x400 => '${profileImage}_400x400.$extension';
 }
 
-class UserProfile extends ConsumerWidget {
+class UserProfile extends HookConsumerWidget {
   const UserProfile({super.key, required this.user});
   final UserTableData user;
 

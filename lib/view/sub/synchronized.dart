@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:social_doge/app/router.dart';
 import 'package:social_doge/component/confirm.dart';
 import 'package:social_doge/component/label.dart';
 import 'package:social_doge/component/loading.dart';
@@ -10,8 +12,6 @@ import 'package:social_doge/database/core.dart';
 import 'package:social_doge/database/provider.dart';
 import 'package:social_doge/database/self_account.dart';
 import 'package:social_doge/interface/twitter.dart';
-import 'package:social_doge/view/top/home.dart';
-import 'package:social_doge/view/top/page/main.dart';
 import 'package:twitter_openapi_dart/twitter_openapi_dart.dart';
 import 'package:twitter_openapi_dart_generated/twitter_openapi_dart_generated.dart' show User;
 
@@ -114,7 +114,7 @@ Stream<TwitterClientResponse> twitterClient(TwitterClientRef ref) async* {
   yield TwitterClientResponse(length: length, progress: userList.length, finish: true);
 }
 
-class Synchronize extends ConsumerWidget {
+class Synchronize extends HookConsumerWidget {
   const Synchronize({super.key});
 
   @override
@@ -163,8 +163,7 @@ class Synchronize extends ConsumerWidget {
                             pop: false,
                             content: Text(AppLocalizations.of(context)!.syncCancelConfirm),
                             onPressed: () async {
-                              await Navigator.of(context)
-                                  .pushAndRemoveUntil(MaterialPageRoute<void>(builder: (context) => const SynchronizeRemove()), (_) => false);
+                              await context.router.push(const SocialDogeRoute());
                             },
                           ),
                         );
@@ -173,8 +172,8 @@ class Synchronize extends ConsumerWidget {
                     ),
                   if (messages.finish)
                     ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute<void>(builder: (context) => const SocialDogeHome()), (_) => false);
+                      onPressed: () async {
+                        await context.router.push(const SocialDogeRoute());
                       },
                       child: Text(AppLocalizations.of(context)!.close),
                     ),
@@ -194,28 +193,31 @@ class Synchronize extends ConsumerWidget {
   }
 }
 
-class SynchronizeRemove extends ConsumerWidget {
-  const SynchronizeRemove({super.key});
+// class SynchronizeRemove extends HookConsumerWidget {
+//   const SynchronizeRemove({super.key});
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final remover = ref.watch(removeLastSynchronizedProvider);
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final remover = ref.watch(removeLastSynchronizedProvider);
 
-    return Scaffold(
-      body: remover.when(
-        data: (_) {
-          WidgetsBinding.instance.addPostFrameCallback((_) async {
-            await Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute<void>(builder: (context) => const SocialDogeHome()), (_) => false);
-          });
-          return SizedBox(height: MediaQuery.of(context).size.height, child: const Center(child: Loading()));
-        },
-        error: (error, stackTrace) => Column(
-          children: [
-            for (final e in [error.toString(), stackTrace.toString()]) Text(e),
-          ],
-        ),
-        loading: () => SizedBox(height: MediaQuery.of(context).size.height, child: const Center(child: Loading())),
-      ),
-    );
-  }
-}
+//     return Scaffold(
+//       body: remover.when(
+//         data: (_) {
+//           WidgetsBinding.instance.addPostFrameCallback((_) async {
+            
+//             await context.router.push(const SocialDogeRoute());
+            
+//             await Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute<void>(builder: (context) => const SocialDogeHome()), (_) => false);
+//           });
+//           return SizedBox(height: MediaQuery.of(context).size.height, child: const Center(child: Loading()));
+//         },
+//         error: (error, stackTrace) => Column(
+//           children: [
+//             for (final e in [error.toString(), stackTrace.toString()]) Text(e),
+//           ],
+//         ),
+//         loading: () => SizedBox(height: MediaQuery.of(context).size.height, child: const Center(child: Loading())),
+//       ),
+//     );
+//   }
+// }

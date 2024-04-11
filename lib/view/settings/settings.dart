@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:social_doge/view/settings/accessibility.dart';
 import 'package:social_doge/view/settings/account.dart';
+
 import 'help.dart';
 
-class Settings extends ConsumerWidget {
+class Settings extends HookConsumerWidget {
   const Settings({super.key});
 
   @override

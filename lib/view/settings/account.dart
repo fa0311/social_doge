@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:social_doge/component/future/button.dart';
 import 'package:social_doge/database/self_account.dart';
-import 'package:social_doge/view/top/home.dart';
+
 part 'account.g.dart';
 
 @riverpod
@@ -12,7 +12,7 @@ TextEditingController accountController(AccountControllerRef ref) {
   return TextEditingController(text: ref.read(selfAccountProvider) ?? '');
 }
 
-class AccountSettings extends ConsumerWidget {
+class AccountSettings extends HookConsumerWidget {
   const AccountSettings({super.key});
 
   @override
@@ -47,7 +47,7 @@ class AccountSettings extends ConsumerWidget {
   }
 }
 
-class AccountSettingsScaffold extends ConsumerWidget {
+class AccountSettingsScaffold extends HookConsumerWidget {
   const AccountSettingsScaffold({super.key});
 
   @override
@@ -63,16 +63,16 @@ class AccountSettingsScaffold extends ConsumerWidget {
   }
 }
 
-class AccountSettingsWalkthrough extends ConsumerWidget {
+class AccountSettingsWalkthrough extends HookConsumerWidget {
   const AccountSettingsWalkthrough({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(selfAccountProvider, (previous, next) {
-      if (next != null) {
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute<void>(builder: (context) => const SocialDogeHome()), (_) => false);
-      }
-    });
+    // ref.listen(selfAccountProvider, (previous, next) {
+    //   if (next != null) {
+    //     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute<void>(builder: (context) => const SocialDogeHome()), (_) => false);
+    //   }
+    // });
 
     return Scaffold(
       appBar: AppBar(
