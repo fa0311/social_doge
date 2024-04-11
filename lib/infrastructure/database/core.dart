@@ -4,8 +4,8 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:social_doge/database/data.dart';
-import 'package:social_doge/database/table.dart';
+import 'package:social_doge/infrastructure/database/data.dart';
+import 'package:social_doge/infrastructure/database/table.dart';
 
 part 'core.g.dart';
 

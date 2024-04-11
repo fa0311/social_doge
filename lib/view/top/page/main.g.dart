@@ -7,7 +7,7 @@ part of 'main.dart';
 // **************************************************************************
 
 String _$removeLastSynchronizedHash() =>
-    r'bebb5852cb51bc495a2a319dbb3fd74a69f716da';
+    r'495116705ce33bccce696a2e11e380cac16f5b08';
 
 /// See also [removeLastSynchronized].
 @ProviderFor(removeLastSynchronized)
@@ -22,7 +22,7 @@ final removeLastSynchronizedProvider = AutoDisposeFutureProvider<void>.internal(
 );
 
 typedef RemoveLastSynchronizedRef = AutoDisposeFutureProviderRef<void>;
-String _$socialDogeMainHash() => r'eb1e5f6d3d56232e4db38c5016da266804de919b';
+String _$socialDogeMainHash() => r'8fd50acf04c029295bd07c79d0b0cb8b4f4ede66';
 
 /// See also [socialDogeMain].
 @ProviderFor(socialDogeMain)

@@ -8,10 +8,10 @@ import 'package:social_doge/app/router.dart';
 import 'package:social_doge/component/confirm.dart';
 import 'package:social_doge/component/label.dart';
 import 'package:social_doge/component/loading.dart';
-import 'package:social_doge/database/core.dart';
-import 'package:social_doge/database/provider.dart';
-import 'package:social_doge/database/self_account.dart';
-import 'package:social_doge/interface/twitter.dart';
+import 'package:social_doge/infrastructure/database/core.dart';
+import 'package:social_doge/infrastructure/database/provider.dart';
+import 'package:social_doge/infrastructure/database/self_account.dart';
+import 'package:social_doge/provider/twitter/twitter.dart';
 import 'package:twitter_openapi_dart/twitter_openapi_dart.dart';
 import 'package:twitter_openapi_dart_generated/twitter_openapi_dart_generated.dart' show User;
 
@@ -70,7 +70,7 @@ Stream<TwitterClientResponse> twitterClient(TwitterClientRef ref) async* {
   final userList = <String, User>{};
   final time = DateTime.now();
   final db = ref.read(getDatabaseProvider);
-  final userId = ref.watch(selfAccountProvider);
+  final userId = await ref.watch(selfAccountProvider.future);
   final user = await ref.watch(twitterUserProvider(userId!).future);
   final length = user.legacy.followersCount;
 

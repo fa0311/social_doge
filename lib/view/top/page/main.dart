@@ -7,28 +7,28 @@ import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:social_doge/component/confirm.dart';
 import 'package:social_doge/component/loading.dart';
-import 'package:social_doge/database/core.dart';
-import 'package:social_doge/database/provider.dart';
-import 'package:social_doge/database/self_account.dart';
+import 'package:social_doge/infrastructure/database/core.dart';
+import 'package:social_doge/infrastructure/database/provider.dart';
+import 'package:social_doge/infrastructure/database/self_account.dart';
 import 'package:social_doge/view/sub/synchronized.dart';
 
 part 'main.g.dart';
 
 @riverpod
 Future<void> removeLastSynchronized(RemoveLastSynchronizedRef ref) async {
-  final userId = ref.watch(selfAccountProvider.notifier).id;
+  final userId = await ref.watch(selfAccountProvider.future);
   final db = ref.read(getDatabaseProvider);
-  final time = await db.followersLastTime(userId: userId);
+  final time = await db.followersLastTime(userId: userId!);
   await db.deleteFollowers(userId: userId, time: time);
 }
 
 @riverpod
 Future<List<List<FollowersCount>>> socialDogeMain(SocialDogeMainRef ref) async {
-  final userId = ref.watch(selfAccountProvider.notifier).id;
+  final userId = await ref.watch(selfAccountProvider.future);
   final db = ref.read(getDatabaseProvider);
 
   return Future.wait([
-    db.followersCountByTime(userId: userId, duration: const Duration(days: 30)),
+    db.followersCountByTime(userId: userId!, duration: const Duration(days: 30)),
     db.followersCountByTime(userId: userId, duration: const Duration(days: 90)),
     db.followersCountByTime(userId: userId, duration: const Duration(days: 360)),
     db.followersCountByTime(userId: userId, duration: const Duration(days: 3600)),

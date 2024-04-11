@@ -7,17 +7,17 @@ import 'package:social_doge/component/future/tile.dart';
 import 'package:social_doge/component/loading.dart';
 import 'package:social_doge/component/modal.dart';
 import 'package:social_doge/component/twitter/user_profile.dart';
-import 'package:social_doge/database/data.dart';
-import 'package:social_doge/database/provider.dart';
-import 'package:social_doge/database/self_account.dart';
+import 'package:social_doge/infrastructure/database/data.dart';
+import 'package:social_doge/infrastructure/database/provider.dart';
+import 'package:social_doge/infrastructure/database/self_account.dart';
 
 part 'unfollowed_user.g.dart';
 
 @riverpod
 Future<List<DateTime>> getFollowerTime(GetFollowerTimeRef ref) async {
-  final userId = ref.watch(selfAccountProvider.notifier).id;
+  final userId = await ref.watch(selfAccountProvider.future);
   final db = ref.read(getDatabaseProvider);
-  final response = await db.followersTime(userId: userId);
+  final response = await db.followersTime(userId: userId!);
   return response;
 }
 
@@ -25,11 +25,11 @@ Future<List<DateTime>> getFollowerTime(GetFollowerTimeRef ref) async {
 Future<List<String>> getUnsubscribe(GetUnsubscribeRef ref, int count) async {
   final db = ref.read(getDatabaseProvider);
   final followerTime = await ref.watch(getFollowerTimeProvider.future);
-  final userId = ref.watch(selfAccountProvider.notifier).id;
+  final userId = await ref.watch(selfAccountProvider.future);
   final time = followerTime[followerTime.length - count];
   final timeBefore = followerTime[followerTime.length - count - 1];
 
-  final userList = await db.followers(userId: userId, time: time);
+  final userList = await db.followers(userId: userId!, time: time);
   final userListBefore = await db.followers(userId: userId, time: timeBefore);
 
   return userListBefore.where(userList.contains).toList();

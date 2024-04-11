@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import 'package:social_doge/database/data.dart';
+import 'package:social_doge/infrastructure/database/data.dart';
 
 @UseRowClass(UserTableData)
 class UserTable extends Table {

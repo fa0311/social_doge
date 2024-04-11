@@ -6,7 +6,7 @@ part of 'unfollowed_user.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getFollowerTimeHash() => r'da3c8b02ea4b026d240f0f602ff8f72956ac98d3';
+String _$getFollowerTimeHash() => r'cffeb6fcb1035f07de4376e67df916927e3a117b';
 
 /// See also [getFollowerTime].
 @ProviderFor(getFollowerTime)
@@ -22,7 +22,7 @@ final getFollowerTimeProvider =
 );
 
 typedef GetFollowerTimeRef = AutoDisposeFutureProviderRef<List<DateTime>>;
-String _$getUnsubscribeHash() => r'3a2a92d7d840ad6be5bb4bd58346b65736d5c406';
+String _$getUnsubscribeHash() => r'a5410b3811e8cebbdb2a8cb0e77231136a2eea2d';
 
 /// Copied from Dart SDK
 class _SystemHash {
