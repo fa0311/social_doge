@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "dart-code.flutter",
+        "dart-code.dart-code",
+        "esbenp.prettier-vscode",
+        "jeroen-meijer.pubspec-assist",
+        "streetsidesoftware.code-spell-checker"
+    ]
+}

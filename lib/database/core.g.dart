@@ -14,9 +14,7 @@ class $UserTableTable extends UserTable
   @override
   late final GeneratedColumn<String> twitterId = GeneratedColumn<String>(
       'twitter_id', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'));
+      type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _screenNameMeta =
       const VerificationMeta('screenName');
   @override
@@ -84,9 +82,10 @@ class $UserTableTable extends UserTable
         lastUpdated
       ];
   @override
-  String get aliasedName => _alias ?? 'user_table';
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  String get actualTableName => 'user_table';
+  String get actualTableName => $name;
+  static const String $name = 'user_table';
   @override
   VerificationContext validateIntegrity(Insertable<UserTableData> instance,
       {bool isInserting = false}) {
@@ -396,9 +395,10 @@ class $UserFollowersTableTable extends UserFollowersTable
   @override
   List<GeneratedColumn> get $columns => [key, twitterId, selfTwitterId, time];
   @override
-  String get aliasedName => _alias ?? 'user_followers_table';
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  String get actualTableName => 'user_followers_table';
+  String get actualTableName => $name;
+  static const String $name = 'user_followers_table';
   @override
   VerificationContext validateIntegrity(
       Insertable<UserFollowersTableData> instance,
@@ -628,9 +628,7 @@ class $SelfAccountTableTable extends SelfAccountTable
   @override
   late final GeneratedColumn<String> selfTwitterId = GeneratedColumn<String>(
       'self_twitter_id', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'));
+      type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _loginTimeMeta =
       const VerificationMeta('loginTime');
   @override
@@ -640,9 +638,10 @@ class $SelfAccountTableTable extends SelfAccountTable
   @override
   List<GeneratedColumn> get $columns => [selfTwitterId, loginTime];
   @override
-  String get aliasedName => _alias ?? 'self_account_table';
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  String get actualTableName => 'self_account_table';
+  String get actualTableName => $name;
+  static const String $name = 'self_account_table';
   @override
   VerificationContext validateIntegrity(
       Insertable<SelfAccountTableData> instance,

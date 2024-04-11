@@ -100,8 +100,8 @@ class ThemeBrightnessProvider
     extends NotifierProviderImpl<ThemeBrightness, ThemeBrightnessEnum> {
   /// See also [ThemeBrightness].
   ThemeBrightnessProvider(
-    this.dark,
-  ) : super.internal(
+    bool dark,
+  ) : this._internal(
           () => ThemeBrightness()..dark = dark,
           from: themeBrightnessProvider,
           name: r'themeBrightnessProvider',
@@ -112,9 +112,51 @@ class ThemeBrightnessProvider
           dependencies: ThemeBrightnessFamily._dependencies,
           allTransitiveDependencies:
               ThemeBrightnessFamily._allTransitiveDependencies,
+          dark: dark,
         );
 
+  ThemeBrightnessProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.dark,
+  }) : super.internal();
+
   final bool dark;
+
+  @override
+  ThemeBrightnessEnum runNotifierBuild(
+    covariant ThemeBrightness notifier,
+  ) {
+    return notifier.build(
+      dark,
+    );
+  }
+
+  @override
+  Override overrideWith(ThemeBrightness Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: ThemeBrightnessProvider._internal(
+        () => create()..dark = dark,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        dark: dark,
+      ),
+    );
+  }
+
+  @override
+  NotifierProviderElement<ThemeBrightness, ThemeBrightnessEnum>
+      createElement() {
+    return _ThemeBrightnessProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -128,14 +170,20 @@ class ThemeBrightnessProvider
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin ThemeBrightnessRef on NotifierProviderRef<ThemeBrightnessEnum> {
+  /// The parameter `dark` of this provider.
+  bool get dark;
+}
+
+class _ThemeBrightnessProviderElement
+    extends NotifierProviderElement<ThemeBrightness, ThemeBrightnessEnum>
+    with ThemeBrightnessRef {
+  _ThemeBrightnessProviderElement(super.provider);
 
   @override
-  ThemeBrightnessEnum runNotifierBuild(
-    covariant ThemeBrightness notifier,
-  ) {
-    return notifier.build(
-      dark,
-    );
-  }
+  bool get dark => (origin as ThemeBrightnessProvider).dark;
 }
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

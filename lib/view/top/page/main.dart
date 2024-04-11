@@ -11,6 +11,7 @@ import 'package:social_doge/database/core.dart';
 import 'package:social_doge/database/provider.dart';
 import 'package:social_doge/database/self_account.dart';
 import 'package:social_doge/view/sub/synchronized.dart';
+
 part 'main.g.dart';
 
 @riverpod
@@ -148,14 +149,14 @@ class FollowerChart extends ConsumerWidget {
                 const FlLine(color: Colors.blue),
                 FlDotData(
                   getDotPainter: (spot, percent, barData, index) {
-                    return FlDotCirclePainter(color: Colors.blue, radius: 3, strokeWidth: 0);
+                    return FlDotCirclePainter(color: Colors.blue, radius: 3);
                   },
                 ),
               );
             }).toList();
           },
           touchTooltipData: LineTouchTooltipData(
-            tooltipBgColor: Colors.white.withAlpha(0),
+            getTooltipColor: (_) => Colors.white.withAlpha(0),
             tooltipPadding: EdgeInsets.zero,
             getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
               return touchedBarSpots.map((barSpot) => LineTooltipItem(barSpot.y.toInt().toString(), const TextStyle(color: Colors.blue))).toList();

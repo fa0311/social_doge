@@ -32,9 +32,6 @@ Future<List<String>> getUnsubscribe(GetUnsubscribeRef ref, int count) async {
   final userList = await db.followers(userId: userId, time: time);
   final userListBefore = await db.followers(userId: userId, time: timeBefore);
 
-  final a = await db.followersTest();
-  // 2023-06-21 01:45:14.000
-
   return userListBefore.where(userList.contains).toList();
 }
 

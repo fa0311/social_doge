@@ -12,7 +12,7 @@ part of 'data.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$UserTableData {
@@ -121,11 +121,11 @@ class _$UserTableDataCopyWithImpl<$Res, $Val extends UserTableData>
 }
 
 /// @nodoc
-abstract class _$$_UserTableDataFreezedCopyWith<$Res>
+abstract class _$$UserTableDataFreezedImplCopyWith<$Res>
     implements $UserTableDataCopyWith<$Res> {
-  factory _$$_UserTableDataFreezedCopyWith(_$_UserTableDataFreezed value,
-          $Res Function(_$_UserTableDataFreezed) then) =
-      __$$_UserTableDataFreezedCopyWithImpl<$Res>;
+  factory _$$UserTableDataFreezedImplCopyWith(_$UserTableDataFreezedImpl value,
+          $Res Function(_$UserTableDataFreezedImpl) then) =
+      __$$UserTableDataFreezedImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -142,11 +142,11 @@ abstract class _$$_UserTableDataFreezedCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_UserTableDataFreezedCopyWithImpl<$Res>
-    extends _$UserTableDataCopyWithImpl<$Res, _$_UserTableDataFreezed>
-    implements _$$_UserTableDataFreezedCopyWith<$Res> {
-  __$$_UserTableDataFreezedCopyWithImpl(_$_UserTableDataFreezed _value,
-      $Res Function(_$_UserTableDataFreezed) _then)
+class __$$UserTableDataFreezedImplCopyWithImpl<$Res>
+    extends _$UserTableDataCopyWithImpl<$Res, _$UserTableDataFreezedImpl>
+    implements _$$UserTableDataFreezedImplCopyWith<$Res> {
+  __$$UserTableDataFreezedImplCopyWithImpl(_$UserTableDataFreezedImpl _value,
+      $Res Function(_$UserTableDataFreezedImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -163,7 +163,7 @@ class __$$_UserTableDataFreezedCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? lastUpdated = null,
   }) {
-    return _then(_$_UserTableDataFreezed(
+    return _then(_$UserTableDataFreezedImpl(
       twitterId: null == twitterId
           ? _value.twitterId
           : twitterId // ignore: cast_nullable_to_non_nullable
@@ -210,8 +210,8 @@ class __$$_UserTableDataFreezedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_UserTableDataFreezed implements _UserTableDataFreezed {
-  const _$_UserTableDataFreezed(
+class _$UserTableDataFreezedImpl implements _UserTableDataFreezed {
+  const _$UserTableDataFreezedImpl(
       {required this.twitterId,
       required this.screenName,
       required this.name,
@@ -250,10 +250,10 @@ class _$_UserTableDataFreezed implements _UserTableDataFreezed {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_UserTableDataFreezed &&
+            other is _$UserTableDataFreezedImpl &&
             (identical(other.twitterId, twitterId) ||
                 other.twitterId == twitterId) &&
             (identical(other.screenName, screenName) ||
@@ -292,9 +292,10 @@ class _$_UserTableDataFreezed implements _UserTableDataFreezed {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UserTableDataFreezedCopyWith<_$_UserTableDataFreezed> get copyWith =>
-      __$$_UserTableDataFreezedCopyWithImpl<_$_UserTableDataFreezed>(
-          this, _$identity);
+  _$$UserTableDataFreezedImplCopyWith<_$UserTableDataFreezedImpl>
+      get copyWith =>
+          __$$UserTableDataFreezedImplCopyWithImpl<_$UserTableDataFreezedImpl>(
+              this, _$identity);
 }
 
 abstract class _UserTableDataFreezed implements UserTableData {
@@ -308,7 +309,7 @@ abstract class _UserTableDataFreezed implements UserTableData {
       required final int followersCount,
       required final int friendsCount,
       required final DateTime createdAt,
-      required final DateTime lastUpdated}) = _$_UserTableDataFreezed;
+      required final DateTime lastUpdated}) = _$UserTableDataFreezedImpl;
 
   @override
   String get twitterId;
@@ -332,6 +333,6 @@ abstract class _UserTableDataFreezed implements UserTableData {
   DateTime get lastUpdated;
   @override
   @JsonKey(ignore: true)
-  _$$_UserTableDataFreezedCopyWith<_$_UserTableDataFreezed> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$UserTableDataFreezedImplCopyWith<_$UserTableDataFreezedImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

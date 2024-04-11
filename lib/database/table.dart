@@ -3,7 +3,7 @@ import 'package:social_doge/database/data.dart';
 
 @UseRowClass(UserTableData)
 class UserTable extends Table {
-  TextColumn get twitterId => text().unique()();
+  TextColumn get twitterId => text()();
   TextColumn get screenName => text()();
   TextColumn get name => text()();
   TextColumn get description => text()();
@@ -19,7 +19,7 @@ class UserTable extends Table {
 }
 
 class UserFollowersTable extends Table {
-  IntColumn get key => integer().unique().autoIncrement()();
+  IntColumn get key => integer().autoIncrement()();
   TextColumn get twitterId => text()();
   TextColumn get selfTwitterId => text()();
   DateTimeColumn get time => dateTime()();
@@ -29,7 +29,7 @@ class UserFollowersTable extends Table {
 }
 
 class SelfAccountTable extends Table {
-  TextColumn get selfTwitterId => text().unique()();
+  TextColumn get selfTwitterId => text()();
   DateTimeColumn get loginTime => dateTime()();
 
   @override

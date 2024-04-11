@@ -13,7 +13,7 @@ import 'package:social_doge/interface/twitter.dart';
 import 'package:social_doge/view/top/home.dart';
 import 'package:social_doge/view/top/page/main.dart';
 import 'package:twitter_openapi_dart/twitter_openapi_dart.dart';
-import 'package:twitter_openapi_dart_generated/twitter_openapi_dart_generated.dart';
+import 'package:twitter_openapi_dart_generated/twitter_openapi_dart_generated.dart' show User;
 
 part 'synchronized.g.dart';
 
@@ -77,7 +77,7 @@ Stream<TwitterClientResponse> twitterClient(TwitterClientRef ref) async* {
   yield TwitterClientResponse(length: length, progress: userList.length);
 
   final response = await client.getUserListApi().getFollowers(userId: user.restId, count: 200);
-  userList.addEntries(await Future.wait(response.data.map((e) => insertDB(db: db, time: time, selfTwitterId: userId, user: e.user))));
+  userList.addEntries(await Future.wait(response.data.data.map((e) => insertDB(db: db, time: time, selfTwitterId: userId, user: e.user))));
 
   while (response.header.rateLimitRemaining < 5 && response.header.rateLimitReset - secondsSinceEpoch() > 0) {
     yield TwitterClientResponse(length: length, progress: userList.length, wait: response.header.rateLimitReset - secondsSinceEpoch());
@@ -85,14 +85,14 @@ Stream<TwitterClientResponse> twitterClient(TwitterClientRef ref) async* {
   }
   yield TwitterClientResponse(length: length, progress: userList.length);
 
-  var topCursor = response.cursor.top?.value;
-  var bottomCursor = response.cursor.bottom?.value;
+  var topCursor = response.data.cursor.top?.value;
+  var bottomCursor = response.data.cursor.bottom?.value;
 
   while (topCursor != null) {
     final userListLen = userList.length;
     final response = await client.getUserListApi().getFollowers(userId: user.restId, cursor: topCursor, count: 200);
-    userList.addEntries(await Future.wait(response.data.map((e) => insertDB(db: db, time: time, selfTwitterId: userId, user: e.user))));
-    topCursor = userListLen < userList.length ? response.cursor.top?.value : null;
+    userList.addEntries(await Future.wait(response.data.data.map((e) => insertDB(db: db, time: time, selfTwitterId: userId, user: e.user))));
+    topCursor = userListLen < userList.length ? response.data.cursor.top?.value : null;
     while (response.header.rateLimitRemaining < 5 && response.header.rateLimitReset - secondsSinceEpoch() > 0) {
       yield TwitterClientResponse(length: length, progress: userList.length, wait: response.header.rateLimitReset - secondsSinceEpoch());
       await Future<void>.delayed(const Duration(seconds: 1));
@@ -103,8 +103,8 @@ Stream<TwitterClientResponse> twitterClient(TwitterClientRef ref) async* {
   while (bottomCursor != null) {
     final userListLen = userList.length;
     final response = await client.getUserListApi().getFollowers(userId: user.restId, cursor: bottomCursor, count: 200);
-    userList.addEntries(await Future.wait(response.data.map((e) => insertDB(db: db, time: time, selfTwitterId: userId, user: e.user))));
-    bottomCursor = userListLen < userList.length ? response.cursor.bottom?.value : null;
+    userList.addEntries(await Future.wait(response.data.data.map((e) => insertDB(db: db, time: time, selfTwitterId: userId, user: e.user))));
+    bottomCursor = userListLen < userList.length ? response.data.cursor.bottom?.value : null;
     while (response.header.rateLimitRemaining < 5 && response.header.rateLimitReset - secondsSinceEpoch() > 0) {
       yield TwitterClientResponse(length: length, progress: userList.length, wait: response.header.rateLimitReset - secondsSinceEpoch());
       await Future<void>.delayed(const Duration(seconds: 1));
