@@ -28,12 +28,14 @@
     "unfocus",
     "unfollowed",
     "unmention",
+    "upsert",
     "yuki"
   ],
   "ignorePaths": [
     "android/**",
     "build/**",
     "pubspec.yaml",
+    "pubspec.lock",
     "*.freezed.dart",
     "*.g.dart",
     "lib/l10n/**"

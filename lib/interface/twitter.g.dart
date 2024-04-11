@@ -6,7 +6,7 @@ part of 'twitter.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getTwitterClientHash() => r'80f6c57f847a1abe22a68303535e3905ac5b954f';
+String _$getTwitterClientHash() => r'c3497236322619f8a177244960e048270df72577';
 
 /// See also [getTwitterClient].
 @ProviderFor(getTwitterClient)
@@ -44,8 +44,6 @@ class _SystemHash {
     return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
   }
 }
-
-typedef TwitterUserRef = FutureProviderRef<User>;
 
 /// See also [twitterUser].
 @ProviderFor(twitterUser)
@@ -93,10 +91,10 @@ class TwitterUserFamily extends Family<AsyncValue<User>> {
 class TwitterUserProvider extends FutureProvider<User> {
   /// See also [twitterUser].
   TwitterUserProvider(
-    this.twitterId,
-  ) : super.internal(
+    String twitterId,
+  ) : this._internal(
           (ref) => twitterUser(
-            ref,
+            ref as TwitterUserRef,
             twitterId,
           ),
           from: twitterUserProvider,
@@ -108,9 +106,43 @@ class TwitterUserProvider extends FutureProvider<User> {
           dependencies: TwitterUserFamily._dependencies,
           allTransitiveDependencies:
               TwitterUserFamily._allTransitiveDependencies,
+          twitterId: twitterId,
         );
 
+  TwitterUserProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.twitterId,
+  }) : super.internal();
+
   final String twitterId;
+
+  @override
+  Override overrideWith(
+    FutureOr<User> Function(TwitterUserRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: TwitterUserProvider._internal(
+        (ref) => create(ref as TwitterUserRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        twitterId: twitterId,
+      ),
+    );
+  }
+
+  @override
+  FutureProviderElement<User> createElement() {
+    return _TwitterUserProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -125,4 +157,18 @@ class TwitterUserProvider extends FutureProvider<User> {
     return _SystemHash.finish(hash);
   }
 }
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+
+mixin TwitterUserRef on FutureProviderRef<User> {
+  /// The parameter `twitterId` of this provider.
+  String get twitterId;
+}
+
+class _TwitterUserProviderElement extends FutureProviderElement<User>
+    with TwitterUserRef {
+  _TwitterUserProviderElement(super.provider);
+
+  @override
+  String get twitterId => (origin as TwitterUserProvider).twitterId;
+}
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

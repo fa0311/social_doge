@@ -6,11 +6,12 @@ part of 'unfollowed_user.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getFollowerTimeHash() => r'60222c10ff6815f30f404fdeae34ad2c7afa18c1';
+String _$getFollowerTimeHash() => r'da3c8b02ea4b026d240f0f602ff8f72956ac98d3';
 
 /// See also [getFollowerTime].
 @ProviderFor(getFollowerTime)
-final getFollowerTimeProvider = AutoDisposeFutureProvider<List<int>>.internal(
+final getFollowerTimeProvider =
+    AutoDisposeFutureProvider<List<DateTime>>.internal(
   getFollowerTime,
   name: r'getFollowerTimeProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -20,8 +21,8 @@ final getFollowerTimeProvider = AutoDisposeFutureProvider<List<int>>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef GetFollowerTimeRef = AutoDisposeFutureProviderRef<List<int>>;
-String _$getUnsubscribeHash() => r'f8bcf6266bf9fee3c900a9f24573c8d536db30d0';
+typedef GetFollowerTimeRef = AutoDisposeFutureProviderRef<List<DateTime>>;
+String _$getUnsubscribeHash() => r'264ee77cf05c94569efb37ce5d51c9e4863516b3';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -43,8 +44,6 @@ class _SystemHash {
     return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
   }
 }
-
-typedef GetUnsubscribeRef = AutoDisposeFutureProviderRef<List<String>>;
 
 /// See also [getUnsubscribe].
 @ProviderFor(getUnsubscribe)
@@ -92,10 +91,10 @@ class GetUnsubscribeFamily extends Family<AsyncValue<List<String>>> {
 class GetUnsubscribeProvider extends AutoDisposeFutureProvider<List<String>> {
   /// See also [getUnsubscribe].
   GetUnsubscribeProvider(
-    this.count,
-  ) : super.internal(
+    int count,
+  ) : this._internal(
           (ref) => getUnsubscribe(
-            ref,
+            ref as GetUnsubscribeRef,
             count,
           ),
           from: getUnsubscribeProvider,
@@ -107,9 +106,43 @@ class GetUnsubscribeProvider extends AutoDisposeFutureProvider<List<String>> {
           dependencies: GetUnsubscribeFamily._dependencies,
           allTransitiveDependencies:
               GetUnsubscribeFamily._allTransitiveDependencies,
+          count: count,
         );
 
+  GetUnsubscribeProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.count,
+  }) : super.internal();
+
   final int count;
+
+  @override
+  Override overrideWith(
+    FutureOr<List<String>> Function(GetUnsubscribeRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: GetUnsubscribeProvider._internal(
+        (ref) => create(ref as GetUnsubscribeRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        count: count,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<List<String>> createElement() {
+    return _GetUnsubscribeProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -124,4 +157,146 @@ class GetUnsubscribeProvider extends AutoDisposeFutureProvider<List<String>> {
     return _SystemHash.finish(hash);
   }
 }
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+
+mixin GetUnsubscribeRef on AutoDisposeFutureProviderRef<List<String>> {
+  /// The parameter `count` of this provider.
+  int get count;
+}
+
+class _GetUnsubscribeProviderElement
+    extends AutoDisposeFutureProviderElement<List<String>>
+    with GetUnsubscribeRef {
+  _GetUnsubscribeProviderElement(super.provider);
+
+  @override
+  int get count => (origin as GetUnsubscribeProvider).count;
+}
+
+String _$getUserHash() => r'420213d1b54c811f48f4961317cd70cc09e12f19';
+
+/// See also [getUser].
+@ProviderFor(getUser)
+const getUserProvider = GetUserFamily();
+
+/// See also [getUser].
+class GetUserFamily extends Family<AsyncValue<UserTableData>> {
+  /// See also [getUser].
+  const GetUserFamily();
+
+  /// See also [getUser].
+  GetUserProvider call(
+    String id,
+  ) {
+    return GetUserProvider(
+      id,
+    );
+  }
+
+  @override
+  GetUserProvider getProviderOverride(
+    covariant GetUserProvider provider,
+  ) {
+    return call(
+      provider.id,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'getUserProvider';
+}
+
+/// See also [getUser].
+class GetUserProvider extends AutoDisposeFutureProvider<UserTableData> {
+  /// See also [getUser].
+  GetUserProvider(
+    String id,
+  ) : this._internal(
+          (ref) => getUser(
+            ref as GetUserRef,
+            id,
+          ),
+          from: getUserProvider,
+          name: r'getUserProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getUserHash,
+          dependencies: GetUserFamily._dependencies,
+          allTransitiveDependencies: GetUserFamily._allTransitiveDependencies,
+          id: id,
+        );
+
+  GetUserProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.id,
+  }) : super.internal();
+
+  final String id;
+
+  @override
+  Override overrideWith(
+    FutureOr<UserTableData> Function(GetUserRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: GetUserProvider._internal(
+        (ref) => create(ref as GetUserRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        id: id,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<UserTableData> createElement() {
+    return _GetUserProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetUserProvider && other.id == id;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, id.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin GetUserRef on AutoDisposeFutureProviderRef<UserTableData> {
+  /// The parameter `id` of this provider.
+  String get id;
+}
+
+class _GetUserProviderElement
+    extends AutoDisposeFutureProviderElement<UserTableData> with GetUserRef {
+  _GetUserProviderElement(super.provider);
+
+  @override
+  String get id => (origin as GetUserProvider).id;
+}
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

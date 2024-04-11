@@ -1,6 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:social_doge/database/core.dart';
-import 'package:social_doge/database/user.dart';
+import 'package:social_doge/database/provider.dart';
 part 'self_account.g.dart';
 
 @Riverpod(keepAlive: true)
@@ -8,28 +8,18 @@ class SelfAccount extends _$SelfAccount {
   @override
   String? build() => null;
 
-  String? get selfTwitterId => state;
+  String get id => state!;
 
   Future<void> get() async {
-    final db = await ref.read(getDatabaseProvider.future);
-    final user = await db.query('self_account', limit: 1, orderBy: 'login_time DESC');
-    state = user.isEmpty ? null : user.first['self_twitter_id']! as String;
+    final db = ref.read(getDatabaseProvider);
+    final user = await db.loginAccount();
+    state = user?.selfTwitterId;
   }
 
   Future<void> update(String twitterId) async {
-    final db = await ref.read(getDatabaseProvider.future);
-    final user = SelfTwitter(
-      selfTwitterId: twitterId,
-      loginTime: DateTime.now().millisecondsSinceEpoch,
-    );
-
-    final userFetch = await db.query('self_account', where: 'self_twitter_id = ?', whereArgs: [state]);
-    if (userFetch.isEmpty) {
-      await db.insert('self_account', user.toMap());
-    } else {
-      await db.update('self_account', user.toMap(), where: 'self_twitter_id = ?', whereArgs: [state]);
-    }
-
-    state = twitterId;
+    final db = ref.read(getDatabaseProvider);
+    final insertUser = SelfAccountTableCompanion.insert(selfTwitterId: twitterId, loginTime: DateTime.now());
+    await db.upsertAccount(insertUser);
+    state = insertUser.selfTwitterId.value;
   }
 }

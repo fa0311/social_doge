@@ -6,7 +6,7 @@ part of 'accessibility.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$languageCodeHash() => r'8203f127ec2409bc59b2b1e7939ed37c24768126';
+String _$languageCodeHash() => r'01f339f9d3a0e421e47ff8cfe260a60ef399f75d';
 
 /// See also [LanguageCode].
 @ProviderFor(LanguageCode)
@@ -21,7 +21,7 @@ final languageCodeProvider =
 );
 
 typedef _$LanguageCode = Notifier<LanguageCodeEnum>;
-String _$themeBrightnessHash() => r'6093b77167c6a16b442b5e989c4035886d5cf1df';
+String _$themeBrightnessHash() => r'0d9d98b23bba453ca6c6cf7897fecf357613cf7f';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -100,8 +100,8 @@ class ThemeBrightnessProvider
     extends NotifierProviderImpl<ThemeBrightness, ThemeBrightnessEnum> {
   /// See also [ThemeBrightness].
   ThemeBrightnessProvider(
-    this.dark,
-  ) : super.internal(
+    bool dark,
+  ) : this._internal(
           () => ThemeBrightness()..dark = dark,
           from: themeBrightnessProvider,
           name: r'themeBrightnessProvider',
@@ -112,9 +112,51 @@ class ThemeBrightnessProvider
           dependencies: ThemeBrightnessFamily._dependencies,
           allTransitiveDependencies:
               ThemeBrightnessFamily._allTransitiveDependencies,
+          dark: dark,
         );
 
+  ThemeBrightnessProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.dark,
+  }) : super.internal();
+
   final bool dark;
+
+  @override
+  ThemeBrightnessEnum runNotifierBuild(
+    covariant ThemeBrightness notifier,
+  ) {
+    return notifier.build(
+      dark,
+    );
+  }
+
+  @override
+  Override overrideWith(ThemeBrightness Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: ThemeBrightnessProvider._internal(
+        () => create()..dark = dark,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        dark: dark,
+      ),
+    );
+  }
+
+  @override
+  NotifierProviderElement<ThemeBrightness, ThemeBrightnessEnum>
+      createElement() {
+    return _ThemeBrightnessProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -128,14 +170,20 @@ class ThemeBrightnessProvider
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin ThemeBrightnessRef on NotifierProviderRef<ThemeBrightnessEnum> {
+  /// The parameter `dark` of this provider.
+  bool get dark;
+}
+
+class _ThemeBrightnessProviderElement
+    extends NotifierProviderElement<ThemeBrightness, ThemeBrightnessEnum>
+    with ThemeBrightnessRef {
+  _ThemeBrightnessProviderElement(super.provider);
 
   @override
-  ThemeBrightnessEnum runNotifierBuild(
-    covariant ThemeBrightness notifier,
-  ) {
-    return notifier.build(
-      dark,
-    );
-  }
+  bool get dark => (origin as ThemeBrightnessProvider).dark;
 }
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

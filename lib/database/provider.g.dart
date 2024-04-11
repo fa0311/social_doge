@@ -1,25 +1,24 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'home.dart';
+part of 'provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$currentIndexHash() => r'36b733e4471003cc05df03e7b8c231e894c0e996';
+String _$getDatabaseHash() => r'ef5b38e60576647339fab73676bb5b68a949c2c8';
 
-/// See also [CurrentIndex].
-@ProviderFor(CurrentIndex)
-final currentIndexProvider =
-    NotifierProvider<CurrentIndex, CurrentIndexEnum>.internal(
-  CurrentIndex.new,
-  name: r'currentIndexProvider',
+/// See also [getDatabase].
+@ProviderFor(getDatabase)
+final getDatabaseProvider = Provider<SocialDogeDatabase>.internal(
+  getDatabase,
+  name: r'getDatabaseProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$currentIndexHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$getDatabaseHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$CurrentIndex = Notifier<CurrentIndexEnum>;
+typedef GetDatabaseRef = ProviderRef<SocialDogeDatabase>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

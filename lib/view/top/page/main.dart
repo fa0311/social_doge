@@ -8,39 +8,30 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:social_doge/component/confirm.dart';
 import 'package:social_doge/component/loading.dart';
 import 'package:social_doge/database/core.dart';
+import 'package:social_doge/database/provider.dart';
 import 'package:social_doge/database/self_account.dart';
 import 'package:social_doge/view/sub/synchronized.dart';
-import 'package:social_doge/view/top/home.dart';
+
 part 'main.g.dart';
 
 @riverpod
-Future<List<FollowersCount>> getFollowersCount(GetFollowersCountRef ref, int? time) async {
-  final args = time == null ? 0 : DateTime.now().millisecondsSinceEpoch - time;
-  final userId = ref.watch(selfAccountProvider);
-
-  final db = await ref.read(getDatabaseProvider.future);
-  final response = await db.query(
-    'user_followers',
-    columns: ['time', 'count(*)'],
-    where: 'self_twitter_id = ?',
-    groupBy: 'time',
-    having: 'time > ?',
-    whereArgs: [userId, args],
-    orderBy: 'time ASC',
-  );
-  return response.map((row) => FollowersCount(row['time']! as int, row['count(*)']! as int)).toList();
+Future<void> removeLastSynchronized(RemoveLastSynchronizedRef ref) async {
+  final userId = ref.watch(selfAccountProvider.notifier).id;
+  final db = ref.read(getDatabaseProvider);
+  final time = await db.followersLastTime(userId: userId);
+  await db.deleteFollowers(userId: userId, time: time);
 }
 
 @riverpod
-Future<void> removeLastSynchronized(RemoveLastSynchronizedRef ref) async {
-  final db = await ref.read(getDatabaseProvider.future);
-  final time = await db.query('user_followers', columns: ['time'], orderBy: 'time DESC', limit: 1);
-  await db.delete('user_followers', where: 'time = ?', whereArgs: [time.first['time']! as int]);
-  await Future.wait([
-    ref.refresh(getFollowersCountProvider(60 * 60 * 24 * 30 * 1000).future),
-    ref.refresh(getFollowersCountProvider(60 * 60 * 24 * 90 * 1000).future),
-    ref.refresh(getFollowersCountProvider(60 * 60 * 24 * 365 * 1000).future),
-    ref.refresh(getFollowersCountProvider(null).future),
+Future<List<List<FollowersCount>>> socialDogeMain(SocialDogeMainRef ref) async {
+  final userId = ref.watch(selfAccountProvider.notifier).id;
+  final db = ref.read(getDatabaseProvider);
+
+  return Future.wait([
+    db.followersCountByTime(userId: userId, duration: const Duration(days: 30)),
+    db.followersCountByTime(userId: userId, duration: const Duration(days: 90)),
+    db.followersCountByTime(userId: userId, duration: const Duration(days: 360)),
+    db.followersCountByTime(userId: userId, duration: const Duration(days: 3600)),
   ]);
 }
 
@@ -57,13 +48,13 @@ class SocialDogeMain extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final data = [
-      SocialDogeMainPageView(AppLocalizations.of(context)!.oneMonth, ref.watch(getFollowersCountProvider(60 * 60 * 24 * 30 * 1000))),
-      SocialDogeMainPageView(AppLocalizations.of(context)!.threeMonths, ref.watch(getFollowersCountProvider(60 * 60 * 24 * 90 * 1000))),
-      SocialDogeMainPageView(AppLocalizations.of(context)!.oneYear, ref.watch(getFollowersCountProvider(60 * 60 * 24 * 365 * 1000))),
-      SocialDogeMainPageView(AppLocalizations.of(context)!.totalPeriod, ref.watch(getFollowersCountProvider(null))),
+    final data = ref.watch(socialDogeMainProvider);
+    final labels = [
+      AppLocalizations.of(context)!.oneMonth,
+      AppLocalizations.of(context)!.threeMonths,
+      AppLocalizations.of(context)!.oneYear,
+      AppLocalizations.of(context)!.totalPeriod,
     ];
-
     return Column(
       children: [
         Padding(
@@ -72,29 +63,28 @@ class SocialDogeMain extends ConsumerWidget {
             width: MediaQuery.of(context).size.width,
             child: AspectRatio(
               aspectRatio: 1.50,
-              child: PageView(
-                children: [
-                  for (final e in data)
-                    Column(
-                      children: [
-                        Text(e.label),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: e.provider.when(
-                              data: (data) => FollowerChart(data: data),
-                              error: (error, stackTrace) => Column(
-                                children: [
-                                  for (final e in [error.toString(), stackTrace.toString()]) Text(e)
-                                ],
-                              ),
-                              loading: () => const Loading(),
+              child: data.when(
+                data: (data) {
+                  return PageView(
+                    children: [
+                      for (final e in data.asMap().entries)
+                        Column(
+                          children: [
+                            Text(labels[e.key]),
+                            Expanded(
+                              child: Padding(padding: const EdgeInsets.all(8), child: FollowerChart(data: e.value)),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
-                ],
+                    ],
+                  );
+                },
+                error: (error, stackTrace) => Column(
+                  children: [
+                    for (final e in [error.toString(), stackTrace.toString()]) Text(e),
+                  ],
+                ),
+                loading: () => const Loading(),
               ),
             ),
           ),
@@ -106,7 +96,7 @@ class SocialDogeMain extends ConsumerWidget {
             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute<void>(builder: (context) => const Synchronize()), (_) => false);
           },
         ),
-        data.last.provider.when(
+        data.when(
           data: (data) {
             return ListTile(
               title: Text(AppLocalizations.of(context)!.deleteLastSynchronize),
@@ -127,7 +117,7 @@ class SocialDogeMain extends ConsumerWidget {
           },
           error: (error, stackTrace) => Column(
             children: [
-              for (final e in [error.toString(), stackTrace.toString()]) Text(e)
+              for (final e in [error.toString(), stackTrace.toString()]) Text(e),
             ],
           ),
           loading: () => const LoadingIcon(),
@@ -148,7 +138,7 @@ class FollowerChart extends ConsumerWidget {
       return Center(child: Text(AppLocalizations.of(context)!.noData));
     }
     if (data.length == 1) {
-      data.add(FollowersCount(data.first.time + 1, data.first.count));
+      data.add(FollowersCount(data.first.time.add(const Duration(seconds: 1)), data.first.count));
     }
     return LineChart(
       LineChartData(
@@ -159,14 +149,14 @@ class FollowerChart extends ConsumerWidget {
                 const FlLine(color: Colors.blue),
                 FlDotData(
                   getDotPainter: (spot, percent, barData, index) {
-                    return FlDotCirclePainter(color: Colors.blue, radius: 3, strokeWidth: 0);
+                    return FlDotCirclePainter(color: Colors.blue, radius: 3);
                   },
                 ),
               );
             }).toList();
           },
           touchTooltipData: LineTouchTooltipData(
-            tooltipBgColor: Colors.white.withAlpha(0),
+            getTooltipColor: (_) => Colors.white.withAlpha(0),
             tooltipPadding: EdgeInsets.zero,
             getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
               return touchedBarSpots.map((barSpot) => LineTooltipItem(barSpot.y.toInt().toString(), const TextStyle(color: Colors.blue))).toList();
@@ -181,7 +171,7 @@ class FollowerChart extends ConsumerWidget {
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 30,
-              interval: data.last.time.toDouble() - data.first.time.toDouble() / 5,
+              interval: data.last.time.millisecondsSinceEpoch - data.first.time.millisecondsSinceEpoch / 5,
               getTitlesWidget: (value, meta) {
                 if (meta.min == meta.max) {
                   return Text(value.toInt().toString());
@@ -214,7 +204,7 @@ class FollowerChart extends ConsumerWidget {
         ),
         lineBarsData: [
           LineChartBarData(
-            spots: data.map((e) => FlSpot(e.time.toDouble(), e.count.toDouble())).toList(),
+            spots: data.map((e) => FlSpot(e.time.millisecondsSinceEpoch.toDouble(), e.count.toDouble())).toList(),
             // isCurved: true,
             gradient: LinearGradient(colors: gradientColors),
             dotData: const FlDotData(show: false),

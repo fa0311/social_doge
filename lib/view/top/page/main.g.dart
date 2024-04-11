@@ -6,114 +6,8 @@ part of 'main.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getFollowersCountHash() => r'7eaf51e0de85dfc16b4700815a6a9812eb3dcc1e';
-
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
-}
-
-typedef GetFollowersCountRef
-    = AutoDisposeFutureProviderRef<List<FollowersCount>>;
-
-/// See also [getFollowersCount].
-@ProviderFor(getFollowersCount)
-const getFollowersCountProvider = GetFollowersCountFamily();
-
-/// See also [getFollowersCount].
-class GetFollowersCountFamily extends Family<AsyncValue<List<FollowersCount>>> {
-  /// See also [getFollowersCount].
-  const GetFollowersCountFamily();
-
-  /// See also [getFollowersCount].
-  GetFollowersCountProvider call(
-    int? time,
-  ) {
-    return GetFollowersCountProvider(
-      time,
-    );
-  }
-
-  @override
-  GetFollowersCountProvider getProviderOverride(
-    covariant GetFollowersCountProvider provider,
-  ) {
-    return call(
-      provider.time,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'getFollowersCountProvider';
-}
-
-/// See also [getFollowersCount].
-class GetFollowersCountProvider
-    extends AutoDisposeFutureProvider<List<FollowersCount>> {
-  /// See also [getFollowersCount].
-  GetFollowersCountProvider(
-    this.time,
-  ) : super.internal(
-          (ref) => getFollowersCount(
-            ref,
-            time,
-          ),
-          from: getFollowersCountProvider,
-          name: r'getFollowersCountProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$getFollowersCountHash,
-          dependencies: GetFollowersCountFamily._dependencies,
-          allTransitiveDependencies:
-              GetFollowersCountFamily._allTransitiveDependencies,
-        );
-
-  final int? time;
-
-  @override
-  bool operator ==(Object other) {
-    return other is GetFollowersCountProvider && other.time == time;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, time.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
 String _$removeLastSynchronizedHash() =>
-    r'372870bf360b74779d9ac34a64f3cb02ecd54f06';
+    r'bebb5852cb51bc495a2a319dbb3fd74a69f716da';
 
 /// See also [removeLastSynchronized].
 @ProviderFor(removeLastSynchronized)
@@ -128,4 +22,22 @@ final removeLastSynchronizedProvider = AutoDisposeFutureProvider<void>.internal(
 );
 
 typedef RemoveLastSynchronizedRef = AutoDisposeFutureProviderRef<void>;
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+String _$socialDogeMainHash() => r'eb1e5f6d3d56232e4db38c5016da266804de919b';
+
+/// See also [socialDogeMain].
+@ProviderFor(socialDogeMain)
+final socialDogeMainProvider =
+    AutoDisposeFutureProvider<List<List<FollowersCount>>>.internal(
+  socialDogeMain,
+  name: r'socialDogeMainProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$socialDogeMainHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef SocialDogeMainRef
+    = AutoDisposeFutureProviderRef<List<List<FollowersCount>>>;
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
