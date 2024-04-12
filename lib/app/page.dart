@@ -1,22 +1,12 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:social_doge/component/physics.dart';
-import 'package:social_doge/view/drawer/drawer.dart';
+import 'package:social_doge/component/drawer.dart';
+import 'package:social_doge/component/part/physics.dart';
 import 'package:social_doge/view/top/page/main.dart';
 import 'package:social_doge/view/top/page/unfollowed_user.dart';
-
-part 'page.g.dart';
-
-@Riverpod(keepAlive: true)
-class CurrentIndex extends _$CurrentIndex {
-  @override
-  CurrentIndexEnum build() => CurrentIndexEnum.home;
-  set update(CurrentIndexEnum method) => state = method;
-  CurrentIndexEnum get update => state;
-}
 
 enum CurrentIndexEnum {
   home(icon: Icons.home),
@@ -51,13 +41,13 @@ class SocialDogePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentIndex = ref.watch(currentIndexProvider);
-    final controller = PageController(initialPage: currentIndex.index);
+    final currentIndex = useState(CurrentIndexEnum.home);
+    final controller = PageController(initialPage: currentIndex.value.index);
 
     return Scaffold(
       drawerEdgeDragWidth: MediaQuery.of(context).padding.left + 40,
       appBar: AppBar(
-        title: Text(currentIndex.toLocalization(context)),
+        title: Text(currentIndex.value.toLocalization(context)),
       ),
       drawer: const NormalDrawer(),
       body: SafeArea(
@@ -67,7 +57,7 @@ class SocialDogePage extends HookConsumerWidget {
           children: [for (final CurrentIndexEnum scene in CurrentIndexEnum.values) scene.toWidget()],
           onPageChanged: (int index) {
             WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
-            ref.read(currentIndexProvider.notifier).update = CurrentIndexEnum.values[index];
+            currentIndex.value = CurrentIndexEnum.values[index];
           },
         ),
       ),
@@ -75,7 +65,7 @@ class SocialDogePage extends HookConsumerWidget {
         items: [
           for (final CurrentIndexEnum scene in CurrentIndexEnum.values) BottomNavigationBarItem(icon: Icon(scene.icon), label: scene.toLocalization(context)),
         ],
-        currentIndex: currentIndex.index,
+        currentIndex: currentIndex.value.index,
         onTap: controller.jumpToPage,
         showSelectedLabels: false,
         showUnselectedLabels: false,

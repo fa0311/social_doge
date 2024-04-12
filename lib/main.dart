@@ -16,7 +16,7 @@ class SocialDoge extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appRouter = useMemoized(AppRouter.new, []);
+    final appRouter = useMemoized(() => AppRouter(ref), []);
     final locale = ref.watch(languageSettingProvider);
     final theme = ref.watch(themeSettingProvider);
 

@@ -5,9 +5,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:social_doge/app/router.dart';
-import 'package:social_doge/component/confirm.dart';
-import 'package:social_doge/component/loading.dart';
-import 'package:social_doge/component/twitter/user_profile.dart';
+import 'package:social_doge/component/part/confirm.dart';
+import 'package:social_doge/component/part/loading.dart';
+import 'package:social_doge/component/part/twitter/user_profile.dart';
 import 'package:social_doge/infrastructure/database/self_account.dart';
 import 'package:social_doge/view/settings/settings.dart';
 

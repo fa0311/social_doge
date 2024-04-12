@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:social_doge/component/future/button.dart';
+import 'package:social_doge/component/part/future/button.dart';
 
 class ConfirmDialog extends StatefulWidget {
   const ConfirmDialog({super.key, this.title, this.content, required this.onPressed, this.pop = true});
@@ -23,7 +23,7 @@ class ConfirmDialogState extends State<ConfirmDialog> {
         FutureButton(
           onPressed: () async {
             await widget.onPressed();
-            if (widget.pop) {
+            if (widget.pop && context.mounted) {
               Navigator.pop(context);
             }
           },

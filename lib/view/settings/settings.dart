@@ -1,10 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:social_doge/view/settings/accessibility.dart';
-import 'package:social_doge/view/settings/account.dart';
-
-import 'help.dart';
+import 'package:social_doge/app/router.dart';
 
 class Settings extends HookConsumerWidget {
   const Settings({super.key});
@@ -24,7 +22,7 @@ class Settings extends HookConsumerWidget {
                 children: [Icon(Icons.accessibility)],
               ),
               onTap: () async {
-                await Navigator.push(context, MaterialPageRoute<void>(builder: (_) => const SettingsAccessibility()));
+                await context.router.push(const AccessibilityRoute());
               },
             ),
             ListTile(
@@ -34,7 +32,7 @@ class Settings extends HookConsumerWidget {
                 children: [Icon(Icons.account_circle)],
               ),
               onTap: () async {
-                await Navigator.push(context, MaterialPageRoute<void>(builder: (_) => const AccountSettingsScaffold()));
+                // await Navigator.push(context, MaterialPageRoute<void>(builder: (_) => const AccountSettingsScaffold()));
               },
             ),
             ListTile(
@@ -44,7 +42,7 @@ class Settings extends HookConsumerWidget {
                 children: [Icon(Icons.help)],
               ),
               onTap: () async {
-                await Navigator.push(context, MaterialPageRoute<void>(builder: (_) => const Help()));
+                // await Navigator.push(context, MaterialPageRoute<void>(builder: (_) => const InfoPage()));
               },
             ),
           ],

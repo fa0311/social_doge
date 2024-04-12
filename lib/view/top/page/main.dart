@@ -5,12 +5,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:social_doge/component/confirm.dart';
-import 'package:social_doge/component/loading.dart';
+import 'package:social_doge/component/part/confirm.dart';
+import 'package:social_doge/component/part/loading.dart';
 import 'package:social_doge/infrastructure/database/core.dart';
 import 'package:social_doge/infrastructure/database/provider.dart';
 import 'package:social_doge/infrastructure/database/self_account.dart';
-import 'package:social_doge/view/sub/synchronized.dart';
 
 part 'main.g.dart';
 
@@ -93,7 +92,7 @@ class SocialDogeMain extends HookConsumerWidget {
           title: Text(AppLocalizations.of(context)!.synchronize),
           subtitle: Text(AppLocalizations.of(context)!.synchronizeDetails),
           onTap: () {
-            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute<void>(builder: (context) => const Synchronize()), (_) => false);
+            // Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute<void>(builder: (context) => const Synchronize()), (_) => false);
           },
         ),
         data.when(

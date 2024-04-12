@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:social_doge/component/loading.dart';
+import 'package:social_doge/component/part/loading.dart';
 
 class FutureTile extends StatefulWidget {
   const FutureTile({super.key, this.title, this.subtitle, this.leading, this.trailing, required this.onTap});
