@@ -29,16 +29,21 @@ abstract class TwitterUser {
 
     var topCursor = response.data.cursor.top?.value;
     var bottomCursor = response.data.cursor.bottom?.value;
+    final userList = <String>{};
 
     while (topCursor != null) {
       final response = await get(userId, topCursor, 200);
-      topCursor = response.data.data.isNotEmpty ? response.data.cursor.top?.value : null;
+      final userListLen = userList.length;
+      userList.addAll(response.data.data.map((e) => e.user.restId));
+      topCursor = userListLen < userList.length ? response.data.cursor.top?.value : null;
       yield* Stream.fromIterable(response.data.data.map((e) => (e.user, null)));
       yield* limit(response).map((event) => (null, event));
     }
     while (bottomCursor != null) {
       final response = await get(userId, bottomCursor, 200);
-      bottomCursor = response.data.data.isNotEmpty ? response.data.cursor.bottom?.value : null;
+      final userListLen = userList.length;
+      userList.addAll(response.data.data.map((e) => e.user.restId));
+      bottomCursor = userListLen < userList.length ? response.data.cursor.bottom?.value : null;
       yield* Stream.fromIterable(response.data.data.map((e) => (e.user, null)));
       yield* limit(response).map((event) => (null, event));
     }

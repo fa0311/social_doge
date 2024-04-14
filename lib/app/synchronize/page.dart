@@ -6,7 +6,7 @@ import 'package:social_doge/app/router.dart';
 import 'package:social_doge/component/part/confirm.dart';
 import 'package:social_doge/component/part/label.dart';
 import 'package:social_doge/component/part/loading.dart';
-import 'package:social_doge/provider/twitter/synchronized.dart';
+import 'package:social_doge/provider/twitter/synchronize.dart';
 
 @RoutePage()
 class SynchronizePage extends HookConsumerWidget {

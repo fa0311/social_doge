@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'synchronized.dart';
+part of 'synchronize.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getFollowersHash() => r'c78bb0e4721f7dd671dc526d335cec9d473dedd2';
+String _$getFollowersHash() => r'ed5565c637f0b89670bbbff03d525cc3f2e40c93';
 
 /// See also [getFollowers].
 @ProviderFor(getFollowers)

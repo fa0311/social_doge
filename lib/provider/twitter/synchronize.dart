@@ -8,7 +8,7 @@ import 'package:social_doge/provider/twitter/twitter.dart';
 import 'package:twitter_openapi_dart/twitter_openapi_dart.dart';
 import 'package:twitter_openapi_dart_generated/twitter_openapi_dart_generated.dart' show User;
 
-part 'synchronized.g.dart';
+part 'synchronize.g.dart';
 
 class TwitterClientResponse {
   TwitterClientResponse({
@@ -63,7 +63,7 @@ Stream<TwitterClientResponse> getFollowers(GetFollowersRef ref) async* {
   final user = await ref.watch(twitterUserProvider(userId!).future);
   final length = user.legacy.followersCount;
 
-  await for (final (user, wait) in TwitterGetFollowers(client: client).stream(userId)) {
+  await for (final (user, wait) in TwitterGetFollowers(client: client).stream(user.restId)) {
     if (user != null) {
       final entry = await insertDB(db: db, time: time, selfTwitterId: userId, user: user);
       userList.addEntries([entry]);

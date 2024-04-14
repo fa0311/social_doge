@@ -4,8 +4,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:social_doge/component/drawer.dart';
+import 'package:social_doge/component/main.dart';
 import 'package:social_doge/component/part/physics.dart';
-import 'package:social_doge/view/top/page/main.dart';
 import 'package:social_doge/view/top/page/unfollowed_user.dart';
 
 enum CurrentIndexEnum {
