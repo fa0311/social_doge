@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'unfollowed_user.dart';
+part of 'db.dart';
 
 // **************************************************************************
 // RiverpodGenerator

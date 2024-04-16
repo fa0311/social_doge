@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:social_doge/app/accessibility/page.dart';
 import 'package:social_doge/app/guard.dart';
+import 'package:social_doge/app/home/page.dart';
 import 'package:social_doge/app/info/license/page.dart';
 import 'package:social_doge/app/info/page.dart';
 import 'package:social_doge/app/login/page.dart';
 import 'package:social_doge/app/page.dart';
+import 'package:social_doge/app/result/page.dart';
+import 'package:social_doge/app/result/unfollow/page.dart';
 import 'package:social_doge/app/setup/page.dart';
 import 'package:social_doge/app/synchronize/page.dart';
 import 'package:social_doge/infrastructure/database/self_account.dart';
@@ -20,9 +23,18 @@ class AppRouter extends _$AppRouter {
 
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(path: '/', page: SocialDogeRoute.page, initial: true, guards: [LoginGuard(), AuthGuard(ref)]),
+        AutoRoute(
+          path: '/',
+          page: SocialDogeRoute.page,
+          initial: true,
+          guards: [LoginGuard(), AuthGuard(ref)],
+          children: [
+            AutoRoute(path: 'home', page: HomeRoute.page),
+            AutoRoute(path: 'result', page: ResultRoute.page),
+          ],
+        ),
+        AutoRoute(path: '/result/unfollow', page: UnfollowRoute.page),
         AutoRoute(path: '/accessibility', page: AccessibilityRoute.page),
-        AutoRoute(path: '/synchronize', page: SynchronizeRoute.page),
         AutoRoute(path: '/login', page: LoginRoute.page),
         AutoRoute(path: '/setup', page: SetupRoute.page),
         AutoRoute(path: '/info', page: InfoRoute.page),

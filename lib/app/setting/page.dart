@@ -4,8 +4,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:social_doge/app/router.dart';
 
-class Settings extends HookConsumerWidget {
-  const Settings({super.key});
+@RoutePage()
+class SettingsRoute extends HookConsumerWidget {
+  const SettingsRoute({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

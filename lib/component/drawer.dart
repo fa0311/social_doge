@@ -9,7 +9,6 @@ import 'package:social_doge/component/part/confirm.dart';
 import 'package:social_doge/component/part/loading.dart';
 import 'package:social_doge/component/part/twitter/user_profile.dart';
 import 'package:social_doge/infrastructure/database/self_account.dart';
-import 'package:social_doge/view/settings/settings.dart';
 
 class NormalDrawer extends HookConsumerWidget {
   const NormalDrawer({super.key});
@@ -77,7 +76,7 @@ class NormalDrawer extends HookConsumerWidget {
                 const Divider(),
                 ListTile(
                   onTap: () async {
-                    await Navigator.push(context, MaterialPageRoute<void>(builder: (_) => const Settings()));
+                    await context.router.push(const SettingsRoute());
                   },
                   leading: const Icon(Icons.settings),
                   title: Text(AppLocalizations.of(context)!.setting),

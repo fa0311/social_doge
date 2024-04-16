@@ -11,7 +11,7 @@ import 'package:social_doge/infrastructure/database/core.dart';
 import 'package:social_doge/infrastructure/database/provider.dart';
 import 'package:social_doge/infrastructure/database/self_account.dart';
 
-part 'main.g.dart';
+part 'page.g.dart';
 
 @riverpod
 Future<void> removeLastSynchronized(RemoveLastSynchronizedRef ref) async {
@@ -34,14 +34,9 @@ Future<List<List<FollowersCount>>> socialDogeMain(SocialDogeMainRef ref) async {
   ]);
 }
 
-class SocialDogeMainPageView {
-  SocialDogeMainPageView(this.label, this.provider);
-  final String label;
-  final AsyncValue<List<FollowersCount>> provider;
-}
-
-class SocialDogeMain extends HookConsumerWidget {
-  SocialDogeMain({super.key});
+@RoutePage()
+class HomePage extends HookConsumerWidget {
+  HomePage({super.key});
 
   final List<Color> gradientColors = [Colors.cyan, Colors.blue];
 

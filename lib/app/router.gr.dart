@@ -21,6 +21,14 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AccessibilityPage(),
       );
     },
+    HomeRoute.name: (routeData) {
+      final args =
+          routeData.argsAs<HomeRouteArgs>(orElse: () => const HomeRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: HomePage(key: args.key),
+      );
+    },
     InfoLicenseRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -42,6 +50,18 @@ abstract class _$AppRouter extends RootStackRouter {
           key: args.key,
           onResult: args.onResult,
         ),
+      );
+    },
+    ResultRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ResultPage(),
+      );
+    },
+    SettingsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SettingsRoute(),
       );
     },
     SetupRoute.name: (routeData) {
@@ -67,6 +87,16 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const SynchronizePage(),
       );
     },
+    UnfollowRoute.name: (routeData) {
+      final args = routeData.argsAs<UnfollowRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: UnfollowPage(
+          key: args.key,
+          count: args.count,
+        ),
+      );
+    },
   };
 }
 
@@ -82,6 +112,34 @@ class AccessibilityRoute extends PageRouteInfo<void> {
   static const String name = 'AccessibilityRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [HomePage]
+class HomeRoute extends PageRouteInfo<HomeRouteArgs> {
+  HomeRoute({
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          HomeRoute.name,
+          args: HomeRouteArgs(key: key),
+          initialChildren: children,
+        );
+
+  static const String name = 'HomeRoute';
+
+  static const PageInfo<HomeRouteArgs> page = PageInfo<HomeRouteArgs>(name);
+}
+
+class HomeRouteArgs {
+  const HomeRouteArgs({this.key});
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'HomeRouteArgs{key: $key}';
+  }
 }
 
 /// generated route for
@@ -150,6 +208,34 @@ class LoginRouteArgs {
 }
 
 /// generated route for
+/// [ResultPage]
+class ResultRoute extends PageRouteInfo<void> {
+  const ResultRoute({List<PageRouteInfo>? children})
+      : super(
+          ResultRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ResultRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SettingsRoute]
+class SettingsRoute extends PageRouteInfo<void> {
+  const SettingsRoute({List<PageRouteInfo>? children})
+      : super(
+          SettingsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SettingsRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [SetupPage]
 class SetupRoute extends PageRouteInfo<SetupRouteArgs> {
   SetupRoute({
@@ -212,4 +298,42 @@ class SynchronizeRoute extends PageRouteInfo<void> {
   static const String name = 'SynchronizeRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [UnfollowPage]
+class UnfollowRoute extends PageRouteInfo<UnfollowRouteArgs> {
+  UnfollowRoute({
+    Key? key,
+    required int count,
+    List<PageRouteInfo>? children,
+  }) : super(
+          UnfollowRoute.name,
+          args: UnfollowRouteArgs(
+            key: key,
+            count: count,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'UnfollowRoute';
+
+  static const PageInfo<UnfollowRouteArgs> page =
+      PageInfo<UnfollowRouteArgs>(name);
+}
+
+class UnfollowRouteArgs {
+  const UnfollowRouteArgs({
+    this.key,
+    required this.count,
+  });
+
+  final Key? key;
+
+  final int count;
+
+  @override
+  String toString() {
+    return 'UnfollowRouteArgs{key: $key, count: $count}';
+  }
 }
