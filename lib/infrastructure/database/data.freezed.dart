@@ -22,7 +22,7 @@ mixin _$UserTableData {
   String get description => throw _privateConstructorUsedError;
   String get profileImageUrl => throw _privateConstructorUsedError;
   String? get profileBannerUrl => throw _privateConstructorUsedError;
-  int get followersCount => throw _privateConstructorUsedError;
+  int get followerCount => throw _privateConstructorUsedError;
   int get friendsCount => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get lastUpdated => throw _privateConstructorUsedError;
@@ -45,7 +45,7 @@ abstract class $UserTableDataCopyWith<$Res> {
       String description,
       String profileImageUrl,
       String? profileBannerUrl,
-      int followersCount,
+      int followerCount,
       int friendsCount,
       DateTime createdAt,
       DateTime lastUpdated});
@@ -70,7 +70,7 @@ class _$UserTableDataCopyWithImpl<$Res, $Val extends UserTableData>
     Object? description = null,
     Object? profileImageUrl = null,
     Object? profileBannerUrl = freezed,
-    Object? followersCount = null,
+    Object? followerCount = null,
     Object? friendsCount = null,
     Object? createdAt = null,
     Object? lastUpdated = null,
@@ -100,9 +100,9 @@ class _$UserTableDataCopyWithImpl<$Res, $Val extends UserTableData>
           ? _value.profileBannerUrl
           : profileBannerUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-      followersCount: null == followersCount
-          ? _value.followersCount
-          : followersCount // ignore: cast_nullable_to_non_nullable
+      followerCount: null == followerCount
+          ? _value.followerCount
+          : followerCount // ignore: cast_nullable_to_non_nullable
               as int,
       friendsCount: null == friendsCount
           ? _value.friendsCount
@@ -135,7 +135,7 @@ abstract class _$$UserTableDataFreezedImplCopyWith<$Res>
       String description,
       String profileImageUrl,
       String? profileBannerUrl,
-      int followersCount,
+      int followerCount,
       int friendsCount,
       DateTime createdAt,
       DateTime lastUpdated});
@@ -158,7 +158,7 @@ class __$$UserTableDataFreezedImplCopyWithImpl<$Res>
     Object? description = null,
     Object? profileImageUrl = null,
     Object? profileBannerUrl = freezed,
-    Object? followersCount = null,
+    Object? followerCount = null,
     Object? friendsCount = null,
     Object? createdAt = null,
     Object? lastUpdated = null,
@@ -188,9 +188,9 @@ class __$$UserTableDataFreezedImplCopyWithImpl<$Res>
           ? _value.profileBannerUrl
           : profileBannerUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-      followersCount: null == followersCount
-          ? _value.followersCount
-          : followersCount // ignore: cast_nullable_to_non_nullable
+      followerCount: null == followerCount
+          ? _value.followerCount
+          : followerCount // ignore: cast_nullable_to_non_nullable
               as int,
       friendsCount: null == friendsCount
           ? _value.friendsCount
@@ -218,7 +218,7 @@ class _$UserTableDataFreezedImpl implements _UserTableDataFreezed {
       required this.description,
       required this.profileImageUrl,
       required this.profileBannerUrl,
-      required this.followersCount,
+      required this.followerCount,
       required this.friendsCount,
       required this.createdAt,
       required this.lastUpdated});
@@ -236,7 +236,7 @@ class _$UserTableDataFreezedImpl implements _UserTableDataFreezed {
   @override
   final String? profileBannerUrl;
   @override
-  final int followersCount;
+  final int followerCount;
   @override
   final int friendsCount;
   @override
@@ -246,7 +246,7 @@ class _$UserTableDataFreezedImpl implements _UserTableDataFreezed {
 
   @override
   String toString() {
-    return 'UserTableData(twitterId: $twitterId, screenName: $screenName, name: $name, description: $description, profileImageUrl: $profileImageUrl, profileBannerUrl: $profileBannerUrl, followersCount: $followersCount, friendsCount: $friendsCount, createdAt: $createdAt, lastUpdated: $lastUpdated)';
+    return 'UserTableData(twitterId: $twitterId, screenName: $screenName, name: $name, description: $description, profileImageUrl: $profileImageUrl, profileBannerUrl: $profileBannerUrl, followerCount: $followerCount, friendsCount: $friendsCount, createdAt: $createdAt, lastUpdated: $lastUpdated)';
   }
 
   @override
@@ -265,8 +265,8 @@ class _$UserTableDataFreezedImpl implements _UserTableDataFreezed {
                 other.profileImageUrl == profileImageUrl) &&
             (identical(other.profileBannerUrl, profileBannerUrl) ||
                 other.profileBannerUrl == profileBannerUrl) &&
-            (identical(other.followersCount, followersCount) ||
-                other.followersCount == followersCount) &&
+            (identical(other.followerCount, followerCount) ||
+                other.followerCount == followerCount) &&
             (identical(other.friendsCount, friendsCount) ||
                 other.friendsCount == friendsCount) &&
             (identical(other.createdAt, createdAt) ||
@@ -284,7 +284,7 @@ class _$UserTableDataFreezedImpl implements _UserTableDataFreezed {
       description,
       profileImageUrl,
       profileBannerUrl,
-      followersCount,
+      followerCount,
       friendsCount,
       createdAt,
       lastUpdated);
@@ -306,7 +306,7 @@ abstract class _UserTableDataFreezed implements UserTableData {
       required final String description,
       required final String profileImageUrl,
       required final String? profileBannerUrl,
-      required final int followersCount,
+      required final int followerCount,
       required final int friendsCount,
       required final DateTime createdAt,
       required final DateTime lastUpdated}) = _$UserTableDataFreezedImpl;
@@ -324,7 +324,7 @@ abstract class _UserTableDataFreezed implements UserTableData {
   @override
   String? get profileBannerUrl;
   @override
-  int get followersCount;
+  int get followerCount;
   @override
   int get friendsCount;
   @override

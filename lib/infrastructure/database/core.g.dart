@@ -44,11 +44,11 @@ class $UserTableTable extends UserTable
   late final GeneratedColumn<String> profileBannerUrl = GeneratedColumn<String>(
       'profile_banner_url', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _followersCountMeta =
-      const VerificationMeta('followersCount');
+  static const VerificationMeta _followerCountMeta =
+      const VerificationMeta('followerCount');
   @override
-  late final GeneratedColumn<int> followersCount = GeneratedColumn<int>(
-      'followers_count', aliasedName, false,
+  late final GeneratedColumn<int> followerCount = GeneratedColumn<int>(
+      'follower_count', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
   static const VerificationMeta _friendsCountMeta =
       const VerificationMeta('friendsCount');
@@ -76,7 +76,7 @@ class $UserTableTable extends UserTable
         description,
         profileImageUrl,
         profileBannerUrl,
-        followersCount,
+        followerCount,
         friendsCount,
         createdAt,
         lastUpdated
@@ -133,13 +133,13 @@ class $UserTableTable extends UserTable
           profileBannerUrl.isAcceptableOrUnknown(
               data['profile_banner_url']!, _profileBannerUrlMeta));
     }
-    if (data.containsKey('followers_count')) {
+    if (data.containsKey('follower_count')) {
       context.handle(
-          _followersCountMeta,
-          followersCount.isAcceptableOrUnknown(
-              data['followers_count']!, _followersCountMeta));
+          _followerCountMeta,
+          followerCount.isAcceptableOrUnknown(
+              data['follower_count']!, _followerCountMeta));
     } else if (isInserting) {
-      context.missing(_followersCountMeta);
+      context.missing(_followerCountMeta);
     }
     if (data.containsKey('friends_count')) {
       context.handle(
@@ -184,8 +184,8 @@ class $UserTableTable extends UserTable
           DriftSqlType.string, data['${effectivePrefix}profile_image_url'])!,
       profileBannerUrl: attachedDatabase.typeMapping.read(
           DriftSqlType.string, data['${effectivePrefix}profile_banner_url']),
-      followersCount: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}followers_count'])!,
+      followerCount: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}follower_count'])!,
       friendsCount: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}friends_count'])!,
       createdAt: attachedDatabase.typeMapping
@@ -208,7 +208,7 @@ class UserTableCompanion extends UpdateCompanion<UserTableData> {
   final Value<String> description;
   final Value<String> profileImageUrl;
   final Value<String?> profileBannerUrl;
-  final Value<int> followersCount;
+  final Value<int> followerCount;
   final Value<int> friendsCount;
   final Value<DateTime> createdAt;
   final Value<DateTime> lastUpdated;
@@ -220,7 +220,7 @@ class UserTableCompanion extends UpdateCompanion<UserTableData> {
     this.description = const Value.absent(),
     this.profileImageUrl = const Value.absent(),
     this.profileBannerUrl = const Value.absent(),
-    this.followersCount = const Value.absent(),
+    this.followerCount = const Value.absent(),
     this.friendsCount = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.lastUpdated = const Value.absent(),
@@ -233,7 +233,7 @@ class UserTableCompanion extends UpdateCompanion<UserTableData> {
     required String description,
     required String profileImageUrl,
     this.profileBannerUrl = const Value.absent(),
-    required int followersCount,
+    required int followerCount,
     required int friendsCount,
     required DateTime createdAt,
     required DateTime lastUpdated,
@@ -243,7 +243,7 @@ class UserTableCompanion extends UpdateCompanion<UserTableData> {
         name = Value(name),
         description = Value(description),
         profileImageUrl = Value(profileImageUrl),
-        followersCount = Value(followersCount),
+        followerCount = Value(followerCount),
         friendsCount = Value(friendsCount),
         createdAt = Value(createdAt),
         lastUpdated = Value(lastUpdated);
@@ -254,7 +254,7 @@ class UserTableCompanion extends UpdateCompanion<UserTableData> {
     Expression<String>? description,
     Expression<String>? profileImageUrl,
     Expression<String>? profileBannerUrl,
-    Expression<int>? followersCount,
+    Expression<int>? followerCount,
     Expression<int>? friendsCount,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? lastUpdated,
@@ -267,7 +267,7 @@ class UserTableCompanion extends UpdateCompanion<UserTableData> {
       if (description != null) 'description': description,
       if (profileImageUrl != null) 'profile_image_url': profileImageUrl,
       if (profileBannerUrl != null) 'profile_banner_url': profileBannerUrl,
-      if (followersCount != null) 'followers_count': followersCount,
+      if (followerCount != null) 'follower_count': followerCount,
       if (friendsCount != null) 'friends_count': friendsCount,
       if (createdAt != null) 'created_at': createdAt,
       if (lastUpdated != null) 'last_updated': lastUpdated,
@@ -282,7 +282,7 @@ class UserTableCompanion extends UpdateCompanion<UserTableData> {
       Value<String>? description,
       Value<String>? profileImageUrl,
       Value<String?>? profileBannerUrl,
-      Value<int>? followersCount,
+      Value<int>? followerCount,
       Value<int>? friendsCount,
       Value<DateTime>? createdAt,
       Value<DateTime>? lastUpdated,
@@ -294,7 +294,7 @@ class UserTableCompanion extends UpdateCompanion<UserTableData> {
       description: description ?? this.description,
       profileImageUrl: profileImageUrl ?? this.profileImageUrl,
       profileBannerUrl: profileBannerUrl ?? this.profileBannerUrl,
-      followersCount: followersCount ?? this.followersCount,
+      followerCount: followerCount ?? this.followerCount,
       friendsCount: friendsCount ?? this.friendsCount,
       createdAt: createdAt ?? this.createdAt,
       lastUpdated: lastUpdated ?? this.lastUpdated,
@@ -323,8 +323,8 @@ class UserTableCompanion extends UpdateCompanion<UserTableData> {
     if (profileBannerUrl.present) {
       map['profile_banner_url'] = Variable<String>(profileBannerUrl.value);
     }
-    if (followersCount.present) {
-      map['followers_count'] = Variable<int>(followersCount.value);
+    if (followerCount.present) {
+      map['follower_count'] = Variable<int>(followerCount.value);
     }
     if (friendsCount.present) {
       map['friends_count'] = Variable<int>(friendsCount.value);
@@ -350,7 +350,7 @@ class UserTableCompanion extends UpdateCompanion<UserTableData> {
           ..write('description: $description, ')
           ..write('profileImageUrl: $profileImageUrl, ')
           ..write('profileBannerUrl: $profileBannerUrl, ')
-          ..write('followersCount: $followersCount, ')
+          ..write('followerCount: $followerCount, ')
           ..write('friendsCount: $friendsCount, ')
           ..write('createdAt: $createdAt, ')
           ..write('lastUpdated: $lastUpdated, ')
@@ -360,12 +360,12 @@ class UserTableCompanion extends UpdateCompanion<UserTableData> {
   }
 }
 
-class $UserFollowersTableTable extends UserFollowersTable
-    with TableInfo<$UserFollowersTableTable, UserFollowersTableData> {
+class $UserFollowerTableTable extends UserFollowerTable
+    with TableInfo<$UserFollowerTableTable, UserFollowerTableData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $UserFollowersTableTable(this.attachedDatabase, [this._alias]);
+  $UserFollowerTableTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _keyMeta = const VerificationMeta('key');
   @override
   late final GeneratedColumn<int> key = GeneratedColumn<int>(
@@ -398,10 +398,10 @@ class $UserFollowersTableTable extends UserFollowersTable
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'user_followers_table';
+  static const String $name = 'user_follower_table';
   @override
   VerificationContext validateIntegrity(
-      Insertable<UserFollowersTableData> instance,
+      Insertable<UserFollowerTableData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -435,9 +435,9 @@ class $UserFollowersTableTable extends UserFollowersTable
   @override
   Set<GeneratedColumn> get $primaryKey => {key};
   @override
-  UserFollowersTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+  UserFollowerTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return UserFollowersTableData(
+    return UserFollowerTableData(
       key: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}key'])!,
       twitterId: attachedDatabase.typeMapping
@@ -450,18 +450,18 @@ class $UserFollowersTableTable extends UserFollowersTable
   }
 
   @override
-  $UserFollowersTableTable createAlias(String alias) {
-    return $UserFollowersTableTable(attachedDatabase, alias);
+  $UserFollowerTableTable createAlias(String alias) {
+    return $UserFollowerTableTable(attachedDatabase, alias);
   }
 }
 
-class UserFollowersTableData extends DataClass
-    implements Insertable<UserFollowersTableData> {
+class UserFollowerTableData extends DataClass
+    implements Insertable<UserFollowerTableData> {
   final int key;
   final String twitterId;
   final String selfTwitterId;
   final DateTime time;
-  const UserFollowersTableData(
+  const UserFollowerTableData(
       {required this.key,
       required this.twitterId,
       required this.selfTwitterId,
@@ -476,8 +476,8 @@ class UserFollowersTableData extends DataClass
     return map;
   }
 
-  UserFollowersTableCompanion toCompanion(bool nullToAbsent) {
-    return UserFollowersTableCompanion(
+  UserFollowerTableCompanion toCompanion(bool nullToAbsent) {
+    return UserFollowerTableCompanion(
       key: Value(key),
       twitterId: Value(twitterId),
       selfTwitterId: Value(selfTwitterId),
@@ -485,10 +485,10 @@ class UserFollowersTableData extends DataClass
     );
   }
 
-  factory UserFollowersTableData.fromJson(Map<String, dynamic> json,
+  factory UserFollowerTableData.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return UserFollowersTableData(
+    return UserFollowerTableData(
       key: serializer.fromJson<int>(json['key']),
       twitterId: serializer.fromJson<String>(json['twitterId']),
       selfTwitterId: serializer.fromJson<String>(json['selfTwitterId']),
@@ -506,12 +506,12 @@ class UserFollowersTableData extends DataClass
     };
   }
 
-  UserFollowersTableData copyWith(
+  UserFollowerTableData copyWith(
           {int? key,
           String? twitterId,
           String? selfTwitterId,
           DateTime? time}) =>
-      UserFollowersTableData(
+      UserFollowerTableData(
         key: key ?? this.key,
         twitterId: twitterId ?? this.twitterId,
         selfTwitterId: selfTwitterId ?? this.selfTwitterId,
@@ -519,7 +519,7 @@ class UserFollowersTableData extends DataClass
       );
   @override
   String toString() {
-    return (StringBuffer('UserFollowersTableData(')
+    return (StringBuffer('UserFollowerTableData(')
           ..write('key: $key, ')
           ..write('twitterId: $twitterId, ')
           ..write('selfTwitterId: $selfTwitterId, ')
@@ -533,26 +533,26 @@ class UserFollowersTableData extends DataClass
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is UserFollowersTableData &&
+      (other is UserFollowerTableData &&
           other.key == this.key &&
           other.twitterId == this.twitterId &&
           other.selfTwitterId == this.selfTwitterId &&
           other.time == this.time);
 }
 
-class UserFollowersTableCompanion
-    extends UpdateCompanion<UserFollowersTableData> {
+class UserFollowerTableCompanion
+    extends UpdateCompanion<UserFollowerTableData> {
   final Value<int> key;
   final Value<String> twitterId;
   final Value<String> selfTwitterId;
   final Value<DateTime> time;
-  const UserFollowersTableCompanion({
+  const UserFollowerTableCompanion({
     this.key = const Value.absent(),
     this.twitterId = const Value.absent(),
     this.selfTwitterId = const Value.absent(),
     this.time = const Value.absent(),
   });
-  UserFollowersTableCompanion.insert({
+  UserFollowerTableCompanion.insert({
     this.key = const Value.absent(),
     required String twitterId,
     required String selfTwitterId,
@@ -560,7 +560,7 @@ class UserFollowersTableCompanion
   })  : twitterId = Value(twitterId),
         selfTwitterId = Value(selfTwitterId),
         time = Value(time);
-  static Insertable<UserFollowersTableData> custom({
+  static Insertable<UserFollowerTableData> custom({
     Expression<int>? key,
     Expression<String>? twitterId,
     Expression<String>? selfTwitterId,
@@ -574,12 +574,12 @@ class UserFollowersTableCompanion
     });
   }
 
-  UserFollowersTableCompanion copyWith(
+  UserFollowerTableCompanion copyWith(
       {Value<int>? key,
       Value<String>? twitterId,
       Value<String>? selfTwitterId,
       Value<DateTime>? time}) {
-    return UserFollowersTableCompanion(
+    return UserFollowerTableCompanion(
       key: key ?? this.key,
       twitterId: twitterId ?? this.twitterId,
       selfTwitterId: selfTwitterId ?? this.selfTwitterId,
@@ -607,7 +607,263 @@ class UserFollowersTableCompanion
 
   @override
   String toString() {
-    return (StringBuffer('UserFollowersTableCompanion(')
+    return (StringBuffer('UserFollowerTableCompanion(')
+          ..write('key: $key, ')
+          ..write('twitterId: $twitterId, ')
+          ..write('selfTwitterId: $selfTwitterId, ')
+          ..write('time: $time')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $UserFollowTableTable extends UserFollowTable
+    with TableInfo<$UserFollowTableTable, UserFollowTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $UserFollowTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _keyMeta = const VerificationMeta('key');
+  @override
+  late final GeneratedColumn<int> key = GeneratedColumn<int>(
+      'key', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _twitterIdMeta =
+      const VerificationMeta('twitterId');
+  @override
+  late final GeneratedColumn<String> twitterId = GeneratedColumn<String>(
+      'twitter_id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _selfTwitterIdMeta =
+      const VerificationMeta('selfTwitterId');
+  @override
+  late final GeneratedColumn<String> selfTwitterId = GeneratedColumn<String>(
+      'self_twitter_id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _timeMeta = const VerificationMeta('time');
+  @override
+  late final GeneratedColumn<DateTime> time = GeneratedColumn<DateTime>(
+      'time', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [key, twitterId, selfTwitterId, time];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'user_follow_table';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<UserFollowTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('key')) {
+      context.handle(
+          _keyMeta, key.isAcceptableOrUnknown(data['key']!, _keyMeta));
+    }
+    if (data.containsKey('twitter_id')) {
+      context.handle(_twitterIdMeta,
+          twitterId.isAcceptableOrUnknown(data['twitter_id']!, _twitterIdMeta));
+    } else if (isInserting) {
+      context.missing(_twitterIdMeta);
+    }
+    if (data.containsKey('self_twitter_id')) {
+      context.handle(
+          _selfTwitterIdMeta,
+          selfTwitterId.isAcceptableOrUnknown(
+              data['self_twitter_id']!, _selfTwitterIdMeta));
+    } else if (isInserting) {
+      context.missing(_selfTwitterIdMeta);
+    }
+    if (data.containsKey('time')) {
+      context.handle(
+          _timeMeta, time.isAcceptableOrUnknown(data['time']!, _timeMeta));
+    } else if (isInserting) {
+      context.missing(_timeMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {key};
+  @override
+  UserFollowTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return UserFollowTableData(
+      key: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}key'])!,
+      twitterId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}twitter_id'])!,
+      selfTwitterId: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}self_twitter_id'])!,
+      time: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}time'])!,
+    );
+  }
+
+  @override
+  $UserFollowTableTable createAlias(String alias) {
+    return $UserFollowTableTable(attachedDatabase, alias);
+  }
+}
+
+class UserFollowTableData extends DataClass
+    implements Insertable<UserFollowTableData> {
+  final int key;
+  final String twitterId;
+  final String selfTwitterId;
+  final DateTime time;
+  const UserFollowTableData(
+      {required this.key,
+      required this.twitterId,
+      required this.selfTwitterId,
+      required this.time});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['key'] = Variable<int>(key);
+    map['twitter_id'] = Variable<String>(twitterId);
+    map['self_twitter_id'] = Variable<String>(selfTwitterId);
+    map['time'] = Variable<DateTime>(time);
+    return map;
+  }
+
+  UserFollowTableCompanion toCompanion(bool nullToAbsent) {
+    return UserFollowTableCompanion(
+      key: Value(key),
+      twitterId: Value(twitterId),
+      selfTwitterId: Value(selfTwitterId),
+      time: Value(time),
+    );
+  }
+
+  factory UserFollowTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return UserFollowTableData(
+      key: serializer.fromJson<int>(json['key']),
+      twitterId: serializer.fromJson<String>(json['twitterId']),
+      selfTwitterId: serializer.fromJson<String>(json['selfTwitterId']),
+      time: serializer.fromJson<DateTime>(json['time']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'key': serializer.toJson<int>(key),
+      'twitterId': serializer.toJson<String>(twitterId),
+      'selfTwitterId': serializer.toJson<String>(selfTwitterId),
+      'time': serializer.toJson<DateTime>(time),
+    };
+  }
+
+  UserFollowTableData copyWith(
+          {int? key,
+          String? twitterId,
+          String? selfTwitterId,
+          DateTime? time}) =>
+      UserFollowTableData(
+        key: key ?? this.key,
+        twitterId: twitterId ?? this.twitterId,
+        selfTwitterId: selfTwitterId ?? this.selfTwitterId,
+        time: time ?? this.time,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('UserFollowTableData(')
+          ..write('key: $key, ')
+          ..write('twitterId: $twitterId, ')
+          ..write('selfTwitterId: $selfTwitterId, ')
+          ..write('time: $time')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(key, twitterId, selfTwitterId, time);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is UserFollowTableData &&
+          other.key == this.key &&
+          other.twitterId == this.twitterId &&
+          other.selfTwitterId == this.selfTwitterId &&
+          other.time == this.time);
+}
+
+class UserFollowTableCompanion extends UpdateCompanion<UserFollowTableData> {
+  final Value<int> key;
+  final Value<String> twitterId;
+  final Value<String> selfTwitterId;
+  final Value<DateTime> time;
+  const UserFollowTableCompanion({
+    this.key = const Value.absent(),
+    this.twitterId = const Value.absent(),
+    this.selfTwitterId = const Value.absent(),
+    this.time = const Value.absent(),
+  });
+  UserFollowTableCompanion.insert({
+    this.key = const Value.absent(),
+    required String twitterId,
+    required String selfTwitterId,
+    required DateTime time,
+  })  : twitterId = Value(twitterId),
+        selfTwitterId = Value(selfTwitterId),
+        time = Value(time);
+  static Insertable<UserFollowTableData> custom({
+    Expression<int>? key,
+    Expression<String>? twitterId,
+    Expression<String>? selfTwitterId,
+    Expression<DateTime>? time,
+  }) {
+    return RawValuesInsertable({
+      if (key != null) 'key': key,
+      if (twitterId != null) 'twitter_id': twitterId,
+      if (selfTwitterId != null) 'self_twitter_id': selfTwitterId,
+      if (time != null) 'time': time,
+    });
+  }
+
+  UserFollowTableCompanion copyWith(
+      {Value<int>? key,
+      Value<String>? twitterId,
+      Value<String>? selfTwitterId,
+      Value<DateTime>? time}) {
+    return UserFollowTableCompanion(
+      key: key ?? this.key,
+      twitterId: twitterId ?? this.twitterId,
+      selfTwitterId: selfTwitterId ?? this.selfTwitterId,
+      time: time ?? this.time,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (key.present) {
+      map['key'] = Variable<int>(key.value);
+    }
+    if (twitterId.present) {
+      map['twitter_id'] = Variable<String>(twitterId.value);
+    }
+    if (selfTwitterId.present) {
+      map['self_twitter_id'] = Variable<String>(selfTwitterId.value);
+    }
+    if (time.present) {
+      map['time'] = Variable<DateTime>(time.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserFollowTableCompanion(')
           ..write('key: $key, ')
           ..write('twitterId: $twitterId, ')
           ..write('selfTwitterId: $selfTwitterId, ')
@@ -813,8 +1069,10 @@ class SelfAccountTableCompanion extends UpdateCompanion<SelfAccountTableData> {
 abstract class _$SocialDogeDatabase extends GeneratedDatabase {
   _$SocialDogeDatabase(QueryExecutor e) : super(e);
   late final $UserTableTable userTable = $UserTableTable(this);
-  late final $UserFollowersTableTable userFollowersTable =
-      $UserFollowersTableTable(this);
+  late final $UserFollowerTableTable userFollowerTable =
+      $UserFollowerTableTable(this);
+  late final $UserFollowTableTable userFollowTable =
+      $UserFollowTableTable(this);
   late final $SelfAccountTableTable selfAccountTable =
       $SelfAccountTableTable(this);
   @override
@@ -822,5 +1080,5 @@ abstract class _$SocialDogeDatabase extends GeneratedDatabase {
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [userTable, userFollowersTable, selfAccountTable];
+      [userTable, userFollowerTable, userFollowTable, selfAccountTable];
 }

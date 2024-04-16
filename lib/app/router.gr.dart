@@ -58,10 +58,10 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const ResultPage(),
       );
     },
-    SettingsRoute.name: (routeData) {
+    SettingRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const SettingsRoute(),
+        child: const SettingPage(),
       );
     },
     SetupRoute.name: (routeData) {
@@ -222,15 +222,15 @@ class ResultRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [SettingsRoute]
-class SettingsRoute extends PageRouteInfo<void> {
-  const SettingsRoute({List<PageRouteInfo>? children})
+/// [SettingPage]
+class SettingRoute extends PageRouteInfo<void> {
+  const SettingRoute({List<PageRouteInfo>? children})
       : super(
-          SettingsRoute.name,
+          SettingRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'SettingsRoute';
+  static const String name = 'SettingRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

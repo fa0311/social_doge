@@ -4,7 +4,7 @@ import 'package:social_doge/infrastructure/database/provider.dart';
 import 'package:social_doge/provider/twitter/twitter.dart';
 import 'package:twitter_openapi_dart_generated/twitter_openapi_dart_generated.dart';
 
-part 'self_account.g.dart';
+part 'account.g.dart';
 
 @Riverpod(keepAlive: true)
 class SelfAccount extends _$SelfAccount {
@@ -20,6 +20,22 @@ class SelfAccount extends _$SelfAccount {
     final db = ref.read(getDatabaseProvider);
     final insertUser = SelfAccountTableCompanion.insert(selfTwitterId: value, loginTime: DateTime.now());
     await db.upsertAccount(insertUser);
+  }
+}
+
+@Riverpod(keepAlive: true)
+class LastTwitterLogin extends _$LastTwitterLogin {
+  @override
+  DateTime build() {
+    return DateTime(0);
+  }
+
+  void refresh() {
+    state = DateTime.now();
+  }
+
+  bool isExpired(Duration duration) {
+    return DateTime.now().difference(state) > duration;
   }
 }
 

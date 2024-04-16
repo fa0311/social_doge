@@ -9,13 +9,13 @@ import 'package:social_doge/infrastructure/database/table.dart';
 
 part 'core.g.dart';
 
-class FollowersCount {
-  FollowersCount(this.time, this.count);
+class FollowerCount {
+  FollowerCount(this.time, this.count);
   final DateTime time;
   final int count;
 }
 
-@DriftDatabase(tables: [UserTable, UserFollowersTable, SelfAccountTable])
+@DriftDatabase(tables: [UserTable, UserFollowerTable, UserFollowTable, SelfAccountTable])
 class SocialDogeDatabase extends _$SocialDogeDatabase {
   SocialDogeDatabase() : super(_openConnection());
 
@@ -45,80 +45,107 @@ class SocialDogeDatabase extends _$SocialDogeDatabase {
     return into(userTable).insertOnConflictUpdate(entry);
   }
 
-  /* UserFollowersTable */
-
-  Future<int> addFollowers(UserFollowersTableCompanion entry) {
-    return into(userFollowersTable).insert(entry);
-  }
-
-  Future<List<FollowersCount>> followersCountByTime({
-    required String userId,
-    required Duration duration,
-    OrderingMode mode = OrderingMode.asc,
-  }) {
-    final time = DateTime.now().subtract(duration);
-    final query = selectOnly(userFollowersTable)
-      ..addColumns([userFollowersTable.time, userFollowersTable.twitterId.count()])
-      ..where(userFollowersTable.selfTwitterId.equals(userId))
-      ..groupBy([userFollowersTable.time], having: userFollowersTable.time.isBiggerThanValue(time))
-      ..orderBy([OrderingTerm(expression: userFollowersTable.twitterId, mode: mode)]);
-    return query.map((row) => FollowersCount(row.read(userFollowersTable.time)!, row.read(userFollowersTable.twitterId.count())!)).get();
-  }
-
-  Future<List<UserFollowersTableData>> followersTest() {
-    final query = select(userFollowersTable);
-    return query.get();
-  }
-
-  Future<List<String>> followers({
-    required String userId,
-    required DateTime time,
-    OrderingMode mode = OrderingMode.asc,
-  }) {
-    final query = selectOnly(userFollowersTable)
-      ..addColumns([userFollowersTable.twitterId])
-      ..where(userFollowersTable.selfTwitterId.equals(userId) & userFollowersTable.time.equals(time));
-    return query.map((row) => row.read(userFollowersTable.twitterId)!).get();
-  }
-
-  Future<List<DateTime>> followersTime({
-    required String userId,
-    OrderingMode mode = OrderingMode.asc,
-  }) {
-    final query = selectOnly(userFollowersTable)
-      ..addColumns([userFollowersTable.time, userFollowersTable.twitterId.count()])
-      ..where(userFollowersTable.selfTwitterId.equals(userId))
-      ..groupBy([userFollowersTable.time])
-      ..orderBy([OrderingTerm(expression: userFollowersTable.twitterId, mode: mode)]);
-    return query.map((row) => row.read(userFollowersTable.time)!).get();
-  }
-
-  Future<DateTime> followersLastTime({
-    required String userId,
-    OrderingMode mode = OrderingMode.asc,
-  }) {
-    final query = selectOnly(userFollowersTable)
-      ..addColumns([userFollowersTable.time])
-      ..where(userFollowersTable.selfTwitterId.equals(userId))
-      ..groupBy([userFollowersTable.time])
-      ..orderBy([OrderingTerm(expression: userFollowersTable.twitterId, mode: mode)])
-      ..limit(1);
-    return query.map((row) => row.read(userFollowersTable.time)!).getSingle();
-  }
-
-  Future<int> deleteFollowers({
-    required String userId,
-    required DateTime time,
-  }) {
-    final query = delete(userFollowersTable)..where((t) => t.selfTwitterId.equals(userId) & t.time.equals(time));
-    return query.go();
-  }
-
   Future<UserTableData> user({required String userId}) {
     final query = select(userTable)
       ..where((t) => t.twitterId.equals(userId))
       ..limit(1);
     return query.getSingle();
+  }
+
+  /* sync */
+
+  Future<List<FollowerCount>> followerCountByTime({
+    required String userId,
+    required Duration duration,
+    OrderingMode mode = OrderingMode.asc,
+  }) {
+    final time = DateTime.now().subtract(duration);
+    final query = selectOnly(userFollowerTable)
+      ..addColumns([userFollowerTable.time, userFollowerTable.twitterId.count()])
+      ..where(userFollowerTable.selfTwitterId.equals(userId))
+      ..groupBy([userFollowerTable.time], having: userFollowerTable.time.isBiggerThanValue(time))
+      ..orderBy([OrderingTerm(expression: userFollowerTable.twitterId, mode: mode)]);
+    return query.map((row) => FollowerCount(row.read(userFollowerTable.time)!, row.read(userFollowerTable.twitterId.count())!)).get();
+  }
+
+  Future<List<DateTime>> followerTime({
+    required String userId,
+    OrderingMode mode = OrderingMode.asc,
+  }) {
+    final query = selectOnly(userFollowerTable)
+      ..addColumns([userFollowerTable.time, userFollowerTable.twitterId.count()])
+      ..where(userFollowerTable.selfTwitterId.equals(userId))
+      ..groupBy([userFollowerTable.time])
+      ..orderBy([OrderingTerm(expression: userFollowerTable.twitterId, mode: mode)]);
+    return query.map((row) => row.read(userFollowerTable.time)!).get();
+  }
+
+  // Future<DateTime> FollowerLastTime({
+  //   required String userId,
+  //   OrderingMode mode = OrderingMode.asc,
+  // }) {
+  //   final query = selectOnly(userFollowerTable)
+  //     ..addColumns([userFollowerTable.time])
+  //     ..where(userFollowerTable.selfTwitterId.equals(userId))
+  //     ..groupBy([userFollowerTable.time])
+  //     ..orderBy([OrderingTerm(expression: userFollowerTable.twitterId, mode: mode)])
+  //     ..limit(1);
+  //   return query.map((row) => row.read(userFollowerTable.time)!).getSingle();
+  // }
+
+  // Future<List<UserFollowerTableData>> FollowerTest() {
+  //   final query = select(userFollowerTable);
+  //   return query.get();
+  // }
+
+  /* UserFollowerTable */
+
+  Future<int> addFollower(UserFollowerTableCompanion entry) {
+    return into(userFollowerTable).insert(entry);
+  }
+
+  Future<List<String>> follower({
+    required String userId,
+    required DateTime time,
+    OrderingMode mode = OrderingMode.asc,
+  }) {
+    final query = selectOnly(userFollowerTable)
+      ..addColumns([userFollowerTable.twitterId])
+      ..where(userFollowerTable.selfTwitterId.equals(userId) & userFollowerTable.time.equals(time));
+    return query.map((row) => row.read(userFollowerTable.twitterId)!).get();
+  }
+
+  Future<int> deleteFollower({
+    required String userId,
+    required DateTime time,
+  }) {
+    final query = delete(userFollowerTable)..where((t) => t.selfTwitterId.equals(userId) & t.time.equals(time));
+    return query.go();
+  }
+
+  /* UserFollowTable */
+
+  Future<int> addFollow(UserFollowTableCompanion entry) {
+    return into(userFollowTable).insert(entry);
+  }
+
+  Future<List<String>> follow({
+    required String userId,
+    required DateTime time,
+    OrderingMode mode = OrderingMode.asc,
+  }) {
+    final query = selectOnly(userFollowTable)
+      ..addColumns([userFollowTable.twitterId])
+      ..where(userFollowTable.selfTwitterId.equals(userId) & userFollowTable.time.equals(time));
+    return query.map((row) => row.read(userFollowTable.twitterId)!).get();
+  }
+
+  Future<int> deleteFollow({
+    required String userId,
+    required DateTime time,
+  }) {
+    final query = delete(userFollowTable)..where((t) => t.selfTwitterId.equals(userId) & t.time.equals(time));
+    return query.go();
   }
 
   @override
@@ -129,6 +156,9 @@ LazyDatabase _openConnection() {
   return LazyDatabase(() async {
     final dbFolder = await getApplicationDocumentsDirectory();
     final file = File(join(dbFolder.path, 'db.sqlite'));
+    // if (file.existsSync()) {
+    //   await file.delete();
+    // }
     return NativeDatabase.createInBackground(file);
   });
 }

@@ -5,8 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:social_doge/app/router.dart';
 
 @RoutePage()
-class SettingsRoute extends HookConsumerWidget {
-  const SettingsRoute({super.key});
+class SettingPage extends HookConsumerWidget {
+  const SettingPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

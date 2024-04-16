@@ -11,7 +11,7 @@ class UserTableData with _$UserTableData {
     required String description,
     required String profileImageUrl,
     required String? profileBannerUrl,
-    required int followersCount,
+    required int followerCount,
     required int friendsCount,
     required DateTime createdAt,
     required DateTime lastUpdated,

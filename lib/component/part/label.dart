@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class BaseLabel extends StatefulWidget {
+class BaseLabel extends StatelessWidget {
   const BaseLabel({super.key, required this.child, required this.color, required this.backgroundColor, required this.icon});
   final Widget child;
   final Color color;
@@ -8,26 +8,21 @@ class BaseLabel extends StatefulWidget {
   final IconData icon;
 
   @override
-  BaseLabelState createState() => BaseLabelState();
-}
-
-class BaseLabelState extends State<BaseLabel> {
-  @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: widget.backgroundColor,
-        border: Border(left: BorderSide(color: widget.color, width: 3)),
+        color: backgroundColor,
+        border: Border(left: BorderSide(color: color, width: 3)),
       ),
       padding: const EdgeInsets.all(8),
       child: Row(
         children: [
-          Icon(widget.icon, color: widget.color, size: 20),
+          Icon(icon, color: color, size: 20),
           Flexible(
             child: Padding(
               padding: const EdgeInsets.only(left: 8),
-              child: widget.child,
+              child: child,
             ),
           ),
         ],
@@ -36,62 +31,47 @@ class BaseLabelState extends State<BaseLabel> {
   }
 }
 
-class ErrorLabel extends StatefulWidget {
+class ErrorLabel extends StatelessWidget {
   const ErrorLabel({super.key, required this.child});
   final Widget child;
 
-  @override
-  ErrorLabelState createState() => ErrorLabelState();
-}
-
-class ErrorLabelState extends State<ErrorLabel> {
   @override
   Widget build(BuildContext context) {
     return BaseLabel(
       color: Colors.red,
       backgroundColor: Colors.red[100]!,
       icon: Icons.error,
-      child: widget.child,
+      child: child,
     );
   }
 }
 
-class AlertLabel extends StatefulWidget {
+class AlertLabel extends StatelessWidget {
   const AlertLabel({super.key, required this.child});
   final Widget child;
 
-  @override
-  AlertLabelState createState() => AlertLabelState();
-}
-
-class AlertLabelState extends State<AlertLabel> {
   @override
   Widget build(BuildContext context) {
     return BaseLabel(
       color: Colors.orange,
       backgroundColor: Colors.orange[100]!,
       icon: Icons.warning,
-      child: widget.child,
+      child: child,
     );
   }
 }
 
-class SuccessLabel extends StatefulWidget {
+class SuccessLabel extends StatelessWidget {
   const SuccessLabel({super.key, required this.child});
   final Widget child;
 
-  @override
-  SuccessLabelState createState() => SuccessLabelState();
-}
-
-class SuccessLabelState extends State<SuccessLabel> {
   @override
   Widget build(BuildContext context) {
     return BaseLabel(
       color: Colors.green,
       backgroundColor: Colors.green[100]!,
       icon: Icons.check_circle,
-      child: widget.child,
+      child: child,
     );
   }
 }

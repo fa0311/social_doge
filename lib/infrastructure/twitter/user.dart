@@ -23,35 +23,45 @@ abstract class TwitterUser {
   }
 
   Stream<(User?, int?)> stream(String userId) async* {
+    final userList = <String>{};
+
+    Iterable<User> getDiff(TwitterApiUtilsResponse<TimelineApiUtilsResponse<UserApiUtilsData>> response) {
+      return response.data.data.where((e) => userList.add(e.user.restId)).map((e) => e.user);
+    }
+
     final response = await get(userId, null, 200);
-    yield* Stream.fromIterable(response.data.data.map((e) => (e.user, null)));
+    final diff = getDiff(response);
+
+    yield* Stream.fromIterable(diff.map((e) => (e, null)));
     yield* limit(response).map((event) => (null, event));
+
+    for (var i = 0; i < 100000; i++) {
+      yield (null, 100000 - i);
+      await Future<void>.delayed(const Duration(seconds: 1));
+    }
 
     var topCursor = response.data.cursor.top?.value;
     var bottomCursor = response.data.cursor.bottom?.value;
-    final userList = <String>{};
 
     while (topCursor != null) {
       final response = await get(userId, topCursor, 200);
-      final userListLen = userList.length;
-      userList.addAll(response.data.data.map((e) => e.user.restId));
-      topCursor = userListLen < userList.length ? response.data.cursor.top?.value : null;
-      yield* Stream.fromIterable(response.data.data.map((e) => (e.user, null)));
+      final diff = getDiff(response);
+      topCursor = diff.isEmpty ? null : response.data.cursor.top?.value;
+      yield* Stream.fromIterable(diff.map((e) => (e, null)));
       yield* limit(response).map((event) => (null, event));
     }
     while (bottomCursor != null) {
       final response = await get(userId, bottomCursor, 200);
-      final userListLen = userList.length;
-      userList.addAll(response.data.data.map((e) => e.user.restId));
-      bottomCursor = userListLen < userList.length ? response.data.cursor.bottom?.value : null;
-      yield* Stream.fromIterable(response.data.data.map((e) => (e.user, null)));
+      final diff = getDiff(response);
+      bottomCursor = diff.isEmpty ? null : response.data.cursor.bottom?.value;
+      yield* Stream.fromIterable(diff.map((e) => (e, null)));
       yield* limit(response).map((event) => (null, event));
     }
   }
 }
 
-class TwitterGetFollowers extends TwitterUser {
-  TwitterGetFollowers({required super.client});
+class TwitterGetFollower extends TwitterUser {
+  TwitterGetFollower({required super.client});
 
   @override
   Future<TwitterApiUtilsResponse<TimelineApiUtilsResponse<UserApiUtilsData>>> get(
@@ -63,8 +73,8 @@ class TwitterGetFollowers extends TwitterUser {
   }
 }
 
-class TwitterGetFriends extends TwitterUser {
-  TwitterGetFriends({required super.client});
+class TwitterGetFollow extends TwitterUser {
+  TwitterGetFollow({required super.client});
 
   @override
   Future<TwitterApiUtilsResponse<TimelineApiUtilsResponse<UserApiUtilsData>>> get(

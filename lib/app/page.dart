@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:social_doge/app/router.dart';
 import 'package:social_doge/component/drawer.dart';
+import 'package:social_doge/component/part/physics.dart';
 
 @RoutePage()
 class SocialDogePage extends HookConsumerWidget {
@@ -20,6 +21,7 @@ class SocialDogePage extends HookConsumerWidget {
         HomeRoute(),
         const ResultRoute(),
       ],
+      physics: const FastScrollPhysics(),
       builder: (context, child, _) {
         final tabsRouter = AutoTabsRouter.of(context);
         return Scaffold(

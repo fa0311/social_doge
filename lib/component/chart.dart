@@ -8,7 +8,7 @@ import 'package:social_doge/infrastructure/database/core.dart';
 
 class FollowerChart extends HookConsumerWidget {
   FollowerChart({super.key, required this.data});
-  final List<FollowersCount> data;
+  final List<FollowerCount> data;
   final List<Color> gradientColors = [Colors.cyan, Colors.blue];
 
   @override
@@ -17,7 +17,7 @@ class FollowerChart extends HookConsumerWidget {
       return Center(child: Text(AppLocalizations.of(context)!.noData));
     }
     if (data.length == 1) {
-      data.add(FollowersCount(data.first.time.add(const Duration(seconds: 1)), data.first.count));
+      data.add(FollowerCount(data.first.time.add(const Duration(seconds: 1)), data.first.count));
     }
     return LineChart(
       LineChartData(

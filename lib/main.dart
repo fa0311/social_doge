@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:social_doge/app/router.dart';
 import 'package:social_doge/constant/config.dart';
 import 'package:social_doge/provider/key_value_storage/storage.dart';
+import 'package:social_doge/util/logger.dart';
 
 void main() {
-  runApp(const ProviderScope(child: SocialDoge()));
+  usePathUrlStrategy();
+  runApp(ProviderScope(observers: [ProviderLogger()], child: const SocialDoge()));
 }
 
 class SocialDoge extends HookConsumerWidget {
@@ -32,6 +35,7 @@ class SocialDoge extends HookConsumerWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       locale: locale.valueOrNull,
       theme: ThemeData(
+        useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
           seedColor: Config.seedColor,
           brightness: switch (theme.valueOrNull) {
@@ -41,6 +45,7 @@ class SocialDoge extends HookConsumerWidget {
         ),
       ),
       darkTheme: ThemeData(
+        useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
           seedColor: Config.seedColor,
           brightness: switch (theme.valueOrNull) {

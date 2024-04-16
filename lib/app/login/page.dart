@@ -9,12 +9,12 @@ class LoginPage extends HookConsumerWidget {
 
   final void Function()? onResult;
 
-  static Uri url = Uri.https('twitter.com', '/');
+  static Uri baseUrl = Uri.https('twitter.com', '/');
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return InAppWebView(
-      initialUrlRequest: URLRequest(url: WebUri.uri(url)..resolve('login')),
+      initialUrlRequest: URLRequest(url: WebUri.uri(baseUrl)..resolve('login')),
       onTitleChanged: (controller, title) async {
         final url = await controller.getUrl();
         if (url != null && url.path == url.resolve('home').path && context.mounted) {

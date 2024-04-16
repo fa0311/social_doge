@@ -86,7 +86,7 @@ class UserProfile extends HookConsumerWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Text(user.followersCount.toString()),
+                        child: Text(user.FollowerCount.toString()),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5),

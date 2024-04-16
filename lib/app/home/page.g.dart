@@ -6,28 +6,12 @@ part of 'page.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$removeLastSynchronizedHash() =>
-    r'495116705ce33bccce696a2e11e380cac16f5b08';
-
-/// See also [removeLastSynchronized].
-@ProviderFor(removeLastSynchronized)
-final removeLastSynchronizedProvider = AutoDisposeFutureProvider<void>.internal(
-  removeLastSynchronized,
-  name: r'removeLastSynchronizedProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$removeLastSynchronizedHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef RemoveLastSynchronizedRef = AutoDisposeFutureProviderRef<void>;
-String _$socialDogeMainHash() => r'8fd50acf04c029295bd07c79d0b0cb8b4f4ede66';
+String _$socialDogeMainHash() => r'81de32c88c3d8583d1c017b08971a6a0af461b9d';
 
 /// See also [socialDogeMain].
 @ProviderFor(socialDogeMain)
 final socialDogeMainProvider =
-    AutoDisposeFutureProvider<List<List<FollowersCount>>>.internal(
+    AutoDisposeFutureProvider<List<List<FollowerCount>>>.internal(
   socialDogeMain,
   name: r'socialDogeMainProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -38,6 +22,6 @@ final socialDogeMainProvider =
 );
 
 typedef SocialDogeMainRef
-    = AutoDisposeFutureProviderRef<List<List<FollowersCount>>>;
+    = AutoDisposeFutureProviderRef<List<List<FollowerCount>>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

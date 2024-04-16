@@ -9,7 +9,7 @@ class UserTable extends Table {
   TextColumn get description => text()();
   TextColumn get profileImageUrl => text()();
   TextColumn get profileBannerUrl => text().nullable()();
-  IntColumn get followersCount => integer()();
+  IntColumn get followerCount => integer()();
   IntColumn get friendsCount => integer()();
   DateTimeColumn get createdAt => dateTime()();
   DateTimeColumn get lastUpdated => dateTime()();
@@ -18,7 +18,17 @@ class UserTable extends Table {
   Set<Column> get primaryKey => {twitterId};
 }
 
-class UserFollowersTable extends Table {
+class UserFollowerTable extends Table {
+  IntColumn get key => integer().autoIncrement()();
+  TextColumn get twitterId => text()();
+  TextColumn get selfTwitterId => text()();
+  DateTimeColumn get time => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {key};
+}
+
+class UserFollowTable extends Table {
   IntColumn get key => integer().autoIncrement()();
   TextColumn get twitterId => text()();
   TextColumn get selfTwitterId => text()();

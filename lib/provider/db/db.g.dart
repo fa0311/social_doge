@@ -6,7 +6,7 @@ part of 'db.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getFollowerTimeHash() => r'cffeb6fcb1035f07de4376e67df916927e3a117b';
+String _$getFollowerTimeHash() => r'945371df3ab35e401af4a2cc0be4af4b613fc155';
 
 /// See also [getFollowerTime].
 @ProviderFor(getFollowerTime)
@@ -22,7 +22,7 @@ final getFollowerTimeProvider =
 );
 
 typedef GetFollowerTimeRef = AutoDisposeFutureProviderRef<List<DateTime>>;
-String _$getUnsubscribeHash() => r'a5410b3811e8cebbdb2a8cb0e77231136a2eea2d';
+String _$getUnsubscribeHash() => r'7c32fe26bd6c6393fa8d34717d8c18cf4f753a3c';
 
 /// Copied from Dart SDK
 class _SystemHash {
