@@ -6,7 +6,7 @@ part of 'synchronize.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$runSynchronizeHash() => r'08dbc22e6cabfa343959bb144901cc28eea9ad28';
+String _$runSynchronizeHash() => r'92cba704089b63e7d76ec9b3885b6c48407b5ccc';
 
 /// Copied from Dart SDK
 class _SystemHash {

@@ -39,14 +39,28 @@ UserTableCompanion toUserTable({required User user}) {
   );
 }
 
+UserTableData toUserData({required User user}) {
+  return UserTableData(
+    twitterId: user.restId,
+    screenName: user.legacy.screenName,
+    name: user.legacy.name,
+    description: user.legacy.description,
+    profileBannerUrl: user.legacy.profileBannerUrl,
+    profileImageUrl: user.legacy.profileImageUrlHttps,
+    followerCount: user.legacy.followersCount,
+    followingCount: user.legacy.friendsCount,
+    createdAt: dateFormatFromTwitterFormat(user.legacy.createdAt),
+    lastUpdated: DateTime.now(),
+  );
+}
+
 @riverpod
 Stream<TwitterClientResponse> runSynchronize(RunSynchronizeRef ref, SynchronizeMode mode) async* {
   final client = await ref.watch(getTwitterClientProvider.future);
 
   final time = DateTime.now();
   final db = ref.read(getDatabaseProvider);
-  final userId = await ref.watch(selfAccountProvider.future);
-  final selfUser = await ref.watch(twitterUserProvider(userId!).future);
+  final selfUser = await ref.watch(getSelfAccountProvider.future);
   final selfTwitterId = selfUser.restId;
 
   Future<void> insertStatus(User user) async {
@@ -78,7 +92,7 @@ Stream<TwitterClientResponse> runSynchronize(RunSynchronizeRef ref, SynchronizeM
   final sync = SyncStatusData(
     selfTwitterId: selfTwitterId,
     time: time,
-    count: length,
+    count: progress,
     key: 0,
   );
   await db.addUserSyncStatus(entry: sync, mode: mode);

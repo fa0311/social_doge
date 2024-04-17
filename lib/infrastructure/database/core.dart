@@ -121,19 +121,14 @@ class SocialDogeDatabase extends _$SocialDogeDatabase {
 
   Future<List<SyncStatusData>> getUserSyncStatus({
     required String userId,
-    required Duration duration,
     required SynchronizeMode mode,
   }) {
     switch (mode) {
       case SynchronizeMode.following:
-        final query = select(syncFollowingTable)
-          ..where((t) => t.selfTwitterId.equals(userId))
-          ..where((t) => t.time.isBiggerOrEqualValue(DateTime.now().subtract(duration)));
+        final query = select(syncFollowingTable)..where((t) => t.selfTwitterId.equals(userId));
         return query.get();
       case SynchronizeMode.follower:
-        final query = select(syncFollowerTable)
-          ..where((t) => t.selfTwitterId.equals(userId))
-          ..where((t) => t.time.isBiggerOrEqualValue(DateTime.now().subtract(duration)));
+        final query = select(syncFollowerTable)..where((t) => t.selfTwitterId.equals(userId));
         return query.get();
     }
   }

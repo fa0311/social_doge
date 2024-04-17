@@ -6,7 +6,7 @@ part of 'account.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getSelfAccountHash() => r'cf2ec7baa123278c244e9e3900f4114de6dcac0f';
+String _$getSelfAccountHash() => r'dd4a69a1623c5bfe0401d564d83dc092a33270ff';
 
 /// See also [getSelfAccount].
 @ProviderFor(getSelfAccount)
@@ -21,7 +21,7 @@ final getSelfAccountProvider = FutureProvider<User>.internal(
 );
 
 typedef GetSelfAccountRef = FutureProviderRef<User>;
-String _$selfAccountHash() => r'38fd110af1398ec107739413b404c13749ea8c62';
+String _$selfAccountHash() => r'b1c197a85a90f854ec981fc17091e0314be70013';
 
 /// See also [SelfAccount].
 @ProviderFor(SelfAccount)

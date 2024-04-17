@@ -16,13 +16,17 @@ class SelfAccount extends _$SelfAccount {
   }
 
   Future<void> set(String value) async {
-    state = AsyncValue.data(value);
-    final db = ref.read(getDatabaseProvider);
-    final insertUser = SelfAccountTableCompanion.insert(
-      selfTwitterId: value,
-      loginTime: DateTime.now(),
-    );
-    await db.upsertAccount(insertUser);
+    state = await AsyncValue.guard(() async {
+      await ref.read(getUserByScreenNameProvider(value).future);
+
+      final db = ref.read(getDatabaseProvider);
+      final insertUser = SelfAccountTableCompanion.insert(
+        selfTwitterId: value,
+        loginTime: DateTime.now(),
+      );
+      await db.upsertAccount(insertUser);
+      return value;
+    });
   }
 }
 
@@ -45,5 +49,5 @@ class LastTwitterLogin extends _$LastTwitterLogin {
 @Riverpod(keepAlive: true)
 Future<User> getSelfAccount(GetSelfAccountRef ref) async {
   final userId = await ref.watch(selfAccountProvider.future);
-  return await ref.watch(twitterUserProvider(userId!).future);
+  return await ref.watch(getUserByScreenNameProvider(userId!).future);
 }

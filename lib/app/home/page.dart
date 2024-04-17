@@ -13,17 +13,12 @@ import 'package:social_doge/provider/twitter/account.dart';
 part 'page.g.dart';
 
 @riverpod
-Future<List<List<SyncStatusData>>> socialDogeMain(SocialDogeMainRef ref) async {
-  final userId = await ref.watch(selfAccountProvider.future);
+Future<List<SyncStatusData>> socialDogeMain(SocialDogeMainRef ref) async {
+  final user = await ref.watch(getSelfAccountProvider.future);
   final db = ref.read(getDatabaseProvider);
   const mode = SynchronizeMode.follower;
 
-  return Future.wait([
-    db.getUserSyncStatus(userId: userId!, duration: const Duration(days: 30), mode: mode),
-    db.getUserSyncStatus(userId: userId, duration: const Duration(days: 90), mode: mode),
-    db.getUserSyncStatus(userId: userId, duration: const Duration(days: 360), mode: mode),
-    db.getUserSyncStatus(userId: userId, duration: const Duration(days: 3600), mode: mode),
-  ]);
+  return db.getUserSyncStatus(userId: user.restId, mode: mode);
 }
 
 @RoutePage()
@@ -36,10 +31,10 @@ class HomePage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final data = ref.watch(socialDogeMainProvider);
     final labels = [
-      AppLocalizations.of(context)!.oneMonth,
-      AppLocalizations.of(context)!.threeMonths,
-      AppLocalizations.of(context)!.oneYear,
-      AppLocalizations.of(context)!.totalPeriod,
+      (AppLocalizations.of(context)!.totalPeriod, null),
+      (AppLocalizations.of(context)!.oneMonth, const Duration(days: 30)),
+      (AppLocalizations.of(context)!.threeMonths, const Duration(days: 90)),
+      (AppLocalizations.of(context)!.oneYear, const Duration(days: 360)),
     ];
     return Column(
       children: [
@@ -53,15 +48,16 @@ class HomePage extends HookConsumerWidget {
                 data: (data) {
                   return PageView(
                     children: [
-                      for (final e in data.asMap().entries)
+                      for (final e in labels)
                         Column(
                           children: [
-                            Text(labels[e.key]),
+                            Text(e.$1),
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.all(8),
                                 child: FollowerChart(
-                                  data: e.value.map((e) => (count: e.count, time: e.time)).toList(),
+                                  data: data.map((e) => (count: e.count, time: e.time)).toList(),
+                                  duration: e.$2,
                                 ),
                               ),
                             ),

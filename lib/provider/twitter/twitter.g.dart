@@ -22,7 +22,8 @@ final getTwitterClientProvider =
 );
 
 typedef GetTwitterClientRef = FutureProviderRef<TwitterOpenapiDartClient>;
-String _$twitterUserHash() => r'74e3d35a0d66e95ff2fb37f3cfd53500a5fb9c4d';
+String _$getUserByScreenNameHash() =>
+    r'f0bbb12a088c2c8a9b5e300bb378d2be6546a8c0';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -45,27 +46,27 @@ class _SystemHash {
   }
 }
 
-/// See also [twitterUser].
-@ProviderFor(twitterUser)
-const twitterUserProvider = TwitterUserFamily();
+/// See also [getUserByScreenName].
+@ProviderFor(getUserByScreenName)
+const getUserByScreenNameProvider = GetUserByScreenNameFamily();
 
-/// See also [twitterUser].
-class TwitterUserFamily extends Family<AsyncValue<User>> {
-  /// See also [twitterUser].
-  const TwitterUserFamily();
+/// See also [getUserByScreenName].
+class GetUserByScreenNameFamily extends Family<AsyncValue<User>> {
+  /// See also [getUserByScreenName].
+  const GetUserByScreenNameFamily();
 
-  /// See also [twitterUser].
-  TwitterUserProvider call(
+  /// See also [getUserByScreenName].
+  GetUserByScreenNameProvider call(
     String twitterId,
   ) {
-    return TwitterUserProvider(
+    return GetUserByScreenNameProvider(
       twitterId,
     );
   }
 
   @override
-  TwitterUserProvider getProviderOverride(
-    covariant TwitterUserProvider provider,
+  GetUserByScreenNameProvider getProviderOverride(
+    covariant GetUserByScreenNameProvider provider,
   ) {
     return call(
       provider.twitterId,
@@ -84,32 +85,32 @@ class TwitterUserFamily extends Family<AsyncValue<User>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'twitterUserProvider';
+  String? get name => r'getUserByScreenNameProvider';
 }
 
-/// See also [twitterUser].
-class TwitterUserProvider extends FutureProvider<User> {
-  /// See also [twitterUser].
-  TwitterUserProvider(
+/// See also [getUserByScreenName].
+class GetUserByScreenNameProvider extends FutureProvider<User> {
+  /// See also [getUserByScreenName].
+  GetUserByScreenNameProvider(
     String twitterId,
   ) : this._internal(
-          (ref) => twitterUser(
-            ref as TwitterUserRef,
+          (ref) => getUserByScreenName(
+            ref as GetUserByScreenNameRef,
             twitterId,
           ),
-          from: twitterUserProvider,
-          name: r'twitterUserProvider',
+          from: getUserByScreenNameProvider,
+          name: r'getUserByScreenNameProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$twitterUserHash,
-          dependencies: TwitterUserFamily._dependencies,
+                  : _$getUserByScreenNameHash,
+          dependencies: GetUserByScreenNameFamily._dependencies,
           allTransitiveDependencies:
-              TwitterUserFamily._allTransitiveDependencies,
+              GetUserByScreenNameFamily._allTransitiveDependencies,
           twitterId: twitterId,
         );
 
-  TwitterUserProvider._internal(
+  GetUserByScreenNameProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -123,12 +124,12 @@ class TwitterUserProvider extends FutureProvider<User> {
 
   @override
   Override overrideWith(
-    FutureOr<User> Function(TwitterUserRef provider) create,
+    FutureOr<User> Function(GetUserByScreenNameRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: TwitterUserProvider._internal(
-        (ref) => create(ref as TwitterUserRef),
+      override: GetUserByScreenNameProvider._internal(
+        (ref) => create(ref as GetUserByScreenNameRef),
         from: from,
         name: null,
         dependencies: null,
@@ -141,12 +142,12 @@ class TwitterUserProvider extends FutureProvider<User> {
 
   @override
   FutureProviderElement<User> createElement() {
-    return _TwitterUserProviderElement(this);
+    return _GetUserByScreenNameProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is TwitterUserProvider && other.twitterId == twitterId;
+    return other is GetUserByScreenNameProvider && other.twitterId == twitterId;
   }
 
   @override
@@ -158,17 +159,17 @@ class TwitterUserProvider extends FutureProvider<User> {
   }
 }
 
-mixin TwitterUserRef on FutureProviderRef<User> {
+mixin GetUserByScreenNameRef on FutureProviderRef<User> {
   /// The parameter `twitterId` of this provider.
   String get twitterId;
 }
 
-class _TwitterUserProviderElement extends FutureProviderElement<User>
-    with TwitterUserRef {
-  _TwitterUserProviderElement(super.provider);
+class _GetUserByScreenNameProviderElement extends FutureProviderElement<User>
+    with GetUserByScreenNameRef {
+  _GetUserByScreenNameProviderElement(super.provider);
 
   @override
-  String get twitterId => (origin as TwitterUserProvider).twitterId;
+  String get twitterId => (origin as GetUserByScreenNameProvider).twitterId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

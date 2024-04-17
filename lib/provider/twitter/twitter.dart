@@ -13,7 +13,7 @@ Future<TwitterOpenapiDartClient> getTwitterClient(GetTwitterClientRef ref) async
 }
 
 @Riverpod(keepAlive: true)
-Future<User> twitterUser(TwitterUserRef ref, String twitterId) async {
+Future<User> getUserByScreenName(GetUserByScreenNameRef ref, String twitterId) async {
   final client = await ref.watch(getTwitterClientProvider.future);
   final user = await client.getUserApi().getUserByScreenName(screenName: twitterId);
   return user.data.user;

@@ -6,8 +6,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
 class FollowerChart extends HookConsumerWidget {
-  FollowerChart({super.key, required this.data});
+  FollowerChart({super.key, required this.data, this.duration});
   final List<({int count, DateTime time})> data;
+  final Duration? duration;
   final List<Color> gradientColors = [Colors.cyan, Colors.blue];
 
   @override
@@ -20,6 +21,7 @@ class FollowerChart extends HookConsumerWidget {
     }
     return LineChart(
       LineChartData(
+        minX: duration == null ? null : DateTime.now().subtract(duration!).millisecondsSinceEpoch.toDouble(),
         lineTouchData: LineTouchData(
           getTouchedSpotIndicator: (LineChartBarData barData, List<int> spotIndexes) {
             return spotIndexes.map((spotIndex) {
