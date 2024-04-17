@@ -6,22 +6,23 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:social_doge/app/router.dart';
 import 'package:social_doge/component/chart.dart';
 import 'package:social_doge/component/part/loading.dart';
-import 'package:social_doge/infrastructure/database/core.dart';
-import 'package:social_doge/infrastructure/database/provider.dart';
+import 'package:social_doge/infrastructure/database/data.dart';
+import 'package:social_doge/provider/db/db.dart';
 import 'package:social_doge/provider/twitter/account.dart';
 
 part 'page.g.dart';
 
 @riverpod
-Future<List<List<FollowerCount>>> socialDogeMain(SocialDogeMainRef ref) async {
+Future<List<List<SyncStatusData>>> socialDogeMain(SocialDogeMainRef ref) async {
   final userId = await ref.watch(selfAccountProvider.future);
   final db = ref.read(getDatabaseProvider);
+  const mode = SynchronizeMode.follower;
 
   return Future.wait([
-    db.followerCountByTime(userId: userId!, duration: const Duration(days: 30)),
-    db.followerCountByTime(userId: userId, duration: const Duration(days: 90)),
-    db.followerCountByTime(userId: userId, duration: const Duration(days: 360)),
-    db.followerCountByTime(userId: userId, duration: const Duration(days: 3600)),
+    db.getUserSyncStatus(userId: userId!, duration: const Duration(days: 30), mode: mode),
+    db.getUserSyncStatus(userId: userId, duration: const Duration(days: 90), mode: mode),
+    db.getUserSyncStatus(userId: userId, duration: const Duration(days: 360), mode: mode),
+    db.getUserSyncStatus(userId: userId, duration: const Duration(days: 3600), mode: mode),
   ]);
 }
 
@@ -57,7 +58,12 @@ class HomePage extends HookConsumerWidget {
                           children: [
                             Text(labels[e.key]),
                             Expanded(
-                              child: Padding(padding: const EdgeInsets.all(8), child: FollowerChart(data: e.value)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: FollowerChart(
+                                  data: e.value.map((e) => (count: e.count, time: e.time)).toList(),
+                                ),
+                              ),
                             ),
                           ],
                         ),

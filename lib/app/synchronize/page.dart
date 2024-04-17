@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:social_doge/component/part/confirm.dart';
 import 'package:social_doge/component/part/label.dart';
 import 'package:social_doge/component/part/loading.dart';
+import 'package:social_doge/infrastructure/database/data.dart';
 import 'package:social_doge/provider/twitter/synchronize.dart';
 
 @RoutePage()
@@ -13,7 +14,7 @@ class SynchronizePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final follow = ref.watch(runSynchronizeProvider(SynchronizeMode.follow));
+    final following = ref.watch(runSynchronizeProvider(SynchronizeMode.following));
     final follower = ref.watch(runSynchronizeProvider(SynchronizeMode.follower));
 
     return Scaffold(
@@ -21,10 +22,10 @@ class SynchronizePage extends HookConsumerWidget {
       appBar: AppBar(title: Text(AppLocalizations.of(context)!.synchronize)),
       body: Padding(
         padding: const EdgeInsets.all(8),
-        child: switch ((follow, follower)) {
-          (AsyncData(value: final follow), AsyncData(value: final follower)) => Column(
+        child: switch ((following, follower)) {
+          (AsyncData(value: final following), AsyncData(value: final follower)) => Column(
               children: [
-                for (final messages in [follow, follower]) ...[
+                for (final messages in [following, follower]) ...[
                   Text('${messages.progress}/${messages.length}'),
                   ClipRRect(
                     child: LinearProgressIndicator(
@@ -57,7 +58,7 @@ class SynchronizePage extends HookConsumerWidget {
                   ],
                 ],
                 Expanded(child: Container()),
-                switch ((follow.finish, follower.finish)) {
+                switch ((following.finish, follower.finish)) {
                   (true, true) => ElevatedButton(
                       onPressed: () async {
                         await context.router.root.maybePop();
@@ -96,7 +97,7 @@ class SynchronizePage extends HookConsumerWidget {
             ),
           _ => const Loading(),
         },
-        // child: follow.when(
+        // child: following.when(
         //   data: (messages) {
         //     return Column(
         //       children: [

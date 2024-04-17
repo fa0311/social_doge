@@ -23,7 +23,7 @@ mixin _$UserTableData {
   String get profileImageUrl => throw _privateConstructorUsedError;
   String? get profileBannerUrl => throw _privateConstructorUsedError;
   int get followerCount => throw _privateConstructorUsedError;
-  int get friendsCount => throw _privateConstructorUsedError;
+  int get followingCount => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get lastUpdated => throw _privateConstructorUsedError;
 
@@ -46,7 +46,7 @@ abstract class $UserTableDataCopyWith<$Res> {
       String profileImageUrl,
       String? profileBannerUrl,
       int followerCount,
-      int friendsCount,
+      int followingCount,
       DateTime createdAt,
       DateTime lastUpdated});
 }
@@ -71,7 +71,7 @@ class _$UserTableDataCopyWithImpl<$Res, $Val extends UserTableData>
     Object? profileImageUrl = null,
     Object? profileBannerUrl = freezed,
     Object? followerCount = null,
-    Object? friendsCount = null,
+    Object? followingCount = null,
     Object? createdAt = null,
     Object? lastUpdated = null,
   }) {
@@ -104,9 +104,9 @@ class _$UserTableDataCopyWithImpl<$Res, $Val extends UserTableData>
           ? _value.followerCount
           : followerCount // ignore: cast_nullable_to_non_nullable
               as int,
-      friendsCount: null == friendsCount
-          ? _value.friendsCount
-          : friendsCount // ignore: cast_nullable_to_non_nullable
+      followingCount: null == followingCount
+          ? _value.followingCount
+          : followingCount // ignore: cast_nullable_to_non_nullable
               as int,
       createdAt: null == createdAt
           ? _value.createdAt
@@ -136,7 +136,7 @@ abstract class _$$UserTableDataFreezedImplCopyWith<$Res>
       String profileImageUrl,
       String? profileBannerUrl,
       int followerCount,
-      int friendsCount,
+      int followingCount,
       DateTime createdAt,
       DateTime lastUpdated});
 }
@@ -159,7 +159,7 @@ class __$$UserTableDataFreezedImplCopyWithImpl<$Res>
     Object? profileImageUrl = null,
     Object? profileBannerUrl = freezed,
     Object? followerCount = null,
-    Object? friendsCount = null,
+    Object? followingCount = null,
     Object? createdAt = null,
     Object? lastUpdated = null,
   }) {
@@ -192,9 +192,9 @@ class __$$UserTableDataFreezedImplCopyWithImpl<$Res>
           ? _value.followerCount
           : followerCount // ignore: cast_nullable_to_non_nullable
               as int,
-      friendsCount: null == friendsCount
-          ? _value.friendsCount
-          : friendsCount // ignore: cast_nullable_to_non_nullable
+      followingCount: null == followingCount
+          ? _value.followingCount
+          : followingCount // ignore: cast_nullable_to_non_nullable
               as int,
       createdAt: null == createdAt
           ? _value.createdAt
@@ -219,7 +219,7 @@ class _$UserTableDataFreezedImpl implements _UserTableDataFreezed {
       required this.profileImageUrl,
       required this.profileBannerUrl,
       required this.followerCount,
-      required this.friendsCount,
+      required this.followingCount,
       required this.createdAt,
       required this.lastUpdated});
 
@@ -238,7 +238,7 @@ class _$UserTableDataFreezedImpl implements _UserTableDataFreezed {
   @override
   final int followerCount;
   @override
-  final int friendsCount;
+  final int followingCount;
   @override
   final DateTime createdAt;
   @override
@@ -246,7 +246,7 @@ class _$UserTableDataFreezedImpl implements _UserTableDataFreezed {
 
   @override
   String toString() {
-    return 'UserTableData(twitterId: $twitterId, screenName: $screenName, name: $name, description: $description, profileImageUrl: $profileImageUrl, profileBannerUrl: $profileBannerUrl, followerCount: $followerCount, friendsCount: $friendsCount, createdAt: $createdAt, lastUpdated: $lastUpdated)';
+    return 'UserTableData(twitterId: $twitterId, screenName: $screenName, name: $name, description: $description, profileImageUrl: $profileImageUrl, profileBannerUrl: $profileBannerUrl, followerCount: $followerCount, followingCount: $followingCount, createdAt: $createdAt, lastUpdated: $lastUpdated)';
   }
 
   @override
@@ -267,8 +267,8 @@ class _$UserTableDataFreezedImpl implements _UserTableDataFreezed {
                 other.profileBannerUrl == profileBannerUrl) &&
             (identical(other.followerCount, followerCount) ||
                 other.followerCount == followerCount) &&
-            (identical(other.friendsCount, friendsCount) ||
-                other.friendsCount == friendsCount) &&
+            (identical(other.followingCount, followingCount) ||
+                other.followingCount == followingCount) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.lastUpdated, lastUpdated) ||
@@ -285,7 +285,7 @@ class _$UserTableDataFreezedImpl implements _UserTableDataFreezed {
       profileImageUrl,
       profileBannerUrl,
       followerCount,
-      friendsCount,
+      followingCount,
       createdAt,
       lastUpdated);
 
@@ -307,7 +307,7 @@ abstract class _UserTableDataFreezed implements UserTableData {
       required final String profileImageUrl,
       required final String? profileBannerUrl,
       required final int followerCount,
-      required final int friendsCount,
+      required final int followingCount,
       required final DateTime createdAt,
       required final DateTime lastUpdated}) = _$UserTableDataFreezedImpl;
 
@@ -326,7 +326,7 @@ abstract class _UserTableDataFreezed implements UserTableData {
   @override
   int get followerCount;
   @override
-  int get friendsCount;
+  int get followingCount;
   @override
   DateTime get createdAt;
   @override
@@ -334,5 +334,359 @@ abstract class _UserTableDataFreezed implements UserTableData {
   @override
   @JsonKey(ignore: true)
   _$$UserTableDataFreezedImplCopyWith<_$UserTableDataFreezedImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$UserStatusData {
+  int get key => throw _privateConstructorUsedError;
+  String get twitterId => throw _privateConstructorUsedError;
+  String get selfTwitterId => throw _privateConstructorUsedError;
+  DateTime get time => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $UserStatusDataCopyWith<UserStatusData> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $UserStatusDataCopyWith<$Res> {
+  factory $UserStatusDataCopyWith(
+          UserStatusData value, $Res Function(UserStatusData) then) =
+      _$UserStatusDataCopyWithImpl<$Res, UserStatusData>;
+  @useResult
+  $Res call({int key, String twitterId, String selfTwitterId, DateTime time});
+}
+
+/// @nodoc
+class _$UserStatusDataCopyWithImpl<$Res, $Val extends UserStatusData>
+    implements $UserStatusDataCopyWith<$Res> {
+  _$UserStatusDataCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? key = null,
+    Object? twitterId = null,
+    Object? selfTwitterId = null,
+    Object? time = null,
+  }) {
+    return _then(_value.copyWith(
+      key: null == key
+          ? _value.key
+          : key // ignore: cast_nullable_to_non_nullable
+              as int,
+      twitterId: null == twitterId
+          ? _value.twitterId
+          : twitterId // ignore: cast_nullable_to_non_nullable
+              as String,
+      selfTwitterId: null == selfTwitterId
+          ? _value.selfTwitterId
+          : selfTwitterId // ignore: cast_nullable_to_non_nullable
+              as String,
+      time: null == time
+          ? _value.time
+          : time // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$UserStatusDataFreezedImplCopyWith<$Res>
+    implements $UserStatusDataCopyWith<$Res> {
+  factory _$$UserStatusDataFreezedImplCopyWith(
+          _$UserStatusDataFreezedImpl value,
+          $Res Function(_$UserStatusDataFreezedImpl) then) =
+      __$$UserStatusDataFreezedImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int key, String twitterId, String selfTwitterId, DateTime time});
+}
+
+/// @nodoc
+class __$$UserStatusDataFreezedImplCopyWithImpl<$Res>
+    extends _$UserStatusDataCopyWithImpl<$Res, _$UserStatusDataFreezedImpl>
+    implements _$$UserStatusDataFreezedImplCopyWith<$Res> {
+  __$$UserStatusDataFreezedImplCopyWithImpl(_$UserStatusDataFreezedImpl _value,
+      $Res Function(_$UserStatusDataFreezedImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? key = null,
+    Object? twitterId = null,
+    Object? selfTwitterId = null,
+    Object? time = null,
+  }) {
+    return _then(_$UserStatusDataFreezedImpl(
+      key: null == key
+          ? _value.key
+          : key // ignore: cast_nullable_to_non_nullable
+              as int,
+      twitterId: null == twitterId
+          ? _value.twitterId
+          : twitterId // ignore: cast_nullable_to_non_nullable
+              as String,
+      selfTwitterId: null == selfTwitterId
+          ? _value.selfTwitterId
+          : selfTwitterId // ignore: cast_nullable_to_non_nullable
+              as String,
+      time: null == time
+          ? _value.time
+          : time // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$UserStatusDataFreezedImpl implements _UserStatusDataFreezed {
+  const _$UserStatusDataFreezedImpl(
+      {required this.key,
+      required this.twitterId,
+      required this.selfTwitterId,
+      required this.time});
+
+  @override
+  final int key;
+  @override
+  final String twitterId;
+  @override
+  final String selfTwitterId;
+  @override
+  final DateTime time;
+
+  @override
+  String toString() {
+    return 'UserStatusData(key: $key, twitterId: $twitterId, selfTwitterId: $selfTwitterId, time: $time)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UserStatusDataFreezedImpl &&
+            (identical(other.key, key) || other.key == key) &&
+            (identical(other.twitterId, twitterId) ||
+                other.twitterId == twitterId) &&
+            (identical(other.selfTwitterId, selfTwitterId) ||
+                other.selfTwitterId == selfTwitterId) &&
+            (identical(other.time, time) || other.time == time));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, key, twitterId, selfTwitterId, time);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UserStatusDataFreezedImplCopyWith<_$UserStatusDataFreezedImpl>
+      get copyWith => __$$UserStatusDataFreezedImplCopyWithImpl<
+          _$UserStatusDataFreezedImpl>(this, _$identity);
+}
+
+abstract class _UserStatusDataFreezed implements UserStatusData {
+  const factory _UserStatusDataFreezed(
+      {required final int key,
+      required final String twitterId,
+      required final String selfTwitterId,
+      required final DateTime time}) = _$UserStatusDataFreezedImpl;
+
+  @override
+  int get key;
+  @override
+  String get twitterId;
+  @override
+  String get selfTwitterId;
+  @override
+  DateTime get time;
+  @override
+  @JsonKey(ignore: true)
+  _$$UserStatusDataFreezedImplCopyWith<_$UserStatusDataFreezedImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$SyncStatusData {
+  int get key => throw _privateConstructorUsedError;
+  String get selfTwitterId => throw _privateConstructorUsedError;
+  DateTime get time => throw _privateConstructorUsedError;
+  int get count => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $SyncStatusDataCopyWith<SyncStatusData> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SyncStatusDataCopyWith<$Res> {
+  factory $SyncStatusDataCopyWith(
+          SyncStatusData value, $Res Function(SyncStatusData) then) =
+      _$SyncStatusDataCopyWithImpl<$Res, SyncStatusData>;
+  @useResult
+  $Res call({int key, String selfTwitterId, DateTime time, int count});
+}
+
+/// @nodoc
+class _$SyncStatusDataCopyWithImpl<$Res, $Val extends SyncStatusData>
+    implements $SyncStatusDataCopyWith<$Res> {
+  _$SyncStatusDataCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? key = null,
+    Object? selfTwitterId = null,
+    Object? time = null,
+    Object? count = null,
+  }) {
+    return _then(_value.copyWith(
+      key: null == key
+          ? _value.key
+          : key // ignore: cast_nullable_to_non_nullable
+              as int,
+      selfTwitterId: null == selfTwitterId
+          ? _value.selfTwitterId
+          : selfTwitterId // ignore: cast_nullable_to_non_nullable
+              as String,
+      time: null == time
+          ? _value.time
+          : time // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      count: null == count
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$SyncStatusDataFreezedImplCopyWith<$Res>
+    implements $SyncStatusDataCopyWith<$Res> {
+  factory _$$SyncStatusDataFreezedImplCopyWith(
+          _$SyncStatusDataFreezedImpl value,
+          $Res Function(_$SyncStatusDataFreezedImpl) then) =
+      __$$SyncStatusDataFreezedImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int key, String selfTwitterId, DateTime time, int count});
+}
+
+/// @nodoc
+class __$$SyncStatusDataFreezedImplCopyWithImpl<$Res>
+    extends _$SyncStatusDataCopyWithImpl<$Res, _$SyncStatusDataFreezedImpl>
+    implements _$$SyncStatusDataFreezedImplCopyWith<$Res> {
+  __$$SyncStatusDataFreezedImplCopyWithImpl(_$SyncStatusDataFreezedImpl _value,
+      $Res Function(_$SyncStatusDataFreezedImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? key = null,
+    Object? selfTwitterId = null,
+    Object? time = null,
+    Object? count = null,
+  }) {
+    return _then(_$SyncStatusDataFreezedImpl(
+      key: null == key
+          ? _value.key
+          : key // ignore: cast_nullable_to_non_nullable
+              as int,
+      selfTwitterId: null == selfTwitterId
+          ? _value.selfTwitterId
+          : selfTwitterId // ignore: cast_nullable_to_non_nullable
+              as String,
+      time: null == time
+          ? _value.time
+          : time // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      count: null == count
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$SyncStatusDataFreezedImpl implements _SyncStatusDataFreezed {
+  const _$SyncStatusDataFreezedImpl(
+      {required this.key,
+      required this.selfTwitterId,
+      required this.time,
+      required this.count});
+
+  @override
+  final int key;
+  @override
+  final String selfTwitterId;
+  @override
+  final DateTime time;
+  @override
+  final int count;
+
+  @override
+  String toString() {
+    return 'SyncStatusData(key: $key, selfTwitterId: $selfTwitterId, time: $time, count: $count)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SyncStatusDataFreezedImpl &&
+            (identical(other.key, key) || other.key == key) &&
+            (identical(other.selfTwitterId, selfTwitterId) ||
+                other.selfTwitterId == selfTwitterId) &&
+            (identical(other.time, time) || other.time == time) &&
+            (identical(other.count, count) || other.count == count));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, key, selfTwitterId, time, count);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SyncStatusDataFreezedImplCopyWith<_$SyncStatusDataFreezedImpl>
+      get copyWith => __$$SyncStatusDataFreezedImplCopyWithImpl<
+          _$SyncStatusDataFreezedImpl>(this, _$identity);
+}
+
+abstract class _SyncStatusDataFreezed implements SyncStatusData {
+  const factory _SyncStatusDataFreezed(
+      {required final int key,
+      required final String selfTwitterId,
+      required final DateTime time,
+      required final int count}) = _$SyncStatusDataFreezedImpl;
+
+  @override
+  int get key;
+  @override
+  String get selfTwitterId;
+  @override
+  DateTime get time;
+  @override
+  int get count;
+  @override
+  @JsonKey(ignore: true)
+  _$$SyncStatusDataFreezedImplCopyWith<_$SyncStatusDataFreezedImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

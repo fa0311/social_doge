@@ -4,11 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:social_doge/infrastructure/database/core.dart';
 
 class FollowerChart extends HookConsumerWidget {
   FollowerChart({super.key, required this.data});
-  final List<FollowerCount> data;
+  final List<({int count, DateTime time})> data;
   final List<Color> gradientColors = [Colors.cyan, Colors.blue];
 
   @override
@@ -17,7 +16,7 @@ class FollowerChart extends HookConsumerWidget {
       return Center(child: Text(AppLocalizations.of(context)!.noData));
     }
     if (data.length == 1) {
-      data.add(FollowerCount(data.first.time.add(const Duration(seconds: 1)), data.first.count));
+      data.add((time: data.first.time.add(const Duration(seconds: 1)), count: data.first.count));
     }
     return LineChart(
       LineChartData(

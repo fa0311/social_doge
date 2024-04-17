@@ -1,6 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:social_doge/infrastructure/database/core.dart';
-import 'package:social_doge/infrastructure/database/provider.dart';
+import 'package:social_doge/provider/db/db.dart';
 import 'package:social_doge/provider/twitter/twitter.dart';
 import 'package:twitter_openapi_dart_generated/twitter_openapi_dart_generated.dart';
 
@@ -18,7 +18,10 @@ class SelfAccount extends _$SelfAccount {
   Future<void> set(String value) async {
     state = AsyncValue.data(value);
     final db = ref.read(getDatabaseProvider);
-    final insertUser = SelfAccountTableCompanion.insert(selfTwitterId: value, loginTime: DateTime.now());
+    final insertUser = SelfAccountTableCompanion.insert(
+      selfTwitterId: value,
+      loginTime: DateTime.now(),
+    );
     await db.upsertAccount(insertUser);
   }
 }

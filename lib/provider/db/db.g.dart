@@ -6,7 +6,21 @@ part of 'db.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getFollowerTimeHash() => r'945371df3ab35e401af4a2cc0be4af4b613fc155';
+String _$getDatabaseHash() => r'ef5b38e60576647339fab73676bb5b68a949c2c8';
+
+/// See also [getDatabase].
+@ProviderFor(getDatabase)
+final getDatabaseProvider = Provider<SocialDogeDatabase>.internal(
+  getDatabase,
+  name: r'getDatabaseProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$getDatabaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef GetDatabaseRef = ProviderRef<SocialDogeDatabase>;
+String _$getFollowerTimeHash() => r'ac920792b22c2cb63daed61bba20002980c29ee8';
 
 /// See also [getFollowerTime].
 @ProviderFor(getFollowerTime)
@@ -22,7 +36,7 @@ final getFollowerTimeProvider =
 );
 
 typedef GetFollowerTimeRef = AutoDisposeFutureProviderRef<List<DateTime>>;
-String _$getUnsubscribeHash() => r'7c32fe26bd6c6393fa8d34717d8c18cf4f753a3c';
+String _$getUnsubscribeHash() => r'cc7a8c9c3d92adf77c7f3ba40aced0fb3135b832';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -172,7 +186,7 @@ class _GetUnsubscribeProviderElement
   int get count => (origin as GetUnsubscribeProvider).count;
 }
 
-String _$getUserHash() => r'420213d1b54c811f48f4961317cd70cc09e12f19';
+String _$getUserHash() => r'63a95d402406600bc1acec155e62d44263c6b8bd';
 
 /// See also [getUser].
 @ProviderFor(getUser)

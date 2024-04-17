@@ -34,6 +34,7 @@ abstract class TwitterUser {
 
     yield* Stream.fromIterable(diff.map((e) => (e, null)));
     yield* limit(response).map((event) => (null, event));
+    return;
 
     for (var i = 0; i < 100000; i++) {
       yield (null, 100000 - i);
@@ -73,8 +74,8 @@ class TwitterGetFollower extends TwitterUser {
   }
 }
 
-class TwitterGetFollow extends TwitterUser {
-  TwitterGetFollow({required super.client});
+class TwitterGetFollowing extends TwitterUser {
+  TwitterGetFollowing({required super.client});
 
   @override
   Future<TwitterApiUtilsResponse<TimelineApiUtilsResponse<UserApiUtilsData>>> get(

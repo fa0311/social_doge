@@ -1,7 +1,7 @@
 name: social_doge
 version: 0.0.1+1
 publish_to: none
-description: Twitter follow/follower manager
+description: Twitter following/follower manager
 
 environment:
   sdk: ">=3.3.0 <4.0.0"

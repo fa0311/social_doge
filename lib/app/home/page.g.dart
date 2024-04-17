@@ -6,12 +6,12 @@ part of 'page.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$socialDogeMainHash() => r'81de32c88c3d8583d1c017b08971a6a0af461b9d';
+String _$socialDogeMainHash() => r'795fd71be7fb5642474fc1ea358a5ab5a3493a22';
 
 /// See also [socialDogeMain].
 @ProviderFor(socialDogeMain)
 final socialDogeMainProvider =
-    AutoDisposeFutureProvider<List<List<FollowerCount>>>.internal(
+    AutoDisposeFutureProvider<List<List<SyncStatusData>>>.internal(
   socialDogeMain,
   name: r'socialDogeMainProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,6 +22,6 @@ final socialDogeMainProvider =
 );
 
 typedef SocialDogeMainRef
-    = AutoDisposeFutureProviderRef<List<List<FollowerCount>>>;
+    = AutoDisposeFutureProviderRef<List<List<SyncStatusData>>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

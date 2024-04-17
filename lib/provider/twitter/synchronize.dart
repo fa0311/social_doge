@@ -1,8 +1,9 @@
 import 'package:drift/drift.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:social_doge/infrastructure/database/core.dart';
-import 'package:social_doge/infrastructure/database/provider.dart';
+import 'package:social_doge/infrastructure/database/data.dart';
 import 'package:social_doge/infrastructure/twitter/user.dart';
+import 'package:social_doge/provider/db/db.dart';
 import 'package:social_doge/provider/twitter/account.dart';
 import 'package:social_doge/provider/twitter/twitter.dart';
 import 'package:twitter_openapi_dart/twitter_openapi_dart.dart';
@@ -32,13 +33,11 @@ UserTableCompanion toUserTable({required User user}) {
     profileBannerUrl: Value(user.legacy.profileBannerUrl),
     profileImageUrl: user.legacy.profileImageUrlHttps,
     followerCount: user.legacy.followersCount,
-    friendsCount: user.legacy.friendsCount,
+    followingCount: user.legacy.friendsCount,
     createdAt: dateFormatFromTwitterFormat(user.legacy.createdAt),
     lastUpdated: DateTime.now(),
   );
 }
-
-enum SynchronizeMode { follow, follower }
 
 @riverpod
 Stream<TwitterClientResponse> runSynchronize(RunSynchronizeRef ref, SynchronizeMode mode) async* {
@@ -50,58 +49,38 @@ Stream<TwitterClientResponse> runSynchronize(RunSynchronizeRef ref, SynchronizeM
   final selfUser = await ref.watch(twitterUserProvider(userId!).future);
   final selfTwitterId = selfUser.restId;
 
-  Future<void> insertFollower(User user, String twitterId) async {
-    final userFollower = UserFollowerTableCompanion.insert(
-      twitterId: twitterId,
+  Future<void> insertStatus(User user) async {
+    final status = UserStatusData(
+      twitterId: user.restId,
       selfTwitterId: selfTwitterId,
       time: time,
+      key: 0,
     );
     await db.upsertUser(toUserTable(user: user));
-    await db.addFollower(userFollower);
+    await db.addUserStatus(entry: status, mode: mode);
   }
 
-  Future<void> insertFollow(User user, String twitterId) async {
-    final userFollow = UserFollowTableCompanion.insert(
-      twitterId: twitterId,
-      selfTwitterId: selfTwitterId,
-      time: time,
-    );
-    await db.upsertUser(toUserTable(user: user));
-    await db.addFollow(userFollow);
-  }
-
-  final (length, stream, insert, delete) = switch (mode) {
-    SynchronizeMode.follow => (
-        selfUser.legacy.friendsCount,
-        TwitterGetFollow(client: client),
-        insertFollow,
-        db.deleteFollow,
-      ),
-    SynchronizeMode.follower => (
-        selfUser.legacy.followersCount,
-        TwitterGetFollower(client: client),
-        insertFollower,
-        db.deleteFollower,
-      ),
+  final (length, stream) = switch (mode) {
+    SynchronizeMode.following => (selfUser.legacy.friendsCount, TwitterGetFollowing(client: client)),
+    SynchronizeMode.follower => (selfUser.legacy.followersCount, TwitterGetFollower(client: client)),
   };
 
   var progress = 0;
-  var finish = false;
-
-  ref.onDispose(() async {
-    if (!finish) {
-      await delete(userId: selfTwitterId, time: time);
-    }
-  });
 
   await for (final (user, wait) in stream.stream(selfTwitterId)) {
     if (user != null) {
-      await insert(user, user.restId);
+      await insertStatus(user);
       progress++;
     }
-    yield TwitterClientResponse(length: length, progress: progress, wait: wait, finish: finish);
+    yield TwitterClientResponse(length: length, progress: progress, wait: wait, finish: false);
   }
 
-  finish = true;
-  yield TwitterClientResponse(length: length, progress: progress, wait: null, finish: finish);
+  final sync = SyncStatusData(
+    selfTwitterId: selfTwitterId,
+    time: time,
+    count: length,
+    key: 0,
+  );
+  await db.addUserSyncStatus(entry: sync, mode: mode);
+  yield TwitterClientResponse(length: length, progress: progress, wait: null, finish: true);
 }

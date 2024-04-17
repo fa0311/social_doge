@@ -10,7 +10,7 @@ class UserTable extends Table {
   TextColumn get profileImageUrl => text()();
   TextColumn get profileBannerUrl => text().nullable()();
   IntColumn get followerCount => integer()();
-  IntColumn get friendsCount => integer()();
+  IntColumn get followingCount => integer()();
   DateTimeColumn get createdAt => dateTime()();
   DateTimeColumn get lastUpdated => dateTime()();
 
@@ -18,24 +18,36 @@ class UserTable extends Table {
   Set<Column> get primaryKey => {twitterId};
 }
 
+@UseRowClass(UserStatusData)
 class UserFollowerTable extends Table {
   IntColumn get key => integer().autoIncrement()();
   TextColumn get twitterId => text()();
   TextColumn get selfTwitterId => text()();
   DateTimeColumn get time => dateTime()();
-
-  @override
-  Set<Column> get primaryKey => {key};
 }
 
-class UserFollowTable extends Table {
+@UseRowClass(UserStatusData)
+class UserFollowingTable extends Table {
   IntColumn get key => integer().autoIncrement()();
   TextColumn get twitterId => text()();
   TextColumn get selfTwitterId => text()();
   DateTimeColumn get time => dateTime()();
+}
 
-  @override
-  Set<Column> get primaryKey => {key};
+@UseRowClass(SyncStatusData)
+class SyncFollowingTable extends Table {
+  IntColumn get key => integer().autoIncrement()();
+  TextColumn get selfTwitterId => text()();
+  DateTimeColumn get time => dateTime()();
+  IntColumn get count => integer()();
+}
+
+@UseRowClass(SyncStatusData)
+class SyncFollowerTable extends Table {
+  IntColumn get key => integer().autoIncrement()();
+  TextColumn get selfTwitterId => text()();
+  DateTimeColumn get time => dateTime()();
+  IntColumn get count => integer()();
 }
 
 class SelfAccountTable extends Table {
