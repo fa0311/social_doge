@@ -34,42 +34,46 @@ class UserListPage extends HookConsumerWidget {
         DateTime.fromMillisecondsSinceEpoch(leftTime),
         DateTime.fromMillisecondsSinceEpoch(rightTime),
         OperatorType.values.bySafeName(operator),
+        SortType.asc,
+        SortBy.id,
       ),
     );
     return Scaffold(
       appBar: AppBar(title: const Text('差分')),
       body: data.when(
-        data: (data) => ListView.builder(
-          itemCount: data.length,
-          itemBuilder: (context, index) {
-            final user = ref.watch(getUserStateProvider(data.elementAt(index)));
+        data: (data) {
+          return ListView.builder(
+            itemCount: data.length,
+            itemBuilder: (context, index) {
+              final user = ref.watch(getUserStateProvider(data.elementAt(index).twitterId));
 
-            return user.when(
-              data: (user) {
-                return FutureTile(
-                  leading: Image.network(user.profileImageUrl),
-                  title: Text(user.name),
-                  subtitle: Text(user.description, maxLines: 3, overflow: TextOverflow.ellipsis),
-                  trailing: Text(user.screenName),
-                  onTap: () async {
-                    await showModalBottomSheetStatelessWidget<void>(
-                      context: context,
-                      builder: () {
-                        return UserProfile(user: user);
-                      },
-                    );
-                  },
-                );
-              },
-              error: (error, stackTrace) => Column(
-                children: [
-                  for (final e in [error.toString(), stackTrace.toString()]) Text(e),
-                ],
-              ),
-              loading: () => const Loading(),
-            );
-          },
-        ),
+              return user.when(
+                data: (user) {
+                  return FutureTile(
+                    leading: Image.network(user.profileImageUrl),
+                    title: Text(user.name),
+                    subtitle: Text(user.description, maxLines: 3, overflow: TextOverflow.ellipsis),
+                    trailing: Text(user.screenName),
+                    onTap: () async {
+                      await showModalBottomSheetStatelessWidget<void>(
+                        context: context,
+                        builder: () {
+                          return UserProfile(user: user);
+                        },
+                      );
+                    },
+                  );
+                },
+                error: (error, stackTrace) => Column(
+                  children: [
+                    for (final e in [error.toString(), stackTrace.toString()]) Text(e),
+                  ],
+                ),
+                loading: () => const Loading(),
+              );
+            },
+          );
+        },
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stackTrace) => Center(
           child: Text(error.toString()),

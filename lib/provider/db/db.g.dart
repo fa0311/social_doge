@@ -300,14 +300,14 @@ class _GetUserProviderElement
   String get id => (origin as GetUserProvider).id;
 }
 
-String _$getUserStatusHash() => r'dfa665db71a32f74d8c50dc47c5e4342e532ae02';
+String _$getUserStatusHash() => r'186748dcc9c546eb0d38831e883263554619b259';
 
 /// See also [getUserStatus].
 @ProviderFor(getUserStatus)
 const getUserStatusProvider = GetUserStatusFamily();
 
 /// See also [getUserStatus].
-class GetUserStatusFamily extends Family<AsyncValue<List<String>>> {
+class GetUserStatusFamily extends Family<AsyncValue<List<UserTableData>>> {
   /// See also [getUserStatus].
   const GetUserStatusFamily();
 
@@ -348,7 +348,8 @@ class GetUserStatusFamily extends Family<AsyncValue<List<String>>> {
 }
 
 /// See also [getUserStatus].
-class GetUserStatusProvider extends AutoDisposeFutureProvider<List<String>> {
+class GetUserStatusProvider
+    extends AutoDisposeFutureProvider<List<UserTableData>> {
   /// See also [getUserStatus].
   GetUserStatusProvider(
     DateTime time,
@@ -388,7 +389,7 @@ class GetUserStatusProvider extends AutoDisposeFutureProvider<List<String>> {
 
   @override
   Override overrideWith(
-    FutureOr<List<String>> Function(GetUserStatusRef provider) create,
+    FutureOr<List<UserTableData>> Function(GetUserStatusRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -406,7 +407,7 @@ class GetUserStatusProvider extends AutoDisposeFutureProvider<List<String>> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<List<String>> createElement() {
+  AutoDisposeFutureProviderElement<List<UserTableData>> createElement() {
     return _GetUserStatusProviderElement(this);
   }
 
@@ -427,7 +428,7 @@ class GetUserStatusProvider extends AutoDisposeFutureProvider<List<String>> {
   }
 }
 
-mixin GetUserStatusRef on AutoDisposeFutureProviderRef<List<String>> {
+mixin GetUserStatusRef on AutoDisposeFutureProviderRef<List<UserTableData>> {
   /// The parameter `time` of this provider.
   DateTime get time;
 
@@ -436,7 +437,7 @@ mixin GetUserStatusRef on AutoDisposeFutureProviderRef<List<String>> {
 }
 
 class _GetUserStatusProviderElement
-    extends AutoDisposeFutureProviderElement<List<String>>
+    extends AutoDisposeFutureProviderElement<List<UserTableData>>
     with GetUserStatusRef {
   _GetUserStatusProviderElement(super.provider);
 
@@ -446,14 +447,14 @@ class _GetUserStatusProviderElement
   SynchronizeMode get mode => (origin as GetUserStatusProvider).mode;
 }
 
-String _$getUserDiffHash() => r'e094ac8ae5486c098dbda87ac409ed6a8506c96a';
+String _$getUserDiffHash() => r'1b4bbb491e8fa4657deb173481980beb4bb98560';
 
 /// See also [getUserDiff].
 @ProviderFor(getUserDiff)
 const getUserDiffProvider = GetUserDiffFamily();
 
 /// See also [getUserDiff].
-class GetUserDiffFamily extends Family<AsyncValue<Set<String>>> {
+class GetUserDiffFamily extends Family<AsyncValue<List<UserTableData>>> {
   /// See also [getUserDiff].
   const GetUserDiffFamily();
 
@@ -464,6 +465,8 @@ class GetUserDiffFamily extends Family<AsyncValue<Set<String>>> {
     DateTime leftTime,
     DateTime rightTime,
     OperatorType operator,
+    SortType sortType,
+    SortBy sortBy,
   ) {
     return GetUserDiffProvider(
       leftOperand,
@@ -471,6 +474,8 @@ class GetUserDiffFamily extends Family<AsyncValue<Set<String>>> {
       leftTime,
       rightTime,
       operator,
+      sortType,
+      sortBy,
     );
   }
 
@@ -484,6 +489,8 @@ class GetUserDiffFamily extends Family<AsyncValue<Set<String>>> {
       provider.leftTime,
       provider.rightTime,
       provider.operator,
+      provider.sortType,
+      provider.sortBy,
     );
   }
 
@@ -503,7 +510,8 @@ class GetUserDiffFamily extends Family<AsyncValue<Set<String>>> {
 }
 
 /// See also [getUserDiff].
-class GetUserDiffProvider extends AutoDisposeFutureProvider<Set<String>> {
+class GetUserDiffProvider
+    extends AutoDisposeFutureProvider<List<UserTableData>> {
   /// See also [getUserDiff].
   GetUserDiffProvider(
     SynchronizeMode leftOperand,
@@ -511,6 +519,8 @@ class GetUserDiffProvider extends AutoDisposeFutureProvider<Set<String>> {
     DateTime leftTime,
     DateTime rightTime,
     OperatorType operator,
+    SortType sortType,
+    SortBy sortBy,
   ) : this._internal(
           (ref) => getUserDiff(
             ref as GetUserDiffRef,
@@ -519,6 +529,8 @@ class GetUserDiffProvider extends AutoDisposeFutureProvider<Set<String>> {
             leftTime,
             rightTime,
             operator,
+            sortType,
+            sortBy,
           ),
           from: getUserDiffProvider,
           name: r'getUserDiffProvider',
@@ -534,6 +546,8 @@ class GetUserDiffProvider extends AutoDisposeFutureProvider<Set<String>> {
           leftTime: leftTime,
           rightTime: rightTime,
           operator: operator,
+          sortType: sortType,
+          sortBy: sortBy,
         );
 
   GetUserDiffProvider._internal(
@@ -548,6 +562,8 @@ class GetUserDiffProvider extends AutoDisposeFutureProvider<Set<String>> {
     required this.leftTime,
     required this.rightTime,
     required this.operator,
+    required this.sortType,
+    required this.sortBy,
   }) : super.internal();
 
   final SynchronizeMode leftOperand;
@@ -555,10 +571,12 @@ class GetUserDiffProvider extends AutoDisposeFutureProvider<Set<String>> {
   final DateTime leftTime;
   final DateTime rightTime;
   final OperatorType operator;
+  final SortType sortType;
+  final SortBy sortBy;
 
   @override
   Override overrideWith(
-    FutureOr<Set<String>> Function(GetUserDiffRef provider) create,
+    FutureOr<List<UserTableData>> Function(GetUserDiffRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -574,12 +592,14 @@ class GetUserDiffProvider extends AutoDisposeFutureProvider<Set<String>> {
         leftTime: leftTime,
         rightTime: rightTime,
         operator: operator,
+        sortType: sortType,
+        sortBy: sortBy,
       ),
     );
   }
 
   @override
-  AutoDisposeFutureProviderElement<Set<String>> createElement() {
+  AutoDisposeFutureProviderElement<List<UserTableData>> createElement() {
     return _GetUserDiffProviderElement(this);
   }
 
@@ -590,7 +610,9 @@ class GetUserDiffProvider extends AutoDisposeFutureProvider<Set<String>> {
         other.rightOperand == rightOperand &&
         other.leftTime == leftTime &&
         other.rightTime == rightTime &&
-        other.operator == operator;
+        other.operator == operator &&
+        other.sortType == sortType &&
+        other.sortBy == sortBy;
   }
 
   @override
@@ -601,12 +623,14 @@ class GetUserDiffProvider extends AutoDisposeFutureProvider<Set<String>> {
     hash = _SystemHash.combine(hash, leftTime.hashCode);
     hash = _SystemHash.combine(hash, rightTime.hashCode);
     hash = _SystemHash.combine(hash, operator.hashCode);
+    hash = _SystemHash.combine(hash, sortType.hashCode);
+    hash = _SystemHash.combine(hash, sortBy.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
-mixin GetUserDiffRef on AutoDisposeFutureProviderRef<Set<String>> {
+mixin GetUserDiffRef on AutoDisposeFutureProviderRef<List<UserTableData>> {
   /// The parameter `leftOperand` of this provider.
   SynchronizeMode get leftOperand;
 
@@ -621,10 +645,17 @@ mixin GetUserDiffRef on AutoDisposeFutureProviderRef<Set<String>> {
 
   /// The parameter `operator` of this provider.
   OperatorType get operator;
+
+  /// The parameter `sortType` of this provider.
+  SortType get sortType;
+
+  /// The parameter `sortBy` of this provider.
+  SortBy get sortBy;
 }
 
 class _GetUserDiffProviderElement
-    extends AutoDisposeFutureProviderElement<Set<String>> with GetUserDiffRef {
+    extends AutoDisposeFutureProviderElement<List<UserTableData>>
+    with GetUserDiffRef {
   _GetUserDiffProviderElement(super.provider);
 
   @override
@@ -639,6 +670,10 @@ class _GetUserDiffProviderElement
   DateTime get rightTime => (origin as GetUserDiffProvider).rightTime;
   @override
   OperatorType get operator => (origin as GetUserDiffProvider).operator;
+  @override
+  SortType get sortType => (origin as GetUserDiffProvider).sortType;
+  @override
+  SortBy get sortBy => (origin as GetUserDiffProvider).sortBy;
 }
 
 String _$getUserStateHash() => r'ceb4becf640683e742071c19a89ab2a4dbb4bd08';

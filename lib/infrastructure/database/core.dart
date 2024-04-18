@@ -74,24 +74,27 @@ class SocialDogeDatabase extends _$SocialDogeDatabase {
     }
   }
 
-  Future<List<String>> getUserStatus({
+  Future<List<UserTableData>> getUserStatus({
     required String userId,
     required DateTime time,
     required SynchronizeMode mode,
   }) {
     switch (mode) {
       case SynchronizeMode.following:
-        final query = selectOnly(userFollowingTable)
-          ..addColumns([userFollowingTable.twitterId])
+        final query = select(userTable).join([
+          innerJoin(userFollowingTable, userTable.twitterId.equalsExp(userFollowingTable.twitterId)),
+        ])
           ..where(userFollowingTable.selfTwitterId.equals(userId))
           ..where(userFollowingTable.time.equals(time));
-        return query.map((row) => row.read(userFollowingTable.twitterId)!).get();
+        return query.map((e) => e.readTable(userTable)).get();
+
       case SynchronizeMode.follower:
-        final query = selectOnly(userFollowerTable)
-          ..addColumns([userFollowerTable.twitterId])
+        final query = select(userTable).join([
+          innerJoin(userFollowerTable, userTable.twitterId.equalsExp(userFollowerTable.twitterId)),
+        ])
           ..where(userFollowerTable.selfTwitterId.equals(userId))
           ..where(userFollowerTable.time.equals(time));
-        return query.map((row) => row.read(userFollowerTable.twitterId)!).get();
+        return query.map((e) => e.readTable(userTable)).get();
     }
   }
 
