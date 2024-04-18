@@ -22,11 +22,9 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     HomeRoute.name: (routeData) {
-      final args =
-          routeData.argsAs<HomeRouteArgs>(orElse: () => const HomeRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: HomePage(key: args.key),
+        child: const HomePage(),
       );
     },
     InfoLicenseRoute.name: (routeData) {
@@ -87,13 +85,40 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const SynchronizePage(),
       );
     },
-    UnfollowRoute.name: (routeData) {
-      final args = routeData.argsAs<UnfollowRouteArgs>();
+    UserListRoute.name: (routeData) {
+      final queryParams = routeData.queryParams;
+      final args = routeData.argsAs<UserListRouteArgs>(
+          orElse: () => UserListRouteArgs(
+                leftOperand: queryParams.getString(
+                  'leftOperand',
+                  '',
+                ),
+                rightOperand: queryParams.getString(
+                  'rightOperand',
+                  '',
+                ),
+                leftTime: queryParams.getInt(
+                  'leftTime',
+                  0,
+                ),
+                rightTime: queryParams.getInt(
+                  'rightTime',
+                  0,
+                ),
+                operator: queryParams.getString(
+                  'operator',
+                  '',
+                ),
+              ));
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: UnfollowPage(
+        child: UserListPage(
           key: args.key,
-          count: args.count,
+          leftOperand: args.leftOperand,
+          rightOperand: args.rightOperand,
+          leftTime: args.leftTime,
+          rightTime: args.rightTime,
+          operator: args.operator,
         ),
       );
     },
@@ -116,30 +141,16 @@ class AccessibilityRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [HomePage]
-class HomeRoute extends PageRouteInfo<HomeRouteArgs> {
-  HomeRoute({
-    Key? key,
-    List<PageRouteInfo>? children,
-  }) : super(
+class HomeRoute extends PageRouteInfo<void> {
+  const HomeRoute({List<PageRouteInfo>? children})
+      : super(
           HomeRoute.name,
-          args: HomeRouteArgs(key: key),
           initialChildren: children,
         );
 
   static const String name = 'HomeRoute';
 
-  static const PageInfo<HomeRouteArgs> page = PageInfo<HomeRouteArgs>(name);
-}
-
-class HomeRouteArgs {
-  const HomeRouteArgs({this.key});
-
-  final Key? key;
-
-  @override
-  String toString() {
-    return 'HomeRouteArgs{key: $key}';
-  }
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -301,39 +312,66 @@ class SynchronizeRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [UnfollowPage]
-class UnfollowRoute extends PageRouteInfo<UnfollowRouteArgs> {
-  UnfollowRoute({
+/// [UserListPage]
+class UserListRoute extends PageRouteInfo<UserListRouteArgs> {
+  UserListRoute({
     Key? key,
-    required int count,
+    String leftOperand = '',
+    String rightOperand = '',
+    int leftTime = 0,
+    int rightTime = 0,
+    String operator = '',
     List<PageRouteInfo>? children,
   }) : super(
-          UnfollowRoute.name,
-          args: UnfollowRouteArgs(
+          UserListRoute.name,
+          args: UserListRouteArgs(
             key: key,
-            count: count,
+            leftOperand: leftOperand,
+            rightOperand: rightOperand,
+            leftTime: leftTime,
+            rightTime: rightTime,
+            operator: operator,
           ),
+          rawQueryParams: {
+            'leftOperand': leftOperand,
+            'rightOperand': rightOperand,
+            'leftTime': leftTime,
+            'rightTime': rightTime,
+            'operator': operator,
+          },
           initialChildren: children,
         );
 
-  static const String name = 'UnfollowRoute';
+  static const String name = 'UserListRoute';
 
-  static const PageInfo<UnfollowRouteArgs> page =
-      PageInfo<UnfollowRouteArgs>(name);
+  static const PageInfo<UserListRouteArgs> page =
+      PageInfo<UserListRouteArgs>(name);
 }
 
-class UnfollowRouteArgs {
-  const UnfollowRouteArgs({
+class UserListRouteArgs {
+  const UserListRouteArgs({
     this.key,
-    required this.count,
+    this.leftOperand = '',
+    this.rightOperand = '',
+    this.leftTime = 0,
+    this.rightTime = 0,
+    this.operator = '',
   });
 
   final Key? key;
 
-  final int count;
+  final String leftOperand;
+
+  final String rightOperand;
+
+  final int leftTime;
+
+  final int rightTime;
+
+  final String operator;
 
   @override
   String toString() {
-    return 'UnfollowRouteArgs{key: $key, count: $count}';
+    return 'UserListRouteArgs{key: $key, leftOperand: $leftOperand, rightOperand: $rightOperand, leftTime: $leftTime, rightTime: $rightTime, operator: $operator}';
   }
 }

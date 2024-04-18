@@ -17,9 +17,9 @@ class SocialDogePage extends HookConsumerWidget {
     ];
 
     return AutoTabsRouter.pageView(
-      routes: [
+      routes: const [
         HomeRoute(),
-        const ResultRoute(),
+        ResultRoute(),
       ],
       physics: const FastScrollPhysics(),
       builder: (context, child, _) {
@@ -27,7 +27,6 @@ class SocialDogePage extends HookConsumerWidget {
         return Scaffold(
           appBar: AppBar(
             title: Text(tabsRouter.current.name),
-            leading: const AutoLeadingButton(),
           ),
           drawer: const NormalDrawer(),
           body: child,

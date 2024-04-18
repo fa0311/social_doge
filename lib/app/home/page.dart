@@ -2,34 +2,21 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:social_doge/app/router.dart';
 import 'package:social_doge/component/chart.dart';
 import 'package:social_doge/component/part/loading.dart';
 import 'package:social_doge/infrastructure/database/data.dart';
 import 'package:social_doge/provider/db/db.dart';
-import 'package:social_doge/provider/twitter/account.dart';
-
-part 'page.g.dart';
-
-@riverpod
-Future<List<SyncStatusData>> socialDogeMain(SocialDogeMainRef ref) async {
-  final user = await ref.watch(getSelfAccountProvider.future);
-  final db = ref.read(getDatabaseProvider);
-  const mode = SynchronizeMode.follower;
-
-  return db.getUserSyncStatus(userId: user.restId, mode: mode);
-}
 
 @RoutePage()
 class HomePage extends HookConsumerWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
 
-  final List<Color> gradientColors = [Colors.cyan, Colors.blue];
+  static List<Color> gradientColors = [Colors.cyan, Colors.blue];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final data = ref.watch(socialDogeMainProvider);
+    final follower = ref.watch(getUserSyncStatusProvider(SynchronizeMode.follower));
     final labels = [
       (AppLocalizations.of(context)!.totalPeriod, null),
       (AppLocalizations.of(context)!.oneMonth, const Duration(days: 30)),
@@ -44,8 +31,8 @@ class HomePage extends HookConsumerWidget {
             width: MediaQuery.of(context).size.width,
             child: AspectRatio(
               aspectRatio: 1.50,
-              child: data.when(
-                data: (data) {
+              child: follower.when(
+                data: (follower) {
                   return PageView(
                     children: [
                       for (final e in labels)
@@ -56,7 +43,7 @@ class HomePage extends HookConsumerWidget {
                               child: Padding(
                                 padding: const EdgeInsets.all(8),
                                 child: FollowerChart(
-                                  data: data.map((e) => (count: e.count, time: e.time)).toList(),
+                                  data: follower.map((e) => (count: e.count, time: e.time)).toList(),
                                   duration: e.$2,
                                 ),
                               ),

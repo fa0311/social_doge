@@ -20,23 +20,7 @@ final getDatabaseProvider = Provider<SocialDogeDatabase>.internal(
 );
 
 typedef GetDatabaseRef = ProviderRef<SocialDogeDatabase>;
-String _$getFollowerTimeHash() => r'ac920792b22c2cb63daed61bba20002980c29ee8';
-
-/// See also [getFollowerTime].
-@ProviderFor(getFollowerTime)
-final getFollowerTimeProvider =
-    AutoDisposeFutureProvider<List<DateTime>>.internal(
-  getFollowerTime,
-  name: r'getFollowerTimeProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$getFollowerTimeHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef GetFollowerTimeRef = AutoDisposeFutureProviderRef<List<DateTime>>;
-String _$getUnsubscribeHash() => r'cc7a8c9c3d92adf77c7f3ba40aced0fb3135b832';
+String _$getUserSyncStatusHash() => r'992c5d2c84af2156f80ede2e530d6be0f6c65862';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -59,30 +43,30 @@ class _SystemHash {
   }
 }
 
-/// See also [getUnsubscribe].
-@ProviderFor(getUnsubscribe)
-const getUnsubscribeProvider = GetUnsubscribeFamily();
+/// See also [getUserSyncStatus].
+@ProviderFor(getUserSyncStatus)
+const getUserSyncStatusProvider = GetUserSyncStatusFamily();
 
-/// See also [getUnsubscribe].
-class GetUnsubscribeFamily extends Family<AsyncValue<List<String>>> {
-  /// See also [getUnsubscribe].
-  const GetUnsubscribeFamily();
+/// See also [getUserSyncStatus].
+class GetUserSyncStatusFamily extends Family<AsyncValue<List<SyncStatusData>>> {
+  /// See also [getUserSyncStatus].
+  const GetUserSyncStatusFamily();
 
-  /// See also [getUnsubscribe].
-  GetUnsubscribeProvider call(
-    int count,
+  /// See also [getUserSyncStatus].
+  GetUserSyncStatusProvider call(
+    SynchronizeMode mode,
   ) {
-    return GetUnsubscribeProvider(
-      count,
+    return GetUserSyncStatusProvider(
+      mode,
     );
   }
 
   @override
-  GetUnsubscribeProvider getProviderOverride(
-    covariant GetUnsubscribeProvider provider,
+  GetUserSyncStatusProvider getProviderOverride(
+    covariant GetUserSyncStatusProvider provider,
   ) {
     return call(
-      provider.count,
+      provider.mode,
     );
   }
 
@@ -98,92 +82,95 @@ class GetUnsubscribeFamily extends Family<AsyncValue<List<String>>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'getUnsubscribeProvider';
+  String? get name => r'getUserSyncStatusProvider';
 }
 
-/// See also [getUnsubscribe].
-class GetUnsubscribeProvider extends AutoDisposeFutureProvider<List<String>> {
-  /// See also [getUnsubscribe].
-  GetUnsubscribeProvider(
-    int count,
+/// See also [getUserSyncStatus].
+class GetUserSyncStatusProvider
+    extends AutoDisposeFutureProvider<List<SyncStatusData>> {
+  /// See also [getUserSyncStatus].
+  GetUserSyncStatusProvider(
+    SynchronizeMode mode,
   ) : this._internal(
-          (ref) => getUnsubscribe(
-            ref as GetUnsubscribeRef,
-            count,
+          (ref) => getUserSyncStatus(
+            ref as GetUserSyncStatusRef,
+            mode,
           ),
-          from: getUnsubscribeProvider,
-          name: r'getUnsubscribeProvider',
+          from: getUserSyncStatusProvider,
+          name: r'getUserSyncStatusProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$getUnsubscribeHash,
-          dependencies: GetUnsubscribeFamily._dependencies,
+                  : _$getUserSyncStatusHash,
+          dependencies: GetUserSyncStatusFamily._dependencies,
           allTransitiveDependencies:
-              GetUnsubscribeFamily._allTransitiveDependencies,
-          count: count,
+              GetUserSyncStatusFamily._allTransitiveDependencies,
+          mode: mode,
         );
 
-  GetUnsubscribeProvider._internal(
+  GetUserSyncStatusProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.count,
+    required this.mode,
   }) : super.internal();
 
-  final int count;
+  final SynchronizeMode mode;
 
   @override
   Override overrideWith(
-    FutureOr<List<String>> Function(GetUnsubscribeRef provider) create,
+    FutureOr<List<SyncStatusData>> Function(GetUserSyncStatusRef provider)
+        create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: GetUnsubscribeProvider._internal(
-        (ref) => create(ref as GetUnsubscribeRef),
+      override: GetUserSyncStatusProvider._internal(
+        (ref) => create(ref as GetUserSyncStatusRef),
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        count: count,
+        mode: mode,
       ),
     );
   }
 
   @override
-  AutoDisposeFutureProviderElement<List<String>> createElement() {
-    return _GetUnsubscribeProviderElement(this);
+  AutoDisposeFutureProviderElement<List<SyncStatusData>> createElement() {
+    return _GetUserSyncStatusProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is GetUnsubscribeProvider && other.count == count;
+    return other is GetUserSyncStatusProvider && other.mode == mode;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, count.hashCode);
+    hash = _SystemHash.combine(hash, mode.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
-mixin GetUnsubscribeRef on AutoDisposeFutureProviderRef<List<String>> {
-  /// The parameter `count` of this provider.
-  int get count;
+mixin GetUserSyncStatusRef
+    on AutoDisposeFutureProviderRef<List<SyncStatusData>> {
+  /// The parameter `mode` of this provider.
+  SynchronizeMode get mode;
 }
 
-class _GetUnsubscribeProviderElement
-    extends AutoDisposeFutureProviderElement<List<String>>
-    with GetUnsubscribeRef {
-  _GetUnsubscribeProviderElement(super.provider);
+class _GetUserSyncStatusProviderElement
+    extends AutoDisposeFutureProviderElement<List<SyncStatusData>>
+    with GetUserSyncStatusRef {
+  _GetUserSyncStatusProviderElement(super.provider);
 
   @override
-  int get count => (origin as GetUnsubscribeProvider).count;
+  SynchronizeMode get mode => (origin as GetUserSyncStatusProvider).mode;
 }
 
 String _$getUserHash() => r'63a95d402406600bc1acec155e62d44263c6b8bd';
@@ -311,6 +298,617 @@ class _GetUserProviderElement
 
   @override
   String get id => (origin as GetUserProvider).id;
+}
+
+String _$getUserStatusHash() => r'dfa665db71a32f74d8c50dc47c5e4342e532ae02';
+
+/// See also [getUserStatus].
+@ProviderFor(getUserStatus)
+const getUserStatusProvider = GetUserStatusFamily();
+
+/// See also [getUserStatus].
+class GetUserStatusFamily extends Family<AsyncValue<List<String>>> {
+  /// See also [getUserStatus].
+  const GetUserStatusFamily();
+
+  /// See also [getUserStatus].
+  GetUserStatusProvider call(
+    DateTime time,
+    SynchronizeMode mode,
+  ) {
+    return GetUserStatusProvider(
+      time,
+      mode,
+    );
+  }
+
+  @override
+  GetUserStatusProvider getProviderOverride(
+    covariant GetUserStatusProvider provider,
+  ) {
+    return call(
+      provider.time,
+      provider.mode,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'getUserStatusProvider';
+}
+
+/// See also [getUserStatus].
+class GetUserStatusProvider extends AutoDisposeFutureProvider<List<String>> {
+  /// See also [getUserStatus].
+  GetUserStatusProvider(
+    DateTime time,
+    SynchronizeMode mode,
+  ) : this._internal(
+          (ref) => getUserStatus(
+            ref as GetUserStatusRef,
+            time,
+            mode,
+          ),
+          from: getUserStatusProvider,
+          name: r'getUserStatusProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getUserStatusHash,
+          dependencies: GetUserStatusFamily._dependencies,
+          allTransitiveDependencies:
+              GetUserStatusFamily._allTransitiveDependencies,
+          time: time,
+          mode: mode,
+        );
+
+  GetUserStatusProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.time,
+    required this.mode,
+  }) : super.internal();
+
+  final DateTime time;
+  final SynchronizeMode mode;
+
+  @override
+  Override overrideWith(
+    FutureOr<List<String>> Function(GetUserStatusRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: GetUserStatusProvider._internal(
+        (ref) => create(ref as GetUserStatusRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        time: time,
+        mode: mode,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<List<String>> createElement() {
+    return _GetUserStatusProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetUserStatusProvider &&
+        other.time == time &&
+        other.mode == mode;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, time.hashCode);
+    hash = _SystemHash.combine(hash, mode.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin GetUserStatusRef on AutoDisposeFutureProviderRef<List<String>> {
+  /// The parameter `time` of this provider.
+  DateTime get time;
+
+  /// The parameter `mode` of this provider.
+  SynchronizeMode get mode;
+}
+
+class _GetUserStatusProviderElement
+    extends AutoDisposeFutureProviderElement<List<String>>
+    with GetUserStatusRef {
+  _GetUserStatusProviderElement(super.provider);
+
+  @override
+  DateTime get time => (origin as GetUserStatusProvider).time;
+  @override
+  SynchronizeMode get mode => (origin as GetUserStatusProvider).mode;
+}
+
+String _$getUserDiffHash() => r'e094ac8ae5486c098dbda87ac409ed6a8506c96a';
+
+/// See also [getUserDiff].
+@ProviderFor(getUserDiff)
+const getUserDiffProvider = GetUserDiffFamily();
+
+/// See also [getUserDiff].
+class GetUserDiffFamily extends Family<AsyncValue<Set<String>>> {
+  /// See also [getUserDiff].
+  const GetUserDiffFamily();
+
+  /// See also [getUserDiff].
+  GetUserDiffProvider call(
+    SynchronizeMode leftOperand,
+    SynchronizeMode rightOperand,
+    DateTime leftTime,
+    DateTime rightTime,
+    OperatorType operator,
+  ) {
+    return GetUserDiffProvider(
+      leftOperand,
+      rightOperand,
+      leftTime,
+      rightTime,
+      operator,
+    );
+  }
+
+  @override
+  GetUserDiffProvider getProviderOverride(
+    covariant GetUserDiffProvider provider,
+  ) {
+    return call(
+      provider.leftOperand,
+      provider.rightOperand,
+      provider.leftTime,
+      provider.rightTime,
+      provider.operator,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'getUserDiffProvider';
+}
+
+/// See also [getUserDiff].
+class GetUserDiffProvider extends AutoDisposeFutureProvider<Set<String>> {
+  /// See also [getUserDiff].
+  GetUserDiffProvider(
+    SynchronizeMode leftOperand,
+    SynchronizeMode rightOperand,
+    DateTime leftTime,
+    DateTime rightTime,
+    OperatorType operator,
+  ) : this._internal(
+          (ref) => getUserDiff(
+            ref as GetUserDiffRef,
+            leftOperand,
+            rightOperand,
+            leftTime,
+            rightTime,
+            operator,
+          ),
+          from: getUserDiffProvider,
+          name: r'getUserDiffProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getUserDiffHash,
+          dependencies: GetUserDiffFamily._dependencies,
+          allTransitiveDependencies:
+              GetUserDiffFamily._allTransitiveDependencies,
+          leftOperand: leftOperand,
+          rightOperand: rightOperand,
+          leftTime: leftTime,
+          rightTime: rightTime,
+          operator: operator,
+        );
+
+  GetUserDiffProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.leftOperand,
+    required this.rightOperand,
+    required this.leftTime,
+    required this.rightTime,
+    required this.operator,
+  }) : super.internal();
+
+  final SynchronizeMode leftOperand;
+  final SynchronizeMode rightOperand;
+  final DateTime leftTime;
+  final DateTime rightTime;
+  final OperatorType operator;
+
+  @override
+  Override overrideWith(
+    FutureOr<Set<String>> Function(GetUserDiffRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: GetUserDiffProvider._internal(
+        (ref) => create(ref as GetUserDiffRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        leftOperand: leftOperand,
+        rightOperand: rightOperand,
+        leftTime: leftTime,
+        rightTime: rightTime,
+        operator: operator,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<Set<String>> createElement() {
+    return _GetUserDiffProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetUserDiffProvider &&
+        other.leftOperand == leftOperand &&
+        other.rightOperand == rightOperand &&
+        other.leftTime == leftTime &&
+        other.rightTime == rightTime &&
+        other.operator == operator;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, leftOperand.hashCode);
+    hash = _SystemHash.combine(hash, rightOperand.hashCode);
+    hash = _SystemHash.combine(hash, leftTime.hashCode);
+    hash = _SystemHash.combine(hash, rightTime.hashCode);
+    hash = _SystemHash.combine(hash, operator.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin GetUserDiffRef on AutoDisposeFutureProviderRef<Set<String>> {
+  /// The parameter `leftOperand` of this provider.
+  SynchronizeMode get leftOperand;
+
+  /// The parameter `rightOperand` of this provider.
+  SynchronizeMode get rightOperand;
+
+  /// The parameter `leftTime` of this provider.
+  DateTime get leftTime;
+
+  /// The parameter `rightTime` of this provider.
+  DateTime get rightTime;
+
+  /// The parameter `operator` of this provider.
+  OperatorType get operator;
+}
+
+class _GetUserDiffProviderElement
+    extends AutoDisposeFutureProviderElement<Set<String>> with GetUserDiffRef {
+  _GetUserDiffProviderElement(super.provider);
+
+  @override
+  SynchronizeMode get leftOperand =>
+      (origin as GetUserDiffProvider).leftOperand;
+  @override
+  SynchronizeMode get rightOperand =>
+      (origin as GetUserDiffProvider).rightOperand;
+  @override
+  DateTime get leftTime => (origin as GetUserDiffProvider).leftTime;
+  @override
+  DateTime get rightTime => (origin as GetUserDiffProvider).rightTime;
+  @override
+  OperatorType get operator => (origin as GetUserDiffProvider).operator;
+}
+
+String _$getUserStateHash() => r'ceb4becf640683e742071c19a89ab2a4dbb4bd08';
+
+/// See also [getUserState].
+@ProviderFor(getUserState)
+const getUserStateProvider = GetUserStateFamily();
+
+/// See also [getUserState].
+class GetUserStateFamily extends Family<AsyncValue<UserTableData>> {
+  /// See also [getUserState].
+  const GetUserStateFamily();
+
+  /// See also [getUserState].
+  GetUserStateProvider call(
+    String userId,
+  ) {
+    return GetUserStateProvider(
+      userId,
+    );
+  }
+
+  @override
+  GetUserStateProvider getProviderOverride(
+    covariant GetUserStateProvider provider,
+  ) {
+    return call(
+      provider.userId,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'getUserStateProvider';
+}
+
+/// See also [getUserState].
+class GetUserStateProvider extends AutoDisposeFutureProvider<UserTableData> {
+  /// See also [getUserState].
+  GetUserStateProvider(
+    String userId,
+  ) : this._internal(
+          (ref) => getUserState(
+            ref as GetUserStateRef,
+            userId,
+          ),
+          from: getUserStateProvider,
+          name: r'getUserStateProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getUserStateHash,
+          dependencies: GetUserStateFamily._dependencies,
+          allTransitiveDependencies:
+              GetUserStateFamily._allTransitiveDependencies,
+          userId: userId,
+        );
+
+  GetUserStateProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.userId,
+  }) : super.internal();
+
+  final String userId;
+
+  @override
+  Override overrideWith(
+    FutureOr<UserTableData> Function(GetUserStateRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: GetUserStateProvider._internal(
+        (ref) => create(ref as GetUserStateRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        userId: userId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<UserTableData> createElement() {
+    return _GetUserStateProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetUserStateProvider && other.userId == userId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, userId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin GetUserStateRef on AutoDisposeFutureProviderRef<UserTableData> {
+  /// The parameter `userId` of this provider.
+  String get userId;
+}
+
+class _GetUserStateProviderElement
+    extends AutoDisposeFutureProviderElement<UserTableData>
+    with GetUserStateRef {
+  _GetUserStateProviderElement(super.provider);
+
+  @override
+  String get userId => (origin as GetUserStateProvider).userId;
+}
+
+String _$userStateHash() => r'3950fff37f99c2b4ae835c71fb85d03bef320929';
+
+abstract class _$UserState extends BuildlessNotifier<UserTableData?> {
+  late final String userId;
+
+  UserTableData? build(
+    String userId,
+  );
+}
+
+/// See also [UserState].
+@ProviderFor(UserState)
+const userStateProvider = UserStateFamily();
+
+/// See also [UserState].
+class UserStateFamily extends Family<UserTableData?> {
+  /// See also [UserState].
+  const UserStateFamily();
+
+  /// See also [UserState].
+  UserStateProvider call(
+    String userId,
+  ) {
+    return UserStateProvider(
+      userId,
+    );
+  }
+
+  @override
+  UserStateProvider getProviderOverride(
+    covariant UserStateProvider provider,
+  ) {
+    return call(
+      provider.userId,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'userStateProvider';
+}
+
+/// See also [UserState].
+class UserStateProvider
+    extends NotifierProviderImpl<UserState, UserTableData?> {
+  /// See also [UserState].
+  UserStateProvider(
+    String userId,
+  ) : this._internal(
+          () => UserState()..userId = userId,
+          from: userStateProvider,
+          name: r'userStateProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$userStateHash,
+          dependencies: UserStateFamily._dependencies,
+          allTransitiveDependencies: UserStateFamily._allTransitiveDependencies,
+          userId: userId,
+        );
+
+  UserStateProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.userId,
+  }) : super.internal();
+
+  final String userId;
+
+  @override
+  UserTableData? runNotifierBuild(
+    covariant UserState notifier,
+  ) {
+    return notifier.build(
+      userId,
+    );
+  }
+
+  @override
+  Override overrideWith(UserState Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: UserStateProvider._internal(
+        () => create()..userId = userId,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        userId: userId,
+      ),
+    );
+  }
+
+  @override
+  NotifierProviderElement<UserState, UserTableData?> createElement() {
+    return _UserStateProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is UserStateProvider && other.userId == userId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, userId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin UserStateRef on NotifierProviderRef<UserTableData?> {
+  /// The parameter `userId` of this provider.
+  String get userId;
+}
+
+class _UserStateProviderElement
+    extends NotifierProviderElement<UserState, UserTableData?>
+    with UserStateRef {
+  _UserStateProviderElement(super.provider);
+
+  @override
+  String get userId => (origin as UserStateProvider).userId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

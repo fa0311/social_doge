@@ -125,10 +125,14 @@ class SocialDogeDatabase extends _$SocialDogeDatabase {
   }) {
     switch (mode) {
       case SynchronizeMode.following:
-        final query = select(syncFollowingTable)..where((t) => t.selfTwitterId.equals(userId));
+        final query = select(syncFollowingTable)
+          ..where((t) => t.selfTwitterId.equals(userId))
+          ..orderBy([(t) => OrderingTerm(expression: t.time)]);
         return query.get();
       case SynchronizeMode.follower:
-        final query = select(syncFollowerTable)..where((t) => t.selfTwitterId.equals(userId));
+        final query = select(syncFollowerTable)
+          ..where((t) => t.selfTwitterId.equals(userId))
+          ..orderBy([(t) => OrderingTerm(expression: t.time)]);
         return query.get();
     }
   }

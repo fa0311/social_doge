@@ -1,26 +1,44 @@
 import 'package:flutter/material.dart';
 
-/// 選択肢を表示するモーダル
 class SelectModalTile extends StatelessWidget {
   const SelectModalTile({
     super.key,
-    required this.items,
+    required this.itemBuilder,
+    this.itemCount,
   });
 
-  /// 選択肢
-  final List<Widget> items;
+  final Widget? Function(BuildContext, int) itemBuilder;
+  final int? itemCount;
 
-  /// 表示
   static void show(
     BuildContext context, {
     required List<Widget> items,
+    int? itemCount,
   }) {
     showModalBottomSheet<void>(
       isScrollControlled: true,
       context: context,
       builder: (context) {
         return SelectModalTile(
-          items: items,
+          itemCount: itemCount,
+          itemBuilder: (context, index) => items.length > index ? items[index] : null,
+        );
+      },
+    );
+  }
+
+  static void builder(
+    BuildContext context, {
+    required Widget? Function(BuildContext, int) itemBuilder,
+    int? itemCount,
+  }) {
+    showModalBottomSheet<void>(
+      isScrollControlled: true,
+      context: context,
+      builder: (context) {
+        return SelectModalTile(
+          itemCount: itemCount,
+          itemBuilder: itemBuilder,
         );
       },
     );
@@ -33,10 +51,8 @@ class SelectModalTile extends StatelessWidget {
       builder: (context, scrollController) {
         return ListView.builder(
           controller: scrollController,
-          itemCount: items.length,
-          itemBuilder: (context, index) {
-            return items[index];
-          },
+          itemCount: itemCount,
+          itemBuilder: itemBuilder,
         );
       },
     );
