@@ -82,6 +82,7 @@ Stream<TwitterClientResponse> runSynchronize(RunSynchronizeRef ref, SynchronizeM
   var progress = 0;
 
   await for (final (user, wait) in stream.stream(selfTwitterId)) {
+    await Future.delayed(const Duration(milliseconds: 1000));
     if (user != null) {
       await insertStatus(user);
       progress++;
