@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SelectModalTile extends StatelessWidget {
   const SelectModalTile({
@@ -39,6 +40,56 @@ class SelectModalTile extends StatelessWidget {
         return SelectModalTile(
           itemCount: itemCount,
           itemBuilder: itemBuilder,
+        );
+      },
+    );
+  }
+
+  static void consumer(
+    BuildContext context, {
+    required Widget Function(BuildContext, int, WidgetRef) builder,
+    int? itemCount,
+  }) {
+    showModalBottomSheet<void>(
+      isScrollControlled: true,
+      context: context,
+      builder: (context) {
+        return SelectModalTile(
+          itemCount: itemCount,
+          itemBuilder: (context, index) {
+            return Consumer(
+              builder: (context, ref, _) {
+                return builder(context, index, ref);
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+
+  static void state(
+    BuildContext context, {
+    required Widget Function(BuildContext, int, StateSetter) builder,
+    int? itemCount,
+    StateSetter? setState,
+  }) {
+    showModalBottomSheet<void>(
+      isScrollControlled: true,
+      context: context,
+      builder: (context) {
+        return SelectModalTile(
+          itemCount: itemCount,
+          itemBuilder: (context, index) {
+            return StatefulBuilder(
+              builder: (context, setStateChild) {
+                return builder(context, index, (void Function() x) {
+                  setStateChild(x);
+                  setState?.call(x);
+                });
+              },
+            );
+          },
         );
       },
     );

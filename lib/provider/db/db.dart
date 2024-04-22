@@ -98,7 +98,7 @@ Future<List<UserTableData>> getUserDiff(
   };
 
   final sort = switch (sortType) {
-    SortType.asc => (UserTableData a, UserTableData b) => s(b, a),
+    SortType.asc => s,
     SortType.desc => (UserTableData a, UserTableData b) => s(b, a),
   };
 

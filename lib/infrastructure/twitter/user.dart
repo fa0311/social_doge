@@ -34,12 +34,6 @@ abstract class TwitterUser {
 
     yield* Stream.fromIterable(diff.map((e) => (e, null)));
     yield* limit(response).map((event) => (null, event));
-    return;
-
-    for (var i = 0; i < 100000; i++) {
-      yield (null, 100000 - i);
-      await Future<void>.delayed(const Duration(seconds: 1));
-    }
 
     var topCursor = response.data.cursor.top?.value;
     var bottomCursor = response.data.cursor.bottom?.value;

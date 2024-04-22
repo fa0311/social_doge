@@ -30,44 +30,38 @@ class AccessibilityPage extends HookConsumerWidget {
           ListTile(
             title: Text(AppLocalizations.of(context)!.language),
             onTap: () {
-              SelectModalTile.show(
+              SelectModalTile.consumer(
                 context,
-                items: [
-                  for (final language in AppLocalizations.supportedLocales)
-                    Consumer(
-                      builder: (context, ref, _) {
-                        return ListTile(
-                          title: Text(lookupAppLocalizations(language).language),
-                          selected: ref.watch(languageSettingProvider).valueOrNull == language,
-                          onTap: () {
-                            ref.read(languageSettingProvider.notifier).set(language);
-                          },
-                        );
-                      },
-                    ),
-                ],
+                itemCount: AppLocalizations.supportedLocales.length,
+                builder: (context, index, ref) {
+                  final data = AppLocalizations.supportedLocales[index];
+                  return ListTile(
+                    title: Text(lookupAppLocalizations(data).language),
+                    selected: ref.watch(languageSettingProvider).valueOrNull == data,
+                    onTap: () {
+                      ref.read(languageSettingProvider.notifier).set(data);
+                    },
+                  );
+                },
               );
             },
           ),
           ListTile(
             title: const Text('AppLocalizations.of(context)!.theme'),
             onTap: () {
-              SelectModalTile.show(
+              SelectModalTile.consumer(
                 context,
-                items: [
-                  for (final theme in ThemeMode.values)
-                    Consumer(
-                      builder: (context, ref, _) {
-                        return ListTile(
-                          title: Text(theme.localizations(AppLocalizations.of(context)!)),
-                          selected: ref.watch(themeSettingProvider).valueOrNull == theme,
-                          onTap: () {
-                            ref.read(themeSettingProvider.notifier).set(theme);
-                          },
-                        );
-                      },
-                    ),
-                ],
+                itemCount: ThemeMode.values.length,
+                builder: (context, index, ref) {
+                  final data = ThemeMode.values[index];
+                  return ListTile(
+                    title: Text(data.localizations(AppLocalizations.of(context)!)),
+                    selected: ref.watch(themeSettingProvider).valueOrNull == data,
+                    onTap: () {
+                      ref.read(themeSettingProvider.notifier).set(data);
+                    },
+                  );
+                },
               );
             },
           ),
