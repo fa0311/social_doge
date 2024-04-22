@@ -447,7 +447,7 @@ class _GetUserStatusProviderElement
   SynchronizeMode get mode => (origin as GetUserStatusProvider).mode;
 }
 
-String _$getUserDiffHash() => r'1b4bbb491e8fa4657deb173481980beb4bb98560';
+String _$getUserDiffHash() => r'4dfbc808fad8a84fdd8d75d4005e9a28dea6ba88';
 
 /// See also [getUserDiff].
 @ProviderFor(getUserDiff)

@@ -62,100 +62,109 @@ class ResultPage extends HookConsumerWidget {
 
     return Scaffold(
       body: switch ((following, follower)) {
-        (AsyncData(value: final following), AsyncData(value: final follower)) => Column(
-            children: [
-              for (final label in labels)
-                ...() {
-                  final data = switch (label.$2.value) {
-                    SynchronizeMode.follower => follower.reversed.toList(),
-                    SynchronizeMode.following => following.reversed.toList(),
-                  };
-                  return [
-                    Text(label.$1.symbol),
-                    ListTile(
-                      title: const Text('Data'),
-                      subtitle: Text(label.$2.value.name),
-                      onTap: () async {
-                        SelectModalTile.builder(
-                          context,
-                          itemCount: SynchronizeMode.values.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Text(SynchronizeMode.values[index].name),
-                              selected: index == label.$2.value.index,
-                              onTap: () {
-                                label.$2.value = SynchronizeMode.values[index];
-                                Navigator.pop(context);
-                              },
-                            );
-                          },
-                        );
-                      },
-                    ),
-                    ListTile(
-                      title: const Text('Time'),
-                      subtitle: Text(DateFormat(AppLocalizations.of(context)!.dateFormat1).format(data[label.$3.value].time)),
-                      onTap: () async {
-                        SelectModalTile.builder(
-                          context,
-                          itemCount: data.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Text(DateFormat(AppLocalizations.of(context)!.dateFormat1).format(data[index].time)),
-                              selected: index == label.$3.value,
-                              onTap: () {
-                                label.$3.value = index;
-                                Navigator.pop(context);
-                              },
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ];
-                }(),
-              const Text('operator'),
-              ListTile(
-                title: const Text('Operator'),
-                subtitle: Text('${Latin.A.symbol} ${operator.value.symbol} ${Latin.B.symbol}'),
-                onTap: () {
-                  SelectModalTile.show(
-                    context,
-                    items: [
-                      for (final name in Operator.values)
-                        ListTile(
-                          title: Text(name.name),
-                          selected: name == operator.value,
-                          onTap: () {
-                            operator.value = name;
-                            Navigator.pop(context);
-                          },
-                        ),
-                    ],
-                  );
-                },
-              ),
-              ButtonBar(
-                alignment: MainAxisAlignment.center,
+        (AsyncData(value: final following), AsyncData(value: final follower)) => () {
+            if (follower.isEmpty || following.isEmpty) {
+              return const Center(
+                child: Text('Empty'),
+              );
+            } else {
+              return Column(
                 children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      context.router.push(
-                        UserListRoute(
-                          leftOperand: leftOperand.value.name,
-                          rightOperand: rightOperand.value.name,
-                          leftTime: follower[leftTimeKey.value].time.millisecondsSinceEpoch,
-                          rightTime: following[rightTimeKey.value].time.millisecondsSinceEpoch,
-                          operator: operator.value.toOperatorType().name,
+                  for (final label in labels)
+                    ...() {
+                      final data = switch (label.$2.value) {
+                        SynchronizeMode.follower => follower.reversed.toList(),
+                        SynchronizeMode.following => following.reversed.toList(),
+                      };
+
+                      return [
+                        Text(label.$1.symbol),
+                        ListTile(
+                          title: const Text('Data'),
+                          subtitle: Text(label.$2.value.name),
+                          onTap: () async {
+                            SelectModalTile.builder(
+                              context,
+                              itemCount: SynchronizeMode.values.length,
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  title: Text(SynchronizeMode.values[index].name),
+                                  selected: index == label.$2.value.index,
+                                  onTap: () {
+                                    label.$2.value = SynchronizeMode.values[index];
+                                    Navigator.pop(context);
+                                  },
+                                );
+                              },
+                            );
+                          },
                         ),
+                        ListTile(
+                          title: const Text('Time'),
+                          subtitle: Text(DateFormat(AppLocalizations.of(context)!.dateFormat1).format(data[label.$3.value].time)),
+                          onTap: () async {
+                            SelectModalTile.builder(
+                              context,
+                              itemCount: data.length,
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  title: Text(DateFormat(AppLocalizations.of(context)!.dateFormat1).format(data[index].time)),
+                                  selected: index == label.$3.value,
+                                  onTap: () {
+                                    label.$3.value = index;
+                                    Navigator.pop(context);
+                                  },
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ];
+                    }(),
+                  const Text('operator'),
+                  ListTile(
+                    title: const Text('Operator'),
+                    subtitle: Text('${Latin.A.symbol} ${operator.value.symbol} ${Latin.B.symbol}'),
+                    onTap: () {
+                      SelectModalTile.show(
+                        context,
+                        items: [
+                          for (final name in Operator.values)
+                            ListTile(
+                              title: Text(name.name),
+                              selected: name == operator.value,
+                              onTap: () {
+                                operator.value = name;
+                                Navigator.pop(context);
+                              },
+                            ),
+                        ],
                       );
                     },
-                    child: const Text('Diff'),
+                  ),
+                  ButtonBar(
+                    alignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          context.router.push(
+                            UserListRoute(
+                              leftOperand: leftOperand.value.name,
+                              rightOperand: rightOperand.value.name,
+                              leftTime: follower[leftTimeKey.value].time.millisecondsSinceEpoch,
+                              rightTime: following[rightTimeKey.value].time.millisecondsSinceEpoch,
+                              operator: operator.value.toOperatorType().name,
+                            ),
+                          );
+                        },
+                        child: const Text('Diff'),
+                      ),
+                    ],
                   ),
                 ],
-              ),
-            ],
-          ),
+              );
+            }
+          }(),
         (AsyncLoading(:final error?, :final stackTrace?), _) => Column(
             children: [
               for (final e in [error.toString(), stackTrace.toString()]) Text(e),

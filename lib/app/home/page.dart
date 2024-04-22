@@ -67,7 +67,7 @@ class HomePage extends HookConsumerWidget {
           title: Text(AppLocalizations.of(context)!.synchronize),
           subtitle: Text(AppLocalizations.of(context)!.synchronizeDetails),
           onTap: () {
-            context.router.root.push(const SynchronizeRoute());
+            context.router.replace(const SynchronizeRoute());
           },
         ),
         // data.when(
