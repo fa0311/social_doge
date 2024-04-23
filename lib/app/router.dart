@@ -73,6 +73,7 @@ class LoginGuard extends ConsumerAutoRouteGuard {
       await resolver.redirect(
         LoginRoute(
           onResult: () {
+            ref.read(lastTwitterLoginProvider.notifier).refresh();
             resolver.next();
           },
         ),

@@ -18,7 +18,7 @@ import 'package:social_doge/provider/twitter/synchronize.dart';
 class SynchronizePage extends HookConsumerWidget {
   const SynchronizePage({super.key});
 
-  Future<void> _requestPermissionForAndroid() async {
+  Future<void> requestPermissionForAndroid() async {
     if (!Platform.isAndroid) {
       return;
     }
@@ -31,31 +31,23 @@ class SynchronizePage extends HookConsumerWidget {
     }
   }
 
-// void _onData(dynamic data) {
-//     if (data is int) {
-//       print('eventCount: $data');
-//     } else if (data is String) {
-//       if (data == 'onNotificationPressed') {
-//         Navigator.of(context).pushNamed('/resume-route');
-//       }
-//     } else if (data is DateTime) {
-//       print('timestamp: ${data.toString()}');
-//     }
-//   }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final following = ref.watch(runSynchronizeProvider(SynchronizeMode.following));
     final follower = ref.watch(runSynchronizeProvider(SynchronizeMode.follower));
     useEffect(
       () {
-        _requestPermissionForAndroid();
+        requestPermissionForAndroid();
         final timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
           final following = await ref.read(runSynchronizeProvider(SynchronizeMode.following).future);
           final follower = await ref.read(runSynchronizeProvider(SynchronizeMode.follower).future);
-          final progress = following.progress + follower.progress;
-          final length = following.length + follower.length;
-          await FlutterForegroundTask.updateService(notificationTitle: '同期中... $progress/$length');
+          await FlutterForegroundTask.updateService(
+            notificationTitle: '同期中${'.' * ((timer.tick % 3) + 1)}',
+            notificationText: [
+              'フォロー: ${following.progress}/${following.length}',
+              'フォロワー: ${follower.progress}/${follower.length}',
+            ].join('\n'),
+          );
         });
         return timer.cancel;
       },
@@ -63,9 +55,7 @@ class SynchronizePage extends HookConsumerWidget {
     );
 
     return WillStartForegroundTask(
-      onWillStart: () async {
-        return true;
-      },
+      onWillStart: () => Future.value(true),
       androidNotificationOptions: AndroidNotificationOptions(
         channelId: 'foreground_service',
         channelName: 'Foreground Service Notification',
@@ -73,8 +63,8 @@ class SynchronizePage extends HookConsumerWidget {
       ),
       iosNotificationOptions: const IOSNotificationOptions(),
       foregroundTaskOptions: const ForegroundTaskOptions(),
-      notificationTitle: 'Foreground Service is running in the background',
-      notificationText: 'Tap to return to the app ${DateTime.now()}',
+      notificationTitle: '同期中',
+      notificationText: '',
       child: Scaffold(
         drawerEdgeDragWidth: MediaQuery.of(context).padding.left + 40,
         appBar: AppBar(title: Text(AppLocalizations.of(context)!.synchronize)),
