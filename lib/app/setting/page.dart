@@ -32,9 +32,7 @@ class SettingPage extends HookConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [Icon(Icons.account_circle)],
               ),
-              onTap: () async {
-                // await Navigator.push(context, MaterialPageRoute<void>(builder: (_) => const AccountSettingsScaffold()));
-              },
+              onTap: () {},
             ),
             ListTile(
               title: Text(AppLocalizations.of(context)!.help),
@@ -42,8 +40,8 @@ class SettingPage extends HookConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [Icon(Icons.help)],
               ),
-              onTap: () async {
-                // await Navigator.push(context, MaterialPageRoute<void>(builder: (_) => const InfoPage()));
+              onTap: () {
+                context.router.push(const InfoRoute());
               },
             ),
           ],

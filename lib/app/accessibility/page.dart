@@ -30,7 +30,7 @@ class AccessibilityPage extends HookConsumerWidget {
           ListTile(
             title: Text(AppLocalizations.of(context)!.language),
             onTap: () {
-              SelectModalTile.consumer(
+              SelectModalTile.consumerBuilder(
                 context,
                 itemCount: AppLocalizations.supportedLocales.length,
                 builder: (context, index, ref) {
@@ -49,7 +49,7 @@ class AccessibilityPage extends HookConsumerWidget {
           ListTile(
             title: const Text('AppLocalizations.of(context)!.theme'),
             onTap: () {
-              SelectModalTile.consumer(
+              SelectModalTile.consumerBuilder(
                 context,
                 itemCount: ThemeMode.values.length,
                 builder: (context, index, ref) {

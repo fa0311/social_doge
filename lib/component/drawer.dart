@@ -7,8 +7,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:social_doge/app/router.dart';
 import 'package:social_doge/component/part/confirm.dart';
 import 'package:social_doge/component/part/loading.dart';
-import 'package:social_doge/component/part/twitter/user_profile.dart';
 import 'package:social_doge/provider/twitter/account.dart';
+import 'package:social_doge/util/twitter.dart';
 
 class NormalDrawer extends HookConsumerWidget {
   const NormalDrawer({super.key});

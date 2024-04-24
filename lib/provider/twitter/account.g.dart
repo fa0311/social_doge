@@ -36,21 +36,5 @@ final selfAccountProvider =
 );
 
 typedef _$SelfAccount = AsyncNotifier<String?>;
-String _$lastTwitterLoginHash() => r'd0127bf5922e09251a8089168a5c45be1fad89f8';
-
-/// See also [LastTwitterLogin].
-@ProviderFor(LastTwitterLogin)
-final lastTwitterLoginProvider =
-    NotifierProvider<LastTwitterLogin, DateTime>.internal(
-  LastTwitterLogin.new,
-  name: r'lastTwitterLoginProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$lastTwitterLoginHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$LastTwitterLogin = Notifier<DateTime>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

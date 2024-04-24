@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:social_doge/infrastructure/database/core.dart';
 import 'package:social_doge/infrastructure/database/data.dart';
@@ -55,15 +54,12 @@ Future<List<UserTableData>> getUserStatus(GetUserStatusRef ref, DateTime time, S
 }
 
 @riverpod
-Future<List<UserTableData>> getUserDiff(
+Future<(List<UserTableData> left, List<UserTableData> right)> getUserDiff(
   GetUserDiffRef ref,
   SynchronizeMode leftOperand,
   SynchronizeMode rightOperand,
   DateTime leftTime,
   DateTime rightTime,
-  OperatorType operator,
-  SortType sortType,
-  SortBy sortBy,
 ) async {
   final db = ref.read(getDatabaseProvider);
   final user = await ref.watch(getSelfAccountProvider.future);
@@ -77,54 +73,6 @@ Future<List<UserTableData>> getUserDiff(
     mode: rightOperand,
     time: rightTime,
   );
-  final leftSet = left.toSet();
-  final rightSet = right.toSet();
 
-  final data = switch (operator) {
-    OperatorType.intersection => leftSet.intersection(rightSet),
-    OperatorType.union => leftSet.union(rightSet),
-    OperatorType.difference => leftSet.difference(rightSet),
-    OperatorType.symmetricDifference => leftSet.union(rightSet).difference(leftSet.intersection(rightSet)),
-  };
-
-  final s = switch (sortBy) {
-    SortBy.id => (UserTableData a, UserTableData b) => a.twitterId.compareTo(b.twitterId),
-    SortBy.name => (UserTableData a, UserTableData b) => a.name.compareTo(b.name),
-    SortBy.screenName => (UserTableData a, UserTableData b) => a.screenName.compareTo(b.screenName),
-    SortBy.followerCount => (UserTableData a, UserTableData b) => a.followerCount.compareTo(b.followerCount),
-    SortBy.followingCount => (UserTableData a, UserTableData b) => a.followingCount.compareTo(b.followingCount),
-    SortBy.createdAt => (UserTableData a, UserTableData b) => a.createdAt.compareTo(b.createdAt),
-    SortBy.ffRate => (UserTableData a, UserTableData b) => (a.followerCount / a.followingCount).compareTo(b.followerCount / b.followingCount),
-  };
-
-  final sort = switch (sortType) {
-    SortType.asc => s,
-    SortType.desc => (UserTableData a, UserTableData b) => s(b, a),
-  };
-
-  final sorted = data.sorted(sort);
-  return sorted;
-}
-
-@Riverpod(keepAlive: true)
-class UserState extends _$UserState {
-  @override
-  UserTableData? build(String userId) => null;
-
-  // ignore: use_setters_to_change_properties
-  void change(UserTableData newState) {
-    state = newState;
-  }
-}
-
-@riverpod
-Future<UserTableData> getUserState(GetUserStateRef ref, String userId) async {
-  final userOrNull = ref.watch(userStateProvider(userId));
-  if (userOrNull == null) {
-    final user = await ref.read(getUserProvider(userId).future);
-    ref.read(userStateProvider(userId).notifier).change(user);
-    return user;
-  } else {
-    return userOrNull;
-  }
+  return (left, right);
 }

@@ -447,14 +447,15 @@ class _GetUserStatusProviderElement
   SynchronizeMode get mode => (origin as GetUserStatusProvider).mode;
 }
 
-String _$getUserDiffHash() => r'4dfbc808fad8a84fdd8d75d4005e9a28dea6ba88';
+String _$getUserDiffHash() => r'8dc2c2250dead92fa7f2712036f3da9931697ec0';
 
 /// See also [getUserDiff].
 @ProviderFor(getUserDiff)
 const getUserDiffProvider = GetUserDiffFamily();
 
 /// See also [getUserDiff].
-class GetUserDiffFamily extends Family<AsyncValue<List<UserTableData>>> {
+class GetUserDiffFamily extends Family<
+    AsyncValue<(List<UserTableData> left, List<UserTableData> right)>> {
   /// See also [getUserDiff].
   const GetUserDiffFamily();
 
@@ -464,18 +465,12 @@ class GetUserDiffFamily extends Family<AsyncValue<List<UserTableData>>> {
     SynchronizeMode rightOperand,
     DateTime leftTime,
     DateTime rightTime,
-    OperatorType operator,
-    SortType sortType,
-    SortBy sortBy,
   ) {
     return GetUserDiffProvider(
       leftOperand,
       rightOperand,
       leftTime,
       rightTime,
-      operator,
-      sortType,
-      sortBy,
     );
   }
 
@@ -488,9 +483,6 @@ class GetUserDiffFamily extends Family<AsyncValue<List<UserTableData>>> {
       provider.rightOperand,
       provider.leftTime,
       provider.rightTime,
-      provider.operator,
-      provider.sortType,
-      provider.sortBy,
     );
   }
 
@@ -510,17 +502,14 @@ class GetUserDiffFamily extends Family<AsyncValue<List<UserTableData>>> {
 }
 
 /// See also [getUserDiff].
-class GetUserDiffProvider
-    extends AutoDisposeFutureProvider<List<UserTableData>> {
+class GetUserDiffProvider extends AutoDisposeFutureProvider<
+    (List<UserTableData> left, List<UserTableData> right)> {
   /// See also [getUserDiff].
   GetUserDiffProvider(
     SynchronizeMode leftOperand,
     SynchronizeMode rightOperand,
     DateTime leftTime,
     DateTime rightTime,
-    OperatorType operator,
-    SortType sortType,
-    SortBy sortBy,
   ) : this._internal(
           (ref) => getUserDiff(
             ref as GetUserDiffRef,
@@ -528,9 +517,6 @@ class GetUserDiffProvider
             rightOperand,
             leftTime,
             rightTime,
-            operator,
-            sortType,
-            sortBy,
           ),
           from: getUserDiffProvider,
           name: r'getUserDiffProvider',
@@ -545,9 +531,6 @@ class GetUserDiffProvider
           rightOperand: rightOperand,
           leftTime: leftTime,
           rightTime: rightTime,
-          operator: operator,
-          sortType: sortType,
-          sortBy: sortBy,
         );
 
   GetUserDiffProvider._internal(
@@ -561,22 +544,18 @@ class GetUserDiffProvider
     required this.rightOperand,
     required this.leftTime,
     required this.rightTime,
-    required this.operator,
-    required this.sortType,
-    required this.sortBy,
   }) : super.internal();
 
   final SynchronizeMode leftOperand;
   final SynchronizeMode rightOperand;
   final DateTime leftTime;
   final DateTime rightTime;
-  final OperatorType operator;
-  final SortType sortType;
-  final SortBy sortBy;
 
   @override
   Override overrideWith(
-    FutureOr<List<UserTableData>> Function(GetUserDiffRef provider) create,
+    FutureOr<(List<UserTableData> left, List<UserTableData> right)> Function(
+            GetUserDiffRef provider)
+        create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -591,15 +570,13 @@ class GetUserDiffProvider
         rightOperand: rightOperand,
         leftTime: leftTime,
         rightTime: rightTime,
-        operator: operator,
-        sortType: sortType,
-        sortBy: sortBy,
       ),
     );
   }
 
   @override
-  AutoDisposeFutureProviderElement<List<UserTableData>> createElement() {
+  AutoDisposeFutureProviderElement<
+      (List<UserTableData> left, List<UserTableData> right)> createElement() {
     return _GetUserDiffProviderElement(this);
   }
 
@@ -609,10 +586,7 @@ class GetUserDiffProvider
         other.leftOperand == leftOperand &&
         other.rightOperand == rightOperand &&
         other.leftTime == leftTime &&
-        other.rightTime == rightTime &&
-        other.operator == operator &&
-        other.sortType == sortType &&
-        other.sortBy == sortBy;
+        other.rightTime == rightTime;
   }
 
   @override
@@ -622,15 +596,13 @@ class GetUserDiffProvider
     hash = _SystemHash.combine(hash, rightOperand.hashCode);
     hash = _SystemHash.combine(hash, leftTime.hashCode);
     hash = _SystemHash.combine(hash, rightTime.hashCode);
-    hash = _SystemHash.combine(hash, operator.hashCode);
-    hash = _SystemHash.combine(hash, sortType.hashCode);
-    hash = _SystemHash.combine(hash, sortBy.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
-mixin GetUserDiffRef on AutoDisposeFutureProviderRef<List<UserTableData>> {
+mixin GetUserDiffRef on AutoDisposeFutureProviderRef<
+    (List<UserTableData> left, List<UserTableData> right)> {
   /// The parameter `leftOperand` of this provider.
   SynchronizeMode get leftOperand;
 
@@ -642,20 +614,10 @@ mixin GetUserDiffRef on AutoDisposeFutureProviderRef<List<UserTableData>> {
 
   /// The parameter `rightTime` of this provider.
   DateTime get rightTime;
-
-  /// The parameter `operator` of this provider.
-  OperatorType get operator;
-
-  /// The parameter `sortType` of this provider.
-  SortType get sortType;
-
-  /// The parameter `sortBy` of this provider.
-  SortBy get sortBy;
 }
 
-class _GetUserDiffProviderElement
-    extends AutoDisposeFutureProviderElement<List<UserTableData>>
-    with GetUserDiffRef {
+class _GetUserDiffProviderElement extends AutoDisposeFutureProviderElement<
+    (List<UserTableData> left, List<UserTableData> right)> with GetUserDiffRef {
   _GetUserDiffProviderElement(super.provider);
 
   @override
@@ -668,282 +630,6 @@ class _GetUserDiffProviderElement
   DateTime get leftTime => (origin as GetUserDiffProvider).leftTime;
   @override
   DateTime get rightTime => (origin as GetUserDiffProvider).rightTime;
-  @override
-  OperatorType get operator => (origin as GetUserDiffProvider).operator;
-  @override
-  SortType get sortType => (origin as GetUserDiffProvider).sortType;
-  @override
-  SortBy get sortBy => (origin as GetUserDiffProvider).sortBy;
-}
-
-String _$getUserStateHash() => r'ceb4becf640683e742071c19a89ab2a4dbb4bd08';
-
-/// See also [getUserState].
-@ProviderFor(getUserState)
-const getUserStateProvider = GetUserStateFamily();
-
-/// See also [getUserState].
-class GetUserStateFamily extends Family<AsyncValue<UserTableData>> {
-  /// See also [getUserState].
-  const GetUserStateFamily();
-
-  /// See also [getUserState].
-  GetUserStateProvider call(
-    String userId,
-  ) {
-    return GetUserStateProvider(
-      userId,
-    );
-  }
-
-  @override
-  GetUserStateProvider getProviderOverride(
-    covariant GetUserStateProvider provider,
-  ) {
-    return call(
-      provider.userId,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'getUserStateProvider';
-}
-
-/// See also [getUserState].
-class GetUserStateProvider extends AutoDisposeFutureProvider<UserTableData> {
-  /// See also [getUserState].
-  GetUserStateProvider(
-    String userId,
-  ) : this._internal(
-          (ref) => getUserState(
-            ref as GetUserStateRef,
-            userId,
-          ),
-          from: getUserStateProvider,
-          name: r'getUserStateProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$getUserStateHash,
-          dependencies: GetUserStateFamily._dependencies,
-          allTransitiveDependencies:
-              GetUserStateFamily._allTransitiveDependencies,
-          userId: userId,
-        );
-
-  GetUserStateProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.userId,
-  }) : super.internal();
-
-  final String userId;
-
-  @override
-  Override overrideWith(
-    FutureOr<UserTableData> Function(GetUserStateRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: GetUserStateProvider._internal(
-        (ref) => create(ref as GetUserStateRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        userId: userId,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeFutureProviderElement<UserTableData> createElement() {
-    return _GetUserStateProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is GetUserStateProvider && other.userId == userId;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, userId.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-mixin GetUserStateRef on AutoDisposeFutureProviderRef<UserTableData> {
-  /// The parameter `userId` of this provider.
-  String get userId;
-}
-
-class _GetUserStateProviderElement
-    extends AutoDisposeFutureProviderElement<UserTableData>
-    with GetUserStateRef {
-  _GetUserStateProviderElement(super.provider);
-
-  @override
-  String get userId => (origin as GetUserStateProvider).userId;
-}
-
-String _$userStateHash() => r'3950fff37f99c2b4ae835c71fb85d03bef320929';
-
-abstract class _$UserState extends BuildlessNotifier<UserTableData?> {
-  late final String userId;
-
-  UserTableData? build(
-    String userId,
-  );
-}
-
-/// See also [UserState].
-@ProviderFor(UserState)
-const userStateProvider = UserStateFamily();
-
-/// See also [UserState].
-class UserStateFamily extends Family<UserTableData?> {
-  /// See also [UserState].
-  const UserStateFamily();
-
-  /// See also [UserState].
-  UserStateProvider call(
-    String userId,
-  ) {
-    return UserStateProvider(
-      userId,
-    );
-  }
-
-  @override
-  UserStateProvider getProviderOverride(
-    covariant UserStateProvider provider,
-  ) {
-    return call(
-      provider.userId,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'userStateProvider';
-}
-
-/// See also [UserState].
-class UserStateProvider
-    extends NotifierProviderImpl<UserState, UserTableData?> {
-  /// See also [UserState].
-  UserStateProvider(
-    String userId,
-  ) : this._internal(
-          () => UserState()..userId = userId,
-          from: userStateProvider,
-          name: r'userStateProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$userStateHash,
-          dependencies: UserStateFamily._dependencies,
-          allTransitiveDependencies: UserStateFamily._allTransitiveDependencies,
-          userId: userId,
-        );
-
-  UserStateProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.userId,
-  }) : super.internal();
-
-  final String userId;
-
-  @override
-  UserTableData? runNotifierBuild(
-    covariant UserState notifier,
-  ) {
-    return notifier.build(
-      userId,
-    );
-  }
-
-  @override
-  Override overrideWith(UserState Function() create) {
-    return ProviderOverride(
-      origin: this,
-      override: UserStateProvider._internal(
-        () => create()..userId = userId,
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        userId: userId,
-      ),
-    );
-  }
-
-  @override
-  NotifierProviderElement<UserState, UserTableData?> createElement() {
-    return _UserStateProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is UserStateProvider && other.userId == userId;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, userId.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-mixin UserStateRef on NotifierProviderRef<UserTableData?> {
-  /// The parameter `userId` of this provider.
-  String get userId;
-}
-
-class _UserStateProviderElement
-    extends NotifierProviderElement<UserState, UserTableData?>
-    with UserStateRef {
-  _UserStateProviderElement(super.provider);
-
-  @override
-  String get userId => (origin as UserStateProvider).userId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

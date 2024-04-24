@@ -58,12 +58,10 @@ class InfoPage extends HookConsumerWidget {
                     title: Text(AppLocalizations.of(context)!.version),
                     trailing: const LoadingIcon(),
                   ),
-                  error: (e, trace) {
-                    return ListTile(
-                      title: Text(AppLocalizations.of(context)!.version),
-                      subtitle: Text(AppLocalizations.of(context)!.error),
-                    );
-                  },
+                  error: (e, trace) => ListTile(
+                    title: Text(AppLocalizations.of(context)!.version),
+                    subtitle: Text(AppLocalizations.of(context)!.error),
+                  ),
                   data: (data) => FutureTile(
                     title: Text(AppLocalizations.of(context)!.version),
                     subtitle: Text(AppLocalizations.of(context)!.versionDetails(data.version)),

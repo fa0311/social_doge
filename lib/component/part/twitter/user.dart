@@ -3,23 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:social_doge/infrastructure/database/data.dart';
+import 'package:social_doge/util/twitter.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-class ProfileImageUrlHttps {
-  ProfileImageUrlHttps(String url) : match = from.firstMatch(url)!;
-  static RegExp from = RegExp(r'^(https://.*?)_[a-zA-Z0-9]+?\.([a-z]+?)$');
-  RegExpMatch match;
-
-  String get profileImage => match.group(1)!;
-  String get extension => match.group(2)!;
-
-  String get original => '$profileImage.$extension';
-  String get mini => '${profileImage}_mini.$extension';
-  String get normal => '${profileImage}_normal.$extension';
-  String get bigger => '${profileImage}_bigger.$extension';
-  String get size_200x200 => '${profileImage}_200x200.$extension';
-  String get size_400x400 => '${profileImage}_400x400.$extension';
-}
 
 class UserProfile extends HookConsumerWidget {
   const UserProfile({super.key, required this.user});
@@ -46,15 +31,14 @@ class UserProfile extends HookConsumerWidget {
               top: -50,
               left: 20,
               child: SizedBox(
-                height: 100,
                 width: 100,
+                height: 100,
                 child: CachedNetworkImage(
                   imageUrl: ProfileImageUrlHttps(user.profileImageUrl).original,
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
                   fit: BoxFit.fill,
-                  imageBuilder: (context, imageProvider) {
-                    return CircleAvatar(backgroundImage: imageProvider);
-                  },
+                  imageBuilder: (context, imageProvider) => CircleAvatar(
+                    backgroundImage: imageProvider,
+                  ),
                 ),
               ),
             ),
@@ -81,20 +65,6 @@ class UserProfile extends HookConsumerWidget {
                   Text(user.name, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
                   Text('${AppLocalizations.of(context)!.twitterAccountPrefix}${user.screenName}', style: Theme.of(context).textTheme.bodySmall),
                   Text(user.description),
-                  /*
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Text(user.FollowerCount.toString()),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Text(user.friendsCount.toString()),
-                      ),
-                    ],
-                  ),
-                  */
                 ],
               ),
             ),

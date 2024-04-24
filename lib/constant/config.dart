@@ -12,6 +12,10 @@ class Config {
   static Uri googlePlay = Uri.https('play.google.com');
 
   static Uri repository = Config.github.resolve('/fa0311/social_doge');
+
+  static Uri githubApi = Uri.https('api.github.com');
+  static Uri releaseApi = Config.githubApi.resolve('/repos/fa0311/social_doge/releases');
+
   static Uri issues = Config.github.resolve('/fa0311/social_doge/issues/new/choose');
   static Uri contact = Config.twitter.resolve('/faa0311');
   // static Uri rate = Config.googlePlay.replace(path: "/store/apps/details", queryParameters: {"id": "com.yuki0311.social_doge"});

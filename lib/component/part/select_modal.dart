@@ -28,6 +28,27 @@ class SelectModalTile extends StatelessWidget {
     );
   }
 
+  static void showHook(
+    BuildContext context, {
+    required List<Widget> Function(BuildContext) itemBuilder,
+  }) {
+    showModalBottomSheet<void>(
+      isScrollControlled: true,
+      context: context,
+      builder: (context) {
+        return HookConsumer(
+          builder: (context, ref, _) {
+            final data = itemBuilder(context);
+            return SelectModalTile(
+              itemCount: data.length,
+              itemBuilder: (context, index) => data.length > index ? data[index] : null,
+            );
+          },
+        );
+      },
+    );
+  }
+
   static void builder(
     BuildContext context, {
     required Widget? Function(BuildContext, int) itemBuilder,
@@ -45,7 +66,7 @@ class SelectModalTile extends StatelessWidget {
     );
   }
 
-  static void consumer(
+  static void consumerBuilder(
     BuildContext context, {
     required Widget Function(BuildContext, int, WidgetRef) builder,
     int? itemCount,
@@ -54,39 +75,12 @@ class SelectModalTile extends StatelessWidget {
       isScrollControlled: true,
       context: context,
       builder: (context) {
-        return SelectModalTile(
-          itemCount: itemCount,
-          itemBuilder: (context, index) {
-            return Consumer(
-              builder: (context, ref, _) {
+        return Consumer(
+          builder: (context, ref, _) {
+            return SelectModalTile(
+              itemCount: itemCount,
+              itemBuilder: (context, index) {
                 return builder(context, index, ref);
-              },
-            );
-          },
-        );
-      },
-    );
-  }
-
-  static void state(
-    BuildContext context, {
-    required Widget Function(BuildContext, int, StateSetter) builder,
-    int? itemCount,
-    StateSetter? setState,
-  }) {
-    showModalBottomSheet<void>(
-      isScrollControlled: true,
-      context: context,
-      builder: (context) {
-        return SelectModalTile(
-          itemCount: itemCount,
-          itemBuilder: (context, index) {
-            return StatefulBuilder(
-              builder: (context, setStateChild) {
-                return builder(context, index, (void Function() x) {
-                  setStateChild(x);
-                  setState?.call(x);
-                });
               },
             );
           },

@@ -109,7 +109,7 @@ class SynchronizePage extends HookConsumerWidget {
                   switch ((following.finish, follower.finish)) {
                     (true, true) => ElevatedButton(
                         onPressed: () async {
-                          await context.router.root.maybePop();
+                          await context.router.replace(const HomeRoute());
                         },
                         child: Text(AppLocalizations.of(context)!.close),
                       ),

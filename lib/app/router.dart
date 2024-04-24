@@ -13,7 +13,11 @@ import 'package:social_doge/app/result/user/page.dart';
 import 'package:social_doge/app/setting/page.dart';
 import 'package:social_doge/app/setup/page.dart';
 import 'package:social_doge/app/synchronize/page.dart';
+import 'package:social_doge/constant/config.dart';
+import 'package:social_doge/provider/guard.dart';
+import 'package:social_doge/provider/package_info.dart';
 import 'package:social_doge/provider/twitter/account.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 part 'router.gr.dart';
 
@@ -28,7 +32,7 @@ class AppRouter extends _$AppRouter {
           path: '/',
           page: SocialDogeRoute.page,
           initial: true,
-          guards: [LoginGuard(ref), AuthGuard(ref)],
+          guards: [LoginGuard(ref), AuthGuard(ref), UpdateGuard(ref)],
           children: [
             AutoRoute(path: 'home', page: HomeRoute.page),
             AutoRoute(path: 'result', page: ResultRoute.page),
@@ -69,17 +73,54 @@ class LoginGuard extends ConsumerAutoRouteGuard {
 
   @override
   Future<void> onConsumerNavigation(NavigationResolver resolver, StackRouter router, WidgetRef ref) async {
-    if (ref.read(lastTwitterLoginProvider.notifier).isExpired(const Duration(days: 1))) {
+    if (ref.read(lastGuardProvider(hashCode).notifier).isExpired(const Duration(days: 1))) {
       await resolver.redirect(
         LoginRoute(
           onResult: () {
-            ref.read(lastTwitterLoginProvider.notifier).refresh();
+            ref.read(lastGuardProvider(hashCode).notifier).refresh();
             resolver.next();
           },
         ),
       );
     } else {
       resolver.next();
+    }
+  }
+}
+
+class UpdateGuard extends ConsumerAutoRouteGuard {
+  UpdateGuard(super.ref);
+
+  @override
+  Future<void> onConsumerNavigation(NavigationResolver resolver, StackRouter router, WidgetRef ref) async {
+    resolver.next();
+
+    if (ref.read(lastGuardProvider(hashCode).notifier).isExpired(const Duration(days: 1))) {
+      final latestVersion = await ref.read(latestAppVersionProvider.future);
+      final packageVersion = await ref.read(packageVersionProvider.future);
+
+      if (latestVersion != packageVersion.version) {
+        while (router.navigatorKey.currentContext == null) {
+          await Future<void>.delayed(const Duration(seconds: 1));
+        }
+        final context = router.navigatorKey.currentContext!;
+        if (context.mounted) {
+          ref.read(lastGuardProvider(hashCode).notifier).refresh();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: const Text('アプリのアップデートがあります'),
+              action: SnackBarAction(
+                label: '確認',
+                onPressed: () async {
+                  if (await canLaunchUrl(Config.release)) {
+                    await launchUrl(Config.release, mode: LaunchMode.externalApplication);
+                  }
+                },
+              ),
+            ),
+          );
+        }
+      }
     }
   }
 }

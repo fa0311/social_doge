@@ -31,22 +31,6 @@ class SelfAccount extends _$SelfAccount {
 }
 
 @Riverpod(keepAlive: true)
-class LastTwitterLogin extends _$LastTwitterLogin {
-  @override
-  DateTime build() {
-    return DateTime(0);
-  }
-
-  void refresh() {
-    state = DateTime.now();
-  }
-
-  bool isExpired(Duration duration) {
-    return DateTime.now().difference(state) > duration;
-  }
-}
-
-@Riverpod(keepAlive: true)
 Future<User> getSelfAccount(GetSelfAccountRef ref) async {
   final userId = await ref.watch(selfAccountProvider.future);
   return await ref.watch(getUserByScreenNameProvider(userId!).future);

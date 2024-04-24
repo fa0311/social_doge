@@ -21,5 +21,20 @@ final packageVersionProvider = FutureProvider<PackageInfo>.internal(
 );
 
 typedef PackageVersionRef = FutureProviderRef<PackageInfo>;
+String _$latestAppVersionHash() => r'783ec0a14a76ab7a4360f431021018cd0f7a6de9';
+
+/// See also [latestAppVersion].
+@ProviderFor(latestAppVersion)
+final latestAppVersionProvider = FutureProvider<String>.internal(
+  latestAppVersion,
+  name: r'latestAppVersionProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$latestAppVersionHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef LatestAppVersionRef = FutureProviderRef<String>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
