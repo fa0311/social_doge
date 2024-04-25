@@ -15,14 +15,14 @@ class Config {
   static Uri googlePlay = Uri.https('play.google.com');
   static Uri githubApi = Uri.https('api.github.com');
 
-  static Uri repository = Config.github.resolve('/$githubUser/$githubRepository');
-  static Uri releaseApi = Config.githubApi.resolve('/repos/$githubUser/$githubRepository/releases');
+  static Uri repository = Config.github.resolve('$githubUser/$githubRepository');
+  static Uri releaseApi = Config.githubApi.resolve('repos/$githubUser/$githubRepository/releases');
 
-  static Uri release = Config.repository.resolve('releases');
-  static Uri report = Config.repository.replace(path: 'issues/new');
-  static Uri issues = Config.repository.resolve('issues/new/choose');
+  static Uri release = Config.github.resolve('$githubUser/$githubRepository/releases');
+  static Uri report = Config.github.resolve('$githubUser/$githubRepository/issues/new');
+  static Uri issues = Config.github.resolve('$githubUser/$githubRepository/issues/new/choose');
 
-  static Uri contact = Config.twitter.resolve('/faa0311');
+  static Uri contact = Config.twitter.resolve('faa0311');
 
   static bool debugShowCheckedModeBanner = false;
   static MaterialColor seedColor = Colors.blue;

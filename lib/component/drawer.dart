@@ -20,23 +20,26 @@ class NormalDrawer extends HookConsumerWidget {
       child: SafeArea(
         child: Column(
           children: [
-            ref.watch(getSelfAccountProvider).when(
-                  data: (data) {
-                    return UserAccountsDrawerHeader(
-                      decoration: BoxDecoration(color: Theme.of(context).colorScheme.background),
-                      accountName: Text(data.legacy.screenName),
-                      accountEmail: Text(data.restId),
-                      currentAccountPicture: CachedNetworkImage(
-                        imageUrl: ProfileImageUrlHttps(data.legacy.profileImageUrlHttps).original,
-                        fit: BoxFit.fitWidth,
-                        errorWidget: (context, url, error) => const Icon(Icons.error),
-                        imageBuilder: (context, imageProvider) => CircleAvatar(backgroundImage: imageProvider),
-                      ),
-                    );
-                  },
-                  error: ErrorLogView.new,
-                  loading: () => const Loading(),
-                ),
+            SizedBox(
+              height: 169,
+              child: ref.watch(getSelfAccountProvider).when(
+                    data: (data) {
+                      return UserAccountsDrawerHeader(
+                        decoration: BoxDecoration(color: Theme.of(context).colorScheme.background),
+                        accountName: Text(data.legacy.screenName),
+                        accountEmail: Text(data.restId),
+                        currentAccountPicture: CachedNetworkImage(
+                          imageUrl: ProfileImageUrlHttps(data.legacy.profileImageUrlHttps).original,
+                          fit: BoxFit.fitWidth,
+                          errorWidget: (context, url, error) => const Icon(Icons.error),
+                          imageBuilder: (context, imageProvider) => CircleAvatar(backgroundImage: imageProvider),
+                        ),
+                      );
+                    },
+                    error: ErrorLogView.new,
+                    loading: Loading.new,
+                  ),
+            ),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
