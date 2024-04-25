@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:social_doge/component/part/loading.dart';
+import 'package:social_doge/component/widget/error_log_view.dart';
 import 'package:social_doge/constant/config.dart';
 import 'package:social_doge/provider/package_info.dart';
 
@@ -22,8 +24,8 @@ class InfoLicensePage extends HookConsumerWidget {
                 applicationLegalese: '$copyRight $year ${Config.author}',
               );
             },
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (e, trace) => Center(child: Text('$e\n$trace')),
+            loading: () => const Loading(),
+            error: ErrorLogView.new,
           ),
     );
   }

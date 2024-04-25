@@ -12,6 +12,7 @@ Future<T?> showModalBottomSheetStatelessWidget<T>({
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
     ),
+    clipBehavior: Clip.antiAliasWithSaveLayer,
     builder: (BuildContext context) => builder(),
   );
 }

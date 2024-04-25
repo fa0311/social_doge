@@ -17,7 +17,9 @@ class UserProfile extends HookConsumerWidget {
         SizedBox(
           height: MediaQuery.of(context).size.width * 0.3333,
           child: (user.profileBannerUrl == null)
-              ? Container()
+              ? Container(
+                  color: Colors.grey,
+                )
               : CachedNetworkImage(
                   imageUrl: user.profileBannerUrl!,
                   errorWidget: (context, url, error) => const Icon(Icons.error),

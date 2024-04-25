@@ -7,8 +7,10 @@ import 'package:intl/intl.dart';
 import 'package:social_doge/app/router.dart';
 import 'package:social_doge/component/part/loading.dart';
 import 'package:social_doge/component/part/select_modal.dart';
+import 'package:social_doge/component/widget/error_log_view.dart';
 import 'package:social_doge/infrastructure/database/data.dart';
 import 'package:social_doge/provider/db/db.dart';
+import 'package:social_doge/util/hook.dart';
 
 enum Operator {
   intersection('∩'),
@@ -59,6 +61,15 @@ class ResultPage extends HookConsumerWidget {
       (Latin.A, leftOperand, leftTimeKey),
       (Latin.B, rightOperand, rightTimeKey),
     ];
+
+    useListener(
+      () => [
+        ref.refresh(getUserSyncStatusProvider(SynchronizeMode.follower)),
+        ref.refresh(getUserSyncStatusProvider(SynchronizeMode.following)),
+      ],
+      context.router.addListener,
+      context.router.removeListener,
+    );
 
     return Scaffold(
       body: switch ((following, follower)) {
@@ -165,16 +176,8 @@ class ResultPage extends HookConsumerWidget {
               );
             }
           }(),
-        (AsyncLoading(:final error?, :final stackTrace?), _) => Column(
-            children: [
-              for (final e in [error.toString(), stackTrace.toString()]) Text(e),
-            ],
-          ),
-        (_, AsyncLoading(:final error?, :final stackTrace?)) => Column(
-            children: [
-              for (final e in [error.toString(), stackTrace.toString()]) Text(e),
-            ],
-          ),
+        (AsyncLoading(:final error?, :final stackTrace?), _) => ErrorLogView(error, stackTrace),
+        (_, AsyncLoading(:final error?, :final stackTrace?)) => ErrorLogView(error, stackTrace),
         _ => const Loading(),
       },
     );

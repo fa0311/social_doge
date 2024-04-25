@@ -5,14 +5,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:social_doge/app/router.dart';
 import 'package:social_doge/component/chart.dart';
 import 'package:social_doge/component/part/loading.dart';
+import 'package:social_doge/component/part/physics.dart';
+import 'package:social_doge/component/widget/error_log_view.dart';
 import 'package:social_doge/infrastructure/database/data.dart';
 import 'package:social_doge/provider/db/db.dart';
+import 'package:social_doge/util/hook.dart';
 
 @RoutePage()
 class HomePage extends HookConsumerWidget {
   const HomePage({super.key});
-
-  static List<Color> gradientColors = [Colors.cyan, Colors.blue];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,6 +24,13 @@ class HomePage extends HookConsumerWidget {
       (AppLocalizations.of(context)!.threeMonths, const Duration(days: 90)),
       (AppLocalizations.of(context)!.oneYear, const Duration(days: 360)),
     ];
+
+    useListener(
+      () => ref.refresh(getUserSyncStatusProvider(SynchronizeMode.follower)),
+      context.router.addListener,
+      context.router.removeListener,
+    );
+
     return Column(
       children: [
         Padding(
@@ -34,6 +42,7 @@ class HomePage extends HookConsumerWidget {
               child: follower.when(
                 data: (follower) {
                   return PageView(
+                    physics: const FastScrollPhysics(),
                     children: [
                       for (final e in labels)
                         Column(
@@ -53,11 +62,7 @@ class HomePage extends HookConsumerWidget {
                     ],
                   );
                 },
-                error: (error, stackTrace) => Column(
-                  children: [
-                    for (final e in [error.toString(), stackTrace.toString()]) Text(e),
-                  ],
-                ),
+                error: ErrorLogView.new,
                 loading: () => const Loading(),
               ),
             ),
@@ -67,35 +72,9 @@ class HomePage extends HookConsumerWidget {
           title: Text(AppLocalizations.of(context)!.synchronize),
           subtitle: Text(AppLocalizations.of(context)!.synchronizeDetails),
           onTap: () {
-            context.router.replace(const SynchronizeRoute());
+            context.router.push(const SynchronizeRoute());
           },
         ),
-        // data.when(
-        //   data: (data) {
-        //     return ListTile(
-        //       title: Text(AppLocalizations.of(context)!.deleteLastSynchronize),
-        //       subtitle: Text(AppLocalizations.of(context)!.deleteLastSynchronizeDetails),
-        //       enabled: data.isNotEmpty,
-        //       onTap: () async {
-        //         await showDialog<void>(
-        //           context: context,
-        //           builder: (BuildContext context) => ConfirmDialog(
-        //             content: Text(AppLocalizations.of(context)!.deleteLastSynchronize),
-        //             onPressed: () async {
-        //               await ref.read(removeLastSynchronizedProvider.future);
-        //             },
-        //           ),
-        //         );
-        //       },
-        //     );
-        //   },
-        //   error: (error, stackTrace) => Column(
-        //     children: [
-        //       for (final e in [error.toString(), stackTrace.toString()]) Text(e),
-        //     ],
-        //   ),
-        //   loading: () => const LoadingIcon(),
-        // ),
       ],
     );
   }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:social_doge/component/part/future/button.dart';
@@ -6,7 +8,7 @@ class ConfirmDialog extends StatefulWidget {
   const ConfirmDialog({super.key, this.title, this.content, required this.onPressed, this.pop = true});
   final Widget? title;
   final Widget? content;
-  final Future<void> Function() onPressed;
+  final FutureOr<void> Function() onPressed;
   final bool pop;
 
   @override

@@ -12,15 +12,3 @@ class Loading extends HookConsumerWidget {
     );
   }
 }
-
-class LoadingIcon extends HookConsumerWidget {
-  const LoadingIcon({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return const Padding(
-      padding: EdgeInsets.only(right: 2, top: 2),
-      child: SizedBox(width: 20, height: 20, child: CircularProgressIndicator()),
-    );
-  }
-}

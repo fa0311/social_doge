@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:social_doge/app/router.dart';
 import 'package:social_doge/component/part/confirm.dart';
 import 'package:social_doge/component/part/loading.dart';
+import 'package:social_doge/component/widget/error_log_view.dart';
 import 'package:social_doge/provider/twitter/account.dart';
 import 'package:social_doge/util/twitter.dart';
 
@@ -33,11 +34,7 @@ class NormalDrawer extends HookConsumerWidget {
                       ),
                     );
                   },
-                  error: (error, stackTrace) => Column(
-                    children: [
-                      for (final e in [error.toString(), stackTrace.toString()]) Text(e),
-                    ],
-                  ),
+                  error: ErrorLogView.new,
                   loading: () => const Loading(),
                 ),
             Expanded(
