@@ -8,6 +8,7 @@ import 'package:social_doge/app/router.dart';
 import 'package:social_doge/component/part/confirm.dart';
 import 'package:social_doge/component/part/loading.dart';
 import 'package:social_doge/component/widget/error_log_view.dart';
+import 'package:social_doge/provider/guard.dart';
 import 'package:social_doge/provider/twitter/account.dart';
 import 'package:social_doge/util/twitter.dart';
 
@@ -53,8 +54,9 @@ class NormalDrawer extends HookConsumerWidget {
                             onPressed: () async {
                               final cookie = CookieManager.instance();
                               await cookie.deleteAllCookies();
+                              ref.read(lastGuardProvider(GuardType.loginGuard).notifier).reset();
                               if (context.mounted) {
-                                await context.router.push(const SocialDogeRoute());
+                                await context.router.replaceAll([const SocialDogeRoute()]);
                               }
                             },
                           ),

@@ -16,7 +16,7 @@ class LoginPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final result = useState(false);
     return InAppWebView(
-      initialUrlRequest: URLRequest(url: WebUri.uri(baseUrl)..resolve('login')),
+      initialUrlRequest: URLRequest(url: WebUri.uri(baseUrl.resolve('login'))),
       onTitleChanged: (controller, title) async {
         final url = await controller.getUrl();
         if (url != null && url.path == url.resolve('home').path && context.mounted && !result.value) {

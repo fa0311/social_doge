@@ -9,7 +9,6 @@ import 'package:social_doge/component/part/physics.dart';
 import 'package:social_doge/component/widget/error_log_view.dart';
 import 'package:social_doge/infrastructure/database/data.dart';
 import 'package:social_doge/provider/db/db.dart';
-import 'package:social_doge/util/hook.dart';
 
 @RoutePage()
 class HomePage extends HookConsumerWidget {
@@ -25,11 +24,11 @@ class HomePage extends HookConsumerWidget {
       (AppLocalizations.of(context)!.oneYear, const Duration(days: 360)),
     ];
 
-    useListener(
-      () => ref.refresh(getUserSyncStatusProvider(SynchronizeMode.follower)),
-      context.router.addListener,
-      context.router.removeListener,
-    );
+    // useListener(
+    //   () => ref.refresh(getUserSyncStatusProvider(SynchronizeMode.follower)),
+    //   context.router.addListener,
+    //   context.router.removeListener,
+    // );
 
     return Column(
       children: [

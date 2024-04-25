@@ -30,6 +30,37 @@ class CalcParam with _$CalcParam {
   }) = _CalcParam;
 }
 
+enum Operator {
+  intersection('∩'),
+  union('∪'),
+  difference('-'),
+  symmetricDifference('△');
+
+  const Operator(this.symbol);
+  final String symbol;
+
+  OperatorType toOperatorType() {
+    switch (this) {
+      case Operator.intersection:
+        return OperatorType.intersection;
+      case Operator.union:
+        return OperatorType.union;
+      case Operator.difference:
+        return OperatorType.difference;
+      case Operator.symmetricDifference:
+        return OperatorType.symmetricDifference;
+    }
+  }
+}
+
+enum Latin {
+  A('𝐴'),
+  B('𝐵');
+
+  const Latin(this.symbol);
+  final String symbol;
+}
+
 enum SearchType {
   normal,
   regex,

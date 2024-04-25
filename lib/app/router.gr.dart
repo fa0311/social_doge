@@ -50,6 +50,12 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    ResultDetailRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ResultDetailPage(),
+      );
+    },
     ResultRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -216,6 +222,20 @@ class LoginRouteArgs {
   String toString() {
     return 'LoginRouteArgs{key: $key, onResult: $onResult}';
   }
+}
+
+/// generated route for
+/// [ResultDetailPage]
+class ResultDetailRoute extends PageRouteInfo<void> {
+  const ResultDetailRoute({List<PageRouteInfo>? children})
+      : super(
+          ResultDetailRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ResultDetailRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

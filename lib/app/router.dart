@@ -8,6 +8,7 @@ import 'package:social_doge/app/info/license/page.dart';
 import 'package:social_doge/app/info/page.dart';
 import 'package:social_doge/app/login/page.dart';
 import 'package:social_doge/app/page.dart';
+import 'package:social_doge/app/result/detail/page.dart';
 import 'package:social_doge/app/result/page.dart';
 import 'package:social_doge/app/result/user/page.dart';
 import 'package:social_doge/app/setting/page.dart';
@@ -40,6 +41,7 @@ class AppRouter extends _$AppRouter {
         ),
         AutoRoute(path: '/synchronize', page: SynchronizeRoute.page),
         AutoRoute(path: '/result/user', page: UserListRoute.page),
+        AutoRoute(path: '/result/detail', page: ResultDetailRoute.page),
         AutoRoute(path: '/accessibility', page: AccessibilityRoute.page),
         AutoRoute(path: '/login', page: LoginRoute.page),
         AutoRoute(path: '/setup', page: SetupRoute.page),
@@ -73,11 +75,11 @@ class LoginGuard extends ConsumerAutoRouteGuard {
 
   @override
   Future<void> onConsumerNavigation(NavigationResolver resolver, StackRouter router, WidgetRef ref) async {
-    if (ref.read(lastGuardProvider(hashCode).notifier).isExpired(const Duration(days: 1))) {
+    if (ref.read(lastGuardProvider(GuardType.loginGuard).notifier).isExpired(const Duration(days: 1))) {
       await resolver.redirect(
         LoginRoute(
           onResult: () {
-            ref.read(lastGuardProvider(hashCode).notifier).refresh();
+            ref.read(lastGuardProvider(GuardType.loginGuard).notifier).refresh();
             resolver.next();
           },
         ),
@@ -95,7 +97,7 @@ class UpdateGuard extends ConsumerAutoRouteGuard {
   Future<void> onConsumerNavigation(NavigationResolver resolver, StackRouter router, WidgetRef ref) async {
     resolver.next();
 
-    if (ref.read(lastGuardProvider(hashCode).notifier).isExpired(const Duration(days: 1))) {
+    if (ref.read(lastGuardProvider(GuardType.updateGuard).notifier).isExpired(const Duration(days: 1))) {
       final latestVersion = await ref.read(latestAppVersionProvider.future);
       final packageVersion = await ref.read(packageVersionProvider.future);
 
@@ -105,7 +107,7 @@ class UpdateGuard extends ConsumerAutoRouteGuard {
         }
         final context = router.navigatorKey.currentContext!;
         if (context.mounted) {
-          ref.read(lastGuardProvider(hashCode).notifier).refresh();
+          ref.read(lastGuardProvider(GuardType.updateGuard).notifier).refresh();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: const Text('アプリのアップデートがあります'),

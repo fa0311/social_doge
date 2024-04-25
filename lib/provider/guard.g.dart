@@ -6,7 +6,7 @@ part of 'guard.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$lastGuardHash() => r'dbf7358a9516b7a1bdf6635f86426ccfaf8684b2';
+String _$lastGuardHash() => r'19cf6bea46fa2c734efc96025aa47fdd7a7f5082';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -30,10 +30,10 @@ class _SystemHash {
 }
 
 abstract class _$LastGuard extends BuildlessNotifier<DateTime> {
-  late final int hash;
+  late final GuardType type;
 
   DateTime build(
-    int hash,
+    GuardType type,
   );
 }
 
@@ -48,10 +48,10 @@ class LastGuardFamily extends Family<DateTime> {
 
   /// See also [LastGuard].
   LastGuardProvider call(
-    int hash,
+    GuardType type,
   ) {
     return LastGuardProvider(
-      hash,
+      type,
     );
   }
 
@@ -60,7 +60,7 @@ class LastGuardFamily extends Family<DateTime> {
     covariant LastGuardProvider provider,
   ) {
     return call(
-      provider.hash,
+      provider.type,
     );
   }
 
@@ -83,9 +83,9 @@ class LastGuardFamily extends Family<DateTime> {
 class LastGuardProvider extends NotifierProviderImpl<LastGuard, DateTime> {
   /// See also [LastGuard].
   LastGuardProvider(
-    int hash,
+    GuardType type,
   ) : this._internal(
-          () => LastGuard()..hash = hash,
+          () => LastGuard()..type = type,
           from: lastGuardProvider,
           name: r'lastGuardProvider',
           debugGetCreateSourceHash:
@@ -94,7 +94,7 @@ class LastGuardProvider extends NotifierProviderImpl<LastGuard, DateTime> {
                   : _$lastGuardHash,
           dependencies: LastGuardFamily._dependencies,
           allTransitiveDependencies: LastGuardFamily._allTransitiveDependencies,
-          hash: hash,
+          type: type,
         );
 
   LastGuardProvider._internal(
@@ -104,17 +104,17 @@ class LastGuardProvider extends NotifierProviderImpl<LastGuard, DateTime> {
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.hash,
+    required this.type,
   }) : super.internal();
 
-  final int hash;
+  final GuardType type;
 
   @override
   DateTime runNotifierBuild(
     covariant LastGuard notifier,
   ) {
     return notifier.build(
-      hash,
+      type,
     );
   }
 
@@ -123,13 +123,13 @@ class LastGuardProvider extends NotifierProviderImpl<LastGuard, DateTime> {
     return ProviderOverride(
       origin: this,
       override: LastGuardProvider._internal(
-        () => create()..hash = hash,
+        () => create()..type = type,
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        hash: hash,
+        type: type,
       ),
     );
   }
@@ -141,21 +141,21 @@ class LastGuardProvider extends NotifierProviderImpl<LastGuard, DateTime> {
 
   @override
   bool operator ==(Object other) {
-    return other is LastGuardProvider && other.hash == hash;
+    return other is LastGuardProvider && other.type == type;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, hash.hashCode);
+    hash = _SystemHash.combine(hash, type.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
 mixin LastGuardRef on NotifierProviderRef<DateTime> {
-  /// The parameter `hash` of this provider.
-  int get hash;
+  /// The parameter `type` of this provider.
+  GuardType get type;
 }
 
 class _LastGuardProviderElement
@@ -163,7 +163,7 @@ class _LastGuardProviderElement
   _LastGuardProviderElement(super.provider);
 
   @override
-  int get hash => (origin as LastGuardProvider).hash;
+  GuardType get type => (origin as LastGuardProvider).type;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
