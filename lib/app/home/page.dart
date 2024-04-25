@@ -24,12 +24,6 @@ class HomePage extends HookConsumerWidget {
       (AppLocalizations.of(context)!.oneYear, const Duration(days: 360)),
     ];
 
-    // useListener(
-    //   () => ref.refresh(getUserSyncStatusProvider(SynchronizeMode.follower)),
-    //   context.router.addListener,
-    //   context.router.removeListener,
-    // );
-
     return Column(
       children: [
         Padding(

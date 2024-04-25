@@ -10,6 +10,7 @@ import 'package:social_doge/component/part/label.dart';
 import 'package:social_doge/component/part/loading.dart';
 import 'package:social_doge/component/widget/error_log_view.dart';
 import 'package:social_doge/infrastructure/database/data.dart';
+import 'package:social_doge/provider/db/db.dart';
 import 'package:social_doge/provider/twitter/synchronize.dart';
 
 @RoutePage()
@@ -41,6 +42,20 @@ class SynchronizePage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final following = ref.watch(runSynchronizeProvider(SynchronizeMode.following));
     final follower = ref.watch(runSynchronizeProvider(SynchronizeMode.follower));
+
+    ref
+      ..listen(runSynchronizeProvider(SynchronizeMode.following), (previous, next) {
+        if (previous?.valueOrNull?.finish == false && next.valueOrNull?.finish == true) {
+          // ignore: unused_result
+          ref.refresh(getUserSyncStatusProvider(SynchronizeMode.following));
+        }
+      })
+      ..listen(runSynchronizeProvider(SynchronizeMode.follower), (previous, next) {
+        if (previous?.valueOrNull?.finish == false && next.valueOrNull?.finish == true) {
+          // ignore: unused_result
+          ref.refresh(getUserSyncStatusProvider(SynchronizeMode.follower));
+        }
+      });
 
     final permission = useFuture(useMemoized(requestPermissionForAndroid));
 

@@ -17,15 +17,6 @@ class ResultPage extends HookConsumerWidget {
     final follower = ref.watch(getUserSyncStatusProvider(SynchronizeMode.follower));
     final following = ref.watch(getUserSyncStatusProvider(SynchronizeMode.following));
 
-    // useListener(
-    //   () => [
-    //     ref.refresh(getUserSyncStatusProvider(SynchronizeMode.follower)),
-    //     ref.refresh(getUserSyncStatusProvider(SynchronizeMode.following)),
-    //   ],
-    //   context.router.addListener,
-    //   context.router.removeListener,
-    // );
-
     return Scaffold(
       body: switch ((following, follower)) {
         (AsyncData(value: final following), AsyncData(value: final follower)) => () {
