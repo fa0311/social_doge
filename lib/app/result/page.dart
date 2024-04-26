@@ -21,45 +21,52 @@ class ResultPage extends HookConsumerWidget {
       body: switch ((following, follower)) {
         (AsyncData(value: final following), AsyncData(value: final follower)) => () {
             if (follower.isEmpty || following.isEmpty) {
-              return const Center(
-                child: Text('Empty'),
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('同期データがありません', style: Theme.of(context).textTheme.titleLarge),
+                    const Text('ホームの同期ボタンを押して同期してください'),
+                  ],
+                ),
               );
             } else {
               final labels = [
-                ('フォロー', SynchronizeMode.following, SynchronizeMode.following, 0, 0, Operator.union),
-                ('フォロワー', SynchronizeMode.follower, SynchronizeMode.follower, 0, 0, Operator.union),
-                ('相互フォロー', SynchronizeMode.follower, SynchronizeMode.following, 0, 0, Operator.intersection),
-                ('片思い', SynchronizeMode.following, SynchronizeMode.follower, 0, 0, Operator.difference),
-                ('片思われ', SynchronizeMode.follower, SynchronizeMode.following, 0, 0, Operator.difference),
-                ('新規フォロー', SynchronizeMode.following, SynchronizeMode.following, 0, 1, Operator.difference),
-                ('新規フォロワー', SynchronizeMode.follower, SynchronizeMode.follower, 0, 1, Operator.difference),
-                ('フォロー解除', SynchronizeMode.following, SynchronizeMode.following, 1, 0, Operator.difference),
-                ('フォロワー解除', SynchronizeMode.follower, SynchronizeMode.follower, 1, 0, Operator.difference),
+                ('フォロー', 'フォローしているユーザー', SynchronizeMode.following, SynchronizeMode.following, 0, 0, Operator.union),
+                ('フォロワー', 'フォローされているユーザー', SynchronizeMode.follower, SynchronizeMode.follower, 0, 0, Operator.union),
+                ('相互フォロー', 'フォローしていてフォローされているユーザー', SynchronizeMode.follower, SynchronizeMode.following, 0, 0, Operator.intersection),
+                ('片思い', 'フォローしていてフォローされていないユーザー', SynchronizeMode.following, SynchronizeMode.follower, 0, 0, Operator.difference),
+                ('片思われ', 'フォローしていなくてフォローされているユーザー', SynchronizeMode.follower, SynchronizeMode.following, 0, 0, Operator.difference),
+                ('新規フォロー', '最近フォローしたユーザー', SynchronizeMode.following, SynchronizeMode.following, 0, 1, Operator.difference),
+                ('新規フォロワー', '最近フォローされたユーザー', SynchronizeMode.follower, SynchronizeMode.follower, 0, 1, Operator.difference),
+                ('フォロー解除', '最近フォロー解除したユーザー', SynchronizeMode.following, SynchronizeMode.following, 1, 0, Operator.difference),
+                ('フォロワー解除', '最近フォロー解除されたユーザー', SynchronizeMode.follower, SynchronizeMode.follower, 1, 0, Operator.difference),
               ];
 
-              return Column(
+              return ListView(
                 children: [
                   for (final label in labels)
-                    if (label.$4 < follower.length && label.$5 < following.length)
+                    if (label.$5 < follower.length && label.$6 < following.length)
                       (() {
-                        final leftTime = switch (label.$2) {
-                          SynchronizeMode.follower => follower[follower.length - label.$4 - 1],
-                          SynchronizeMode.following => following[following.length - label.$5 - 1],
+                        final leftTime = switch (label.$3) {
+                          SynchronizeMode.follower => follower[follower.length - label.$5 - 1],
+                          SynchronizeMode.following => following[following.length - label.$6 - 1],
                         };
-                        final rightTime = switch (label.$3) {
-                          SynchronizeMode.follower => follower[follower.length - label.$4 - 1],
-                          SynchronizeMode.following => following[following.length - label.$5 - 1],
+                        final rightTime = switch (label.$4) {
+                          SynchronizeMode.follower => follower[follower.length - label.$5 - 1],
+                          SynchronizeMode.following => following[following.length - label.$6 - 1],
                         };
                         return ListTile(
                           title: Text(label.$1),
+                          subtitle: Text(label.$2),
                           onTap: () {
                             context.router.push(
                               UserListRoute(
-                                leftOperand: label.$2.name,
-                                rightOperand: label.$3.name,
+                                leftOperand: label.$3.name,
+                                rightOperand: label.$4.name,
                                 leftTime: leftTime.time.millisecondsSinceEpoch,
                                 rightTime: rightTime.time.millisecondsSinceEpoch,
-                                operator: label.$6.toOperatorType().name,
+                                operator: label.$7.toOperatorType().name,
                               ),
                             );
                           },

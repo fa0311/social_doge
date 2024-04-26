@@ -140,6 +140,25 @@ class SocialDogeDatabase extends _$SocialDogeDatabase {
     }
   }
 
+  Future<int> removeUserSyncStatus({
+    required String userId,
+    required SynchronizeMode mode,
+    required DateTime time,
+  }) {
+    switch (mode) {
+      case SynchronizeMode.following:
+        return (delete(syncFollowingTable)
+              ..where((t) => t.selfTwitterId.equals(userId))
+              ..where((t) => t.time.equals(time)))
+            .go();
+      case SynchronizeMode.follower:
+        return (delete(syncFollowerTable)
+              ..where((t) => t.selfTwitterId.equals(userId))
+              ..where((t) => t.time.equals(time)))
+            .go();
+    }
+  }
+
   @override
   int get schemaVersion => 1;
 }

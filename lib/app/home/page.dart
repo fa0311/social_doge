@@ -68,6 +68,13 @@ class HomePage extends HookConsumerWidget {
             context.router.push(const SynchronizeRoute());
           },
         ),
+        ListTile(
+          title: const Text('同期の削除'),
+          subtitle: const Text('同期データを削除します'),
+          onTap: () {
+            context.router.push(const ResultRemoveRoute());
+          },
+        ),
       ],
     );
   }

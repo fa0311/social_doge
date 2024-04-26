@@ -38,8 +38,14 @@ class ResultDetailPage extends HookConsumerWidget {
       body: switch ((following, follower)) {
         (AsyncData(value: final following), AsyncData(value: final follower)) => () {
             if (follower.isEmpty || following.isEmpty) {
-              return const Center(
-                child: Text('Empty'),
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('同期データがありません', style: Theme.of(context).textTheme.titleLarge),
+                    const Text('ホームの同期ボタンを押して同期してください'),
+                  ],
+                ),
               );
             } else {
               return Column(
