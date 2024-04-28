@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:social_doge/app/router.dart';
@@ -13,6 +14,27 @@ import 'package:social_doge/provider/db/db.dart';
 @RoutePage()
 class HomePage extends HookConsumerWidget {
   const HomePage({super.key});
+
+  Future<bool> requestPermissionForAndroid() async {
+    final batteryOptimization = await () async {
+      if (await FlutterForegroundTask.isIgnoringBatteryOptimizations) {
+        return true;
+      } else {
+        final res = await FlutterForegroundTask.requestIgnoreBatteryOptimization();
+        return res;
+      }
+    }();
+    final notificationPermission = await () async {
+      final notificationPermissionStatus = await FlutterForegroundTask.checkNotificationPermission();
+      if (notificationPermissionStatus == NotificationPermission.granted) {
+        return true;
+      } else {
+        final res = await FlutterForegroundTask.requestNotificationPermission();
+        return res == NotificationPermission.granted;
+      }
+    }();
+    return batteryOptimization && notificationPermission;
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -73,6 +95,20 @@ class HomePage extends HookConsumerWidget {
           subtitle: const Text('同期データを削除します'),
           onTap: () {
             context.router.push(const ResultRemoveRoute());
+          },
+        ),
+        ListTile(
+          title: const Text('権限の確認'),
+          subtitle: const Text('同期データを削除します'),
+          onTap: () async {
+            final res = await requestPermissionForAndroid();
+            if (context.mounted) {
+              if (res) {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('権限が付与されています')));
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('権限が付与されていません')));
+              }
+            }
           },
         ),
       ],

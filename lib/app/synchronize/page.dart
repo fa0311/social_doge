@@ -18,22 +18,10 @@ class SynchronizePage extends HookConsumerWidget {
   const SynchronizePage({super.key});
 
   Future<bool> requestPermissionForAndroid() async {
-    final batteryOptimization = await () async {
-      if (await FlutterForegroundTask.isIgnoringBatteryOptimizations) {
-        return true;
-      } else {
-        final res = await FlutterForegroundTask.requestIgnoreBatteryOptimization();
-        return res;
-      }
-    }();
+    final batteryOptimization = await FlutterForegroundTask.isIgnoringBatteryOptimizations;
     final notificationPermission = await () async {
       final notificationPermissionStatus = await FlutterForegroundTask.checkNotificationPermission();
-      if (notificationPermissionStatus == NotificationPermission.granted) {
-        return true;
-      } else {
-        final res = await FlutterForegroundTask.requestNotificationPermission();
-        return res == NotificationPermission.granted;
-      }
+      return notificationPermissionStatus == NotificationPermission.granted;
     }();
     return batteryOptimization && notificationPermission;
   }
