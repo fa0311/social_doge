@@ -2,13 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:social_doge/app/router.dart';
-import 'package:social_doge/component/part/confirm.dart';
 import 'package:social_doge/component/part/loading.dart';
 import 'package:social_doge/component/widget/error_log_view.dart';
-import 'package:social_doge/provider/guard.dart';
 import 'package:social_doge/provider/twitter/account.dart';
 import 'package:social_doge/util/twitter.dart';
 
@@ -43,33 +40,9 @@ class NormalDrawer extends HookConsumerWidget {
             ),
             Expanded(
               child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    ListTile(
-                      onTap: () {
-                        showDialog<void>(
-                          context: context,
-                          builder: (BuildContext context) => ConfirmDialog(
-                            content: Text(AppLocalizations.of(context)!.logoutConfirm),
-                            onPressed: () async {
-                              final cookie = CookieManager.instance();
-                              await cookie.deleteAllCookies();
-                              ref.read(lastGuardProvider(GuardType.loginGuard).notifier).reset();
-                              if (context.mounted) {
-                                await context.router.replaceAll([const SocialDogeRoute()]);
-                              }
-                            },
-                          ),
-                        );
-                      },
-                      leading: const Icon(Icons.home),
-                      title: Text(AppLocalizations.of(context)!.logout),
-                    ),
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: Text(AppLocalizations.of(context)!.close),
-                    ),
-                  ],
+                child: TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(AppLocalizations.of(context)!.close),
                 ),
               ),
             ),

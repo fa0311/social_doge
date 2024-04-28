@@ -34,7 +34,7 @@ class AppRouter extends _$AppRouter {
           path: '/',
           page: SocialDogeRoute.page,
           initial: true,
-          guards: [LoginGuard(ref), AuthGuard(ref), UpdateGuard(ref)],
+          guards: [LoginGuard(ref), SetupGuard(ref), UpdateGuard(ref)],
           children: [
             AutoRoute(path: 'home', page: HomeRoute.page),
             AutoRoute(path: 'result', page: ResultRoute.page),
@@ -53,15 +53,15 @@ class AppRouter extends _$AppRouter {
       ];
 }
 
-class AuthGuard extends ConsumerAutoRouteGuard {
-  AuthGuard(super.ref);
+class SetupGuard extends ConsumerAutoRouteGuard {
+  SetupGuard(super.ref);
 
   @override
   Future<void> onConsumerNavigation(NavigationResolver resolver, StackRouter router, WidgetRef ref) async {
     if (await ref.read(selfAccountProvider.future) == null) {
       await resolver.redirect(
         SetupRoute(
-          onResult: () {
+          onResult: (context) {
             resolver.next();
           },
         ),
@@ -80,7 +80,7 @@ class LoginGuard extends ConsumerAutoRouteGuard {
     if (ref.read(lastGuardProvider(GuardType.loginGuard).notifier).isExpired(const Duration(days: 1))) {
       await resolver.redirect(
         LoginRoute(
-          onResult: () {
+          onResult: (context) {
             ref.read(lastGuardProvider(GuardType.loginGuard).notifier).refresh();
             resolver.next();
           },

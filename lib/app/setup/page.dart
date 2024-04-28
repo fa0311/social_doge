@@ -10,7 +10,7 @@ import 'package:social_doge/provider/twitter/account.dart';
 class SetupPage extends HookConsumerWidget {
   const SetupPage({super.key, this.onResult});
 
-  final void Function()? onResult;
+  final void Function(BuildContext context)? onResult;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -39,7 +39,9 @@ class SetupPage extends HookConsumerWidget {
                     type: ButtonType.elevatedButton,
                     onPressed: () async {
                       await ref.read(selfAccountProvider.notifier).set(textController.text);
-                      onResult?.call();
+                      if (context.mounted) {
+                        onResult?.call(context);
+                      }
                     },
                     child: Text(AppLocalizations.of(context)!.save),
                   ),

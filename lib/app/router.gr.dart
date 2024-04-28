@@ -198,7 +198,7 @@ class InfoRoute extends PageRouteInfo<void> {
 class LoginRoute extends PageRouteInfo<LoginRouteArgs> {
   LoginRoute({
     Key? key,
-    void Function()? onResult,
+    void Function(BuildContext)? onResult,
     List<PageRouteInfo>? children,
   }) : super(
           LoginRoute.name,
@@ -222,7 +222,7 @@ class LoginRouteArgs {
 
   final Key? key;
 
-  final void Function()? onResult;
+  final void Function(BuildContext)? onResult;
 
   @override
   String toString() {
@@ -291,7 +291,7 @@ class SettingRoute extends PageRouteInfo<void> {
 class SetupRoute extends PageRouteInfo<SetupRouteArgs> {
   SetupRoute({
     Key? key,
-    void Function()? onResult,
+    void Function(BuildContext)? onResult,
     List<PageRouteInfo>? children,
   }) : super(
           SetupRoute.name,
@@ -315,7 +315,7 @@ class SetupRouteArgs {
 
   final Key? key;
 
-  final void Function()? onResult;
+  final void Function(BuildContext)? onResult;
 
   @override
   String toString() {
