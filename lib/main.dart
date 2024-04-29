@@ -5,13 +5,21 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:social_doge/app/router.dart';
 import 'package:social_doge/constant/config.dart';
+import 'package:social_doge/i18n/translations.g.dart';
 import 'package:social_doge/provider/key_value_storage/storage.dart';
 import 'package:social_doge/util/logger.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
-  runApp(ProviderScope(observers: [ProviderLogger()], child: const SocialDoge()));
+  runApp(
+    ProviderScope(
+      observers: [ProviderLogger()],
+      child: TranslationProvider(
+        child: const SocialDoge(),
+      ),
+    ),
+  );
 }
 
 class SocialDoge extends HookConsumerWidget {
@@ -23,10 +31,17 @@ class SocialDoge extends HookConsumerWidget {
     final locale = ref.watch(languageSettingProvider.notifier);
     final theme = ref.watch(themeSettingProvider);
 
+    ref.listen(languageSettingProvider, (prev, next) {
+      if (next.valueOrNull != null) {
+        LocaleSettings.setLocale(next.valueOrNull!);
+      }
+    });
+
     return MaterialApp.router(
       title: Config.title,
       debugShowCheckedModeBanner: Config.debugShowCheckedModeBanner,
       localizationsDelegates: GlobalMaterialLocalizations.delegates,
+      supportedLocales: AppLocaleUtils.supportedLocales,
       locale: locale.toLocale(),
       theme: ThemeData(
         useMaterial3: true,

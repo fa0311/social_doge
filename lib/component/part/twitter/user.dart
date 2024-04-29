@@ -1,14 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:social_doge/infrastructure/database/data.dart';
 import 'package:social_doge/util/twitter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UserProfile extends HookConsumerWidget {
-  const UserProfile({super.key, required this.user});
+  const UserProfile({super.key, required this.user, required this.suffixButton});
   final UserTableData user;
+  final Widget suffixButton;
+  static const twitterAccountPrefix = '@';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -60,12 +61,12 @@ class UserProfile extends HookConsumerWidget {
                             await launchUrl(url, mode: LaunchMode.externalApplication);
                           }
                         },
-                        child: Text(AppLocalizations.of(context)!.viewWeb),
+                        child: suffixButton,
                       ),
                     ],
                   ),
                   Text(user.name, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
-                  Text('${AppLocalizations.of(context)!.twitterAccountPrefix}${user.screenName}', style: Theme.of(context).textTheme.bodySmall),
+                  Text('$twitterAccountPrefix${user.screenName}', style: Theme.of(context).textTheme.bodySmall),
                   Text(user.description),
                 ],
               ),

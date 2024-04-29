@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:social_doge/component/part/future/button.dart';
+import 'package:social_doge/i18n/translations.g.dart';
 import 'package:social_doge/provider/twitter/account.dart';
 
 @RoutePage()
@@ -12,13 +12,16 @@ class SetupPage extends HookConsumerWidget {
 
   final void Function(BuildContext context)? onResult;
 
+  static const twitterAccountPrefix = '@';
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final t = Translations.of(context).setup;
     final textController = useTextEditingController(text: ref.read(selfAccountProvider).valueOrNull ?? '');
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.account),
+        title: Text(t.title),
       ),
       body: SafeArea(
         child: Padding(
@@ -28,8 +31,8 @@ class SetupPage extends HookConsumerWidget {
               TextField(
                 controller: textController,
                 decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context)!.accountId,
-                  prefixText: AppLocalizations.of(context)!.twitterAccountPrefix,
+                  labelText: t.accountId,
+                  prefixText: twitterAccountPrefix,
                 ),
               ),
               ButtonBar(
@@ -43,7 +46,7 @@ class SetupPage extends HookConsumerWidget {
                         onResult?.call(context);
                       }
                     },
-                    child: Text(AppLocalizations.of(context)!.save),
+                    child: Text(t.save),
                   ),
                 ],
               ),

@@ -206,7 +206,7 @@ class UserListPage extends HookConsumerWidget {
                   await showModalBottomSheetStatelessWidget<void>(
                     context: context,
                     builder: () {
-                      return UserProfile(user: user);
+                      return UserProfile(user: user, suffixButton: Text(t.viewWeb));
                     },
                   );
                 },

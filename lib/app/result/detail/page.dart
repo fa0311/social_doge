@@ -112,7 +112,7 @@ class ResultDetailPage extends HookConsumerWidget {
                         items: [
                           for (final name in OperatorType.values)
                             ListTile(
-                              title: Text(t.operatorTypeMath(context: name)),
+                              title: Text(t.operatorTypeText(context: name)),
                               selected: name == operator.value,
                               onTap: () {
                                 operator.value = name;

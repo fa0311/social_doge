@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:social_doge/component/part/label.dart';
 import 'package:social_doge/component/part/loading.dart';
 import 'package:social_doge/component/widget/error_log_view.dart';
+import 'package:social_doge/i18n/translations.g.dart';
 import 'package:social_doge/infrastructure/database/data.dart';
 import 'package:social_doge/provider/db/db.dart';
 import 'package:social_doge/provider/twitter/synchronize.dart';
@@ -16,6 +16,8 @@ import 'package:social_doge/provider/twitter/synchronize.dart';
 @RoutePage()
 class SynchronizePage extends HookConsumerWidget {
   const SynchronizePage({super.key});
+
+  static const channelId = 'foreground_service';
 
   Future<bool> requestPermissionForAndroid() async {
     final batteryOptimization = await FlutterForegroundTask.isIgnoringBatteryOptimizations;
@@ -28,6 +30,7 @@ class SynchronizePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final t = Translations.of(context).synchronize;
     final following = ref.watch(runSynchronizeProvider(SynchronizeMode.following));
     final follower = ref.watch(runSynchronizeProvider(SynchronizeMode.follower));
 
@@ -53,14 +56,25 @@ class SynchronizePage extends HookConsumerWidget {
           ref.read(runSynchronizeProvider(SynchronizeMode.following).future),
           ref.read(runSynchronizeProvider(SynchronizeMode.follower).future),
         ]);
+
         final (following, follower) = (data[0], data[1]);
-        await FlutterForegroundTask.updateService(
-          notificationTitle: '同期中${'.' * ((timer.tick % 3) + 1)}',
-          notificationText: [
-            'フォロー: ${following.progress}/${following.length}',
-            'フォロワー: ${follower.progress}/${follower.length}',
-          ].join('\n'),
-        );
+        final finish = following.finish && follower.finish;
+
+        if (finish) {
+          await FlutterForegroundTask.updateService(
+            notificationTitle: t.finish.title,
+            notificationText: t.finish.description,
+          );
+          timer.cancel();
+        } else {
+          await FlutterForegroundTask.updateService(
+            notificationTitle: t.notificationTitle[timer.tick % t.notificationTitle.length],
+            notificationText: [
+              t.notification.text1(count: following.progress, total: following.length),
+              t.notification.text2(count: follower.progress, total: follower.length),
+            ].join('\n'),
+          );
+        }
       });
       return timer.cancel;
     });
@@ -68,17 +82,18 @@ class SynchronizePage extends HookConsumerWidget {
     return WillStartForegroundTask(
       onWillStart: () => Future.value(true),
       androidNotificationOptions: AndroidNotificationOptions(
-        channelId: 'foreground_service',
-        channelName: 'Foreground Service Notification',
-        channelDescription: 'This notification appears when the foreground service is running.',
+        channelId: channelId,
+        channelName: t.channel.name,
+        channelDescription: t.channel.description,
       ),
       iosNotificationOptions: const IOSNotificationOptions(),
       foregroundTaskOptions: const ForegroundTaskOptions(),
-      notificationTitle: '同期中',
-      notificationText: '',
+      notificationTitle: t.notificationTitle[0],
+      notificationText: t.notification.text,
       child: Scaffold(
-        drawerEdgeDragWidth: MediaQuery.of(context).padding.left + 40,
-        appBar: AppBar(title: Text(AppLocalizations.of(context)!.synchronize)),
+        appBar: AppBar(
+          title: Text(t.title),
+        ),
         body: Padding(
           padding: const EdgeInsets.all(8),
           child: switch ((following, follower)) {
@@ -92,35 +107,38 @@ class SynchronizePage extends HookConsumerWidget {
                       ),
                     ),
                     if (messages.wait != null) ...[
-                      Text(AppLocalizations.of(context)!.apiLimit),
-                      Text(AppLocalizations.of(context)!.apiLimitDetails(messages.wait!)),
+                      Text(t.apiLimit.title),
+                      Text(t.apiLimit.description(sec: messages.wait!)),
                     ],
                   ],
                   switch ((following.finish, follower.finish, permission.data)) {
                     (true, true, _) => Padding(
                         padding: const EdgeInsets.all(8),
                         child: SuccessLabel(
-                          child: Text(
-                            AppLocalizations.of(context)!.syncSuccess,
-                            style: const TextStyle(color: Colors.black),
-                          ),
+                          child: Text(t.success, style: const TextStyle(color: Colors.black)),
                         ),
                       ),
                     (_, _, true) => Padding(
                         padding: const EdgeInsets.all(8),
                         child: AlertLabel(
-                          child: Text(
-                            AppLocalizations.of(context)!.syncAlert,
-                            style: const TextStyle(color: Colors.black),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(t.alert.title, style: const TextStyle(color: Colors.black)),
+                              Text(t.alert.description, style: const TextStyle(color: Colors.black)),
+                            ],
                           ),
                         ),
                       ),
                     (_, _, false) => Padding(
                         padding: const EdgeInsets.all(8),
                         child: AlertLabel(
-                          child: Text(
-                            AppLocalizations.of(context)!.syncAlert,
-                            style: const TextStyle(color: Colors.black),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(t.warning.title, style: const TextStyle(color: Colors.black)),
+                              Text(t.warning.description, style: const TextStyle(color: Colors.black)),
+                            ],
                           ),
                         ),
                       ),
@@ -132,14 +150,14 @@ class SynchronizePage extends HookConsumerWidget {
                         onPressed: () {
                           context.router.maybePop();
                         },
-                        child: Text(AppLocalizations.of(context)!.close),
+                        child: Text(t.close),
                       ),
                     (_, _) => ElevatedButton(
                         style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red)),
                         onPressed: () {
                           context.router.maybePop();
                         },
-                        child: Text(AppLocalizations.of(context)!.cancel),
+                        child: Text(t.cancel, style: const TextStyle(color: Colors.white)),
                       ),
                   },
                 ],

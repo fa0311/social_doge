@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:social_doge/app/router.dart';
 import 'package:social_doge/component/part/confirm.dart';
+import 'package:social_doge/i18n/translations.g.dart';
 
 @RoutePage()
 class SettingPage extends HookConsumerWidget {
@@ -12,13 +12,15 @@ class SettingPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final t = Translations.of(context).setting;
+
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.setting)),
+      appBar: AppBar(title: Text(t.title)),
       body: SafeArea(
         child: Column(
           children: [
             ListTile(
-              title: Text(AppLocalizations.of(context)!.accessibility),
+              title: Text(t.accessibility.title),
               leading: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [Icon(Icons.accessibility)],
@@ -28,7 +30,7 @@ class SettingPage extends HookConsumerWidget {
               },
             ),
             ListTile(
-              title: Text(AppLocalizations.of(context)!.account),
+              title: Text(t.account.title),
               leading: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [Icon(Icons.account_circle)],
@@ -48,7 +50,9 @@ class SettingPage extends HookConsumerWidget {
                 showDialog<void>(
                   context: context,
                   builder: (BuildContext context) => ConfirmDialog(
-                    content: Text(AppLocalizations.of(context)!.logoutConfirm),
+                    title: Text(t.logout.title),
+                    ok: Text(t.logout.ok),
+                    content: Text(t.logout.confirm),
                     onPressed: () async {
                       final cookie = CookieManager.instance();
                       await cookie.deleteAllCookies();
@@ -66,10 +70,10 @@ class SettingPage extends HookConsumerWidget {
                 );
               },
               leading: const Icon(Icons.home),
-              title: Text(AppLocalizations.of(context)!.logout),
+              title: Text(t.logout.title),
             ),
             ListTile(
-              title: Text(AppLocalizations.of(context)!.help),
+              title: Text(t.help.title),
               leading: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [Icon(Icons.help)],

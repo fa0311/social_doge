@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:social_doge/constant/config.dart';
+import 'package:social_doge/i18n/translations.g.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ErrorData {
@@ -11,19 +11,11 @@ class ErrorData {
     this.isReport = false,
   });
 
-  factory ErrorData.fromObject(AppLocalizations localizations, Object error) {
+  factory ErrorData.fromObject(BuildContext context, Object error) {
+    final t = Translations.of(context).error;
     return switch (error) {
-      final DioException e => switch (e.type) {
-          DioExceptionType.cancel => ErrorData(localizations.errorCancelMessage),
-          DioExceptionType.receiveTimeout => ErrorData(localizations.errorReceiveTimeoutMessage),
-          DioExceptionType.sendTimeout => ErrorData(localizations.errorSendTimeoutMessage),
-          DioExceptionType.unknown => ErrorData(localizations.errorUnknownMessage),
-          DioExceptionType.connectionTimeout => ErrorData(localizations.errorConnectionTimeoutMessage),
-          DioExceptionType.badCertificate => ErrorData(localizations.errorBadCertificateMessage),
-          DioExceptionType.badResponse => ErrorData(localizations.errorBadResponseMessage),
-          DioExceptionType.connectionError => ErrorData(localizations.errorConnectionErrorMessage),
-        },
-      _ => ErrorData(localizations.errorUnknownMessage, isReport: true),
+      final DioException e => ErrorData(t.dioExceptionType(context: e.type)),
+      _ => ErrorData(t.unknown, isReport: true),
     };
   }
 
@@ -45,7 +37,8 @@ class ErrorLogView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final errorData = ErrorData.fromObject(AppLocalizations.of(context)!, error);
+    final t = Translations.of(context).error;
+    final errorData = ErrorData.fromObject(context, error);
 
     return Center(
       child: InkWell(
@@ -91,7 +84,7 @@ class ErrorLogView extends StatelessWidget {
                           await launchUrl(uri, mode: LaunchMode.externalApplication);
                         }
                       },
-                      child: Text(AppLocalizations.of(context)!.errorReportButton),
+                      child: Text(t.report),
                     ),
                 ],
               );

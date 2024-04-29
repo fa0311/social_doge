@@ -1,9 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:social_doge/i18n/translations.g.dart';
 
 class FollowerChart extends HookConsumerWidget {
   FollowerChart({super.key, required this.data, this.duration});
@@ -13,8 +13,9 @@ class FollowerChart extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final t = Translations.of(context).chart;
     if (data.isEmpty) {
-      return Center(child: Text(AppLocalizations.of(context)!.noData));
+      return Center(child: Text(t.noData));
     }
     if (data.length == 1) {
       data.add((time: data.first.time.add(const Duration(seconds: 1)), count: data.first.count));
@@ -61,7 +62,7 @@ class FollowerChart extends HookConsumerWidget {
                 }
                 final year = meta.max - meta.min > 60 * 60 * 24 * 365 * 1000;
                 final date = DateTime.fromMillisecondsSinceEpoch(value.toInt(), isUtc: true);
-                final format = year ? DateFormat(AppLocalizations.of(context)!.dateFormat1) : DateFormat(AppLocalizations.of(context)!.dateFormat2);
+                final format = year ? DateFormat(t.date1) : DateFormat(t.date2);
                 return Text(format.format(date), softWrap: false);
               },
             ),

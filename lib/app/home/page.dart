@@ -100,8 +100,8 @@ class HomePage extends HookConsumerWidget {
           },
         ),
         ListTile(
-          title: Text(t.synchronize.remove.title),
-          subtitle: Text(t.synchronize.remove.description),
+          title: Text(t.synchronize.permission.title),
+          subtitle: Text(t.synchronize.permission.description),
           onTap: () async {
             final res = await requestPermissionForAndroid();
             if (context.mounted) {

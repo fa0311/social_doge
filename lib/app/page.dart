@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:social_doge/app/router.dart';
 import 'package:social_doge/component/drawer.dart';
 import 'package:social_doge/component/part/physics.dart';
+import 'package:social_doge/i18n/translations.g.dart';
 
 @RoutePage()
 class SocialDogePage extends HookConsumerWidget {
@@ -11,9 +12,10 @@ class SocialDogePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final t = Translations.of(context);
     final items = [
-      const BottomNavigationBarItem(label: 'aa', icon: Icon(Icons.home)),
-      const BottomNavigationBarItem(label: 'bb', icon: Icon(Icons.timeline)),
+      BottomNavigationBarItem(label: t.home.title, icon: const Icon(Icons.home)),
+      BottomNavigationBarItem(label: t.result.title, icon: const Icon(Icons.timeline)),
     ];
 
     return AutoTabsRouter.pageView(
@@ -26,7 +28,7 @@ class SocialDogePage extends HookConsumerWidget {
         final tabsRouter = AutoTabsRouter.of(context);
         return Scaffold(
           appBar: AppBar(
-            title: Text(tabsRouter.current.name),
+            title: Text(items.elementAt(tabsRouter.activeIndex).label!),
           ),
           drawer: const NormalDrawer(),
           body: child,

@@ -1,6 +1,5 @@
 import 'package:social_doge/infrastructure/key_value_storage/key_value_storage.dart';
 
-/// メモリ上のキーバリューストレージ
 class MemoryKeyValue extends KeyValueStorage {
   MemoryKeyValue();
   final data = <String, dynamic>{};

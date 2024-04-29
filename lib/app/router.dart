@@ -16,6 +16,7 @@ import 'package:social_doge/app/setting/page.dart';
 import 'package:social_doge/app/setup/page.dart';
 import 'package:social_doge/app/synchronize/page.dart';
 import 'package:social_doge/constant/config.dart';
+import 'package:social_doge/i18n/translations.g.dart';
 import 'package:social_doge/provider/guard.dart';
 import 'package:social_doge/provider/package_info.dart';
 import 'package:social_doge/provider/twitter/account.dart';
@@ -109,12 +110,13 @@ class UpdateGuard extends ConsumerAutoRouteGuard {
         }
         final context = router.navigatorKey.currentContext!;
         if (context.mounted) {
+          final t = Translations.of(context).router;
           ref.read(lastGuardProvider(GuardType.updateGuard).notifier).refresh();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: const Text('アプリのアップデートがあります'),
+              content: Text(t.notice),
               action: SnackBarAction(
-                label: '確認',
+                label: t.check,
                 onPressed: () async {
                   if (await canLaunchUrl(Config.release)) {
                     await launchUrl(Config.release, mode: LaunchMode.externalApplication);

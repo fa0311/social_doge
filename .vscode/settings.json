@@ -19,9 +19,6 @@
   "[css]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "files.associations": {
-    "*.arb": "json"
-  },
   "markdownlint.config": {
     "MD033": false,
     "MD034": false,

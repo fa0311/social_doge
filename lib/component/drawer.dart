@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:social_doge/app/router.dart';
 import 'package:social_doge/component/part/loading.dart';
 import 'package:social_doge/component/widget/error_log_view.dart';
+import 'package:social_doge/i18n/translations.g.dart';
 import 'package:social_doge/provider/twitter/account.dart';
 import 'package:social_doge/util/twitter.dart';
 
@@ -14,6 +14,7 @@ class NormalDrawer extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final t = Translations.of(context).drawer;
     return Drawer(
       child: SafeArea(
         child: Column(
@@ -42,7 +43,7 @@ class NormalDrawer extends HookConsumerWidget {
               child: SingleChildScrollView(
                 child: TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: Text(AppLocalizations.of(context)!.close),
+                  child: Text(t.close),
                 ),
               ),
             ),
@@ -54,7 +55,7 @@ class NormalDrawer extends HookConsumerWidget {
                     await context.router.push(const SettingRoute());
                   },
                   leading: const Icon(Icons.settings),
-                  title: Text(AppLocalizations.of(context)!.setting),
+                  title: Text(t.setting),
                 ),
               ],
             ),
