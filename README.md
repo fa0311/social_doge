@@ -1,53 +1,48 @@
 <div align="center">
     <h1>social_doge</h1>
     <img width="40%" src="docs/icons/doge.png">
-    <p>Social Dog 代替(予定)</p>
+    <p>Twitter follow/follower manager app</p>
 </div>
 
-[ja](.) / [en](.)
+[en](./README.md) / [ja](./README-ja.md)
 
 ## What is this?
 
-Social Dog の代替を目的として開発されました。
+Developed as an alternative to Social Dog.
 
-> SocialDogは、運用、効率化、自動化、分析、アカウント管理などTwitterマーケティングに必要な機能を網羅しています。
-> 「エンゲージメントを高めたい」「効率化・自動化したい」など、Twitterマーケティングにおけるあらゆる課題を解決するツールです。
-> [social-dog.net](https://social-dog.net/ja/)
+> SocialDog covers all the functions necessary for Twitter marketing, such as operation, efficiency, automation, analysis, and account management.
+> It is a tool that solves all the challenges in Twitter marketing, such as "want to increase engagement" and "want to automate and streamline."
+> [social-dog.net](https://social-dog.net/en/)
 
-2023年5月にTwitter API有料化に伴いSocial Dogの主要な機能の全てが有料化しました
+With the monetization of the Twitter API in May 2023, all major features of Social Dog became paid.
 
-- [Twitter API有料化に伴うLiteプラン（無料プラン）の機能制限のお知らせ](https://social-dog.net/ja/help/other/notice/lite_plan_features_reduction/)
+- [Notice of Lite Plan (Free Plan) feature reduction due to Twitter API monetization](https://social-dog.net/en/help/other/notice/lite_plan_features_reduction/)
 - [Twitter Dev](https://twitter.com/TwitterDev/status/1623467615539859456)
 
-## What does app do?
+## What does the app do?
 
-Twitterをリバースエンジニアリングし、無料でTwitterのAPIにアクセスします。
+Reverse-engineers Twitter and accesses the Twitter API for free.
 
-- [ ] フォロー管理
-  - [ ] 差分管理
-  - [ ] 一覧管理
-- [ ] フォロワー管理
-  - [x] 差分管理
-  - [ ] 一覧管理
-- [ ] 複数アカウント
-- [ ] 複数ログイン
-- [ ] 多言語
-  - [ ] 英語
-  - [ ] 日本語
-- [x] テーマ
-  - [x] ダーク
-  - [x] ハイコントラスト
+- [x] Follow management
+  - [x] Differential management
+  - [x] List management
+- [x] Follower management
+  - [x] Differential management
+  - [x] List management
+- [ ] Multiple accounts
+- [ ] Multiple logins
+- [x] Multilingual
+  - [x] English
+  - [x] Japanese
+- [x] Themes
+  - [x] Dark
+  - [ ] High contrast
 
 ## Twitter's Terms of Service
 
-私は司法の専門家ではないので詳しいことはわかりませんが、このアプリがTwitterの利用規約に抵触している可能性があります。
-アカウントが凍結する可能性が否定できないためサブアカウントでログインすることを推奨しています。
-管理するアカウントとログインするアカウントは分けることが出来ます。
-
-## How to use
-
-- `Synchronize` をタッチして同期を開始します。1回のリクエストで100人前後のユーザーが取得でき15分間で50回リクエストを行うことが出来ます。よってフォロワーが5000人を超える場合はリミットに到達しやすく同期に時間がかかる場合があります。
-- `Unfollowed` タブは日付ごとにフォロワーを解除したユーザーを表示します。差分表示には同期2回分のデータが必要です。
+I am not a legal expert, so I am not sure about the specifics, but this app may violate Twitter's terms of service.
+Since there is a possibility of account suspension, it is recommended to log in with a secondary account.
+The accounts being managed and the accounts being logged into can be separated.
 
 ## Interested in reverse engineering?
 
