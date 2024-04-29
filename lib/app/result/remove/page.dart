@@ -73,7 +73,7 @@ class ResultRemovePage extends HookConsumerWidget {
               final data = [
                 if (filterType.value != SynchronizeMode.following) ...follower.map((e) => (SynchronizeMode.follower, e)),
                 if (filterType.value != SynchronizeMode.follower) ...following.map((e) => (SynchronizeMode.following, e)),
-              ].sorted((a, b) => a.$2.time.compareTo(b.$2.time));
+              ].sorted((a, b) => b.$2.time.compareTo(a.$2.time));
 
               return ListView.builder(
                 itemCount: data.length,
