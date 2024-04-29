@@ -3,9 +3,11 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:social_doge/component/part/loading.dart';
 import 'package:social_doge/component/part/select_modal.dart';
 import 'package:social_doge/component/widget/error_log_view.dart';
+import 'package:social_doge/i18n/translations.g.dart';
 import 'package:social_doge/infrastructure/database/data.dart';
 import 'package:social_doge/provider/db/db.dart';
 import 'package:social_doge/provider/twitter/account.dart';
@@ -16,6 +18,8 @@ class ResultRemovePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final t = Translations.of(context).result.remove;
+
     final follower = ref.watch(getUserSyncStatusProvider(SynchronizeMode.follower));
     final following = ref.watch(getUserSyncStatusProvider(SynchronizeMode.following));
     final filterType = useState<SynchronizeMode?>(null);
@@ -23,7 +27,7 @@ class ResultRemovePage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('同期データ削除'),
+        title: Text(t.title),
         actions: [
           IconButton(
             icon: const Icon(Icons.filter_list),
@@ -32,9 +36,9 @@ class ResultRemovePage extends HookConsumerWidget {
                 context,
                 itemBuilder: (context) {
                   final labels = [
-                    ('全て', null),
-                    ('フォロワー', SynchronizeMode.follower),
-                    ('フォロー中', SynchronizeMode.following),
+                    (t.all, null),
+                    (t.synchronizeMode(context: SynchronizeMode.follower), SynchronizeMode.follower),
+                    (t.synchronizeMode(context: SynchronizeMode.following), SynchronizeMode.following),
                   ];
                   return [
                     for (final label in labels)
@@ -60,8 +64,8 @@ class ResultRemovePage extends HookConsumerWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('同期データがありません', style: Theme.of(context).textTheme.titleLarge),
-                    const Text('ホームの同期ボタンを押して同期してください'),
+                    Text(Translations.of(context).result.empty.title, style: Theme.of(context).textTheme.titleLarge),
+                    Text(Translations.of(context).result.empty.description),
                   ],
                 ),
               );
@@ -75,9 +79,10 @@ class ResultRemovePage extends HookConsumerWidget {
                 itemCount: data.length,
                 itemBuilder: (context, index) {
                   final item = data[index];
+                  final time = DateFormat(t.list.date).format(item.$2.time);
                   return ListTile(
                     title: Text(item.$1.name),
-                    subtitle: Text('${item.$2.time} に同期 / ${item.$2.count} 件'),
+                    subtitle: Text(t.list.description(time: time, count: item.$2.count)),
                     trailing: checked.value.contains(item) ? const Icon(Icons.check_box) : const Icon(Icons.check_box_outline_blank),
                     onTap: () {
                       if (checked.value.contains(item)) {

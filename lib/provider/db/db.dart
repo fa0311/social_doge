@@ -27,6 +27,11 @@ enum SortBy {
   ffRate,
 }
 
+enum SearchType {
+  normal,
+  regex,
+}
+
 @Riverpod(keepAlive: true)
 SocialDogeDatabase getDatabase(GetDatabaseRef ref) {
   return SocialDogeDatabase();

@@ -1,0 +1,11 @@
+language: 日本語
+
+accessibility:
+  title: アクセシビリティ
+  language: 言語
+  theme: テーマ
+
+  themeMode(context=ThemeMode):
+    system: システム
+    light: ライトテーマ
+    dark: ダークテーマ

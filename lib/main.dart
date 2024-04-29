@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
@@ -10,6 +9,7 @@ import 'package:social_doge/provider/key_value_storage/storage.dart';
 import 'package:social_doge/util/logger.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
   runApp(ProviderScope(observers: [ProviderLogger()], child: const SocialDoge()));
 }
@@ -20,20 +20,14 @@ class SocialDoge extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appRouter = useMemoized(() => AppRouter(ref), []);
-    final locale = ref.watch(languageSettingProvider);
+    final locale = ref.watch(languageSettingProvider.notifier);
     final theme = ref.watch(themeSettingProvider);
 
     return MaterialApp.router(
       title: Config.title,
       debugShowCheckedModeBanner: Config.debugShowCheckedModeBanner,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      locale: locale.valueOrNull,
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
+      locale: locale.toLocale(),
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(

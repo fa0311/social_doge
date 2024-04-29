@@ -75,7 +75,7 @@ class SettingPage extends HookConsumerWidget {
                 children: [Icon(Icons.help)],
               ),
               onTap: () {
-                context.router.push(const InfoRoute());
+                context.router.push(const HelpRoute());
               },
             ),
           ],

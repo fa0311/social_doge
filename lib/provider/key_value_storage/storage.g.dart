@@ -37,12 +37,12 @@ final themeSettingProvider =
 );
 
 typedef _$ThemeSetting = AsyncNotifier<ThemeMode>;
-String _$languageSettingHash() => r'be208a52eb6624c9eb9e868573eb745be9aeb356';
+String _$languageSettingHash() => r'd2302fe28e8da3584864f9c48870799e1433016c';
 
 /// See also [LanguageSetting].
 @ProviderFor(LanguageSetting)
 final languageSettingProvider =
-    AsyncNotifierProvider<LanguageSetting, Locale>.internal(
+    AsyncNotifierProvider<LanguageSetting, AppLocale>.internal(
   LanguageSetting.new,
   name: r'languageSettingProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -52,6 +52,6 @@ final languageSettingProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$LanguageSetting = AsyncNotifier<Locale>;
+typedef _$LanguageSetting = AsyncNotifier<AppLocale>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

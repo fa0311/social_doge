@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:social_doge/app/result/user/page.dart';
 import 'package:social_doge/app/router.dart';
 import 'package:social_doge/component/part/loading.dart';
 import 'package:social_doge/component/widget/error_log_view.dart';
+import 'package:social_doge/i18n/translations.g.dart';
 import 'package:social_doge/infrastructure/database/data.dart';
 import 'package:social_doge/provider/db/db.dart';
 
@@ -14,6 +14,7 @@ class ResultPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final t = Translations.of(context).result;
     final follower = ref.watch(getUserSyncStatusProvider(SynchronizeMode.follower));
     final following = ref.watch(getUserSyncStatusProvider(SynchronizeMode.following));
 
@@ -25,22 +26,22 @@ class ResultPage extends HookConsumerWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('同期データがありません', style: Theme.of(context).textTheme.titleLarge),
-                    const Text('ホームの同期ボタンを押して同期してください'),
+                    Text(Translations.of(context).result.empty.title, style: Theme.of(context).textTheme.titleLarge),
+                    Text(Translations.of(context).result.empty.description),
                   ],
                 ),
               );
             } else {
               final labels = [
-                ('フォロー', 'フォローしているユーザー', SynchronizeMode.following, SynchronizeMode.following, 0, 0, Operator.union),
-                ('フォロワー', 'フォローされているユーザー', SynchronizeMode.follower, SynchronizeMode.follower, 0, 0, Operator.union),
-                ('相互フォロー', 'フォローしていてフォローされているユーザー', SynchronizeMode.follower, SynchronizeMode.following, 0, 0, Operator.intersection),
-                ('片思い', 'フォローしていてフォローされていないユーザー', SynchronizeMode.following, SynchronizeMode.follower, 0, 0, Operator.difference),
-                ('片思われ', 'フォローしていなくてフォローされているユーザー', SynchronizeMode.follower, SynchronizeMode.following, 0, 0, Operator.difference),
-                ('新規フォロー', '最近フォローしたユーザー', SynchronizeMode.following, SynchronizeMode.following, 0, 1, Operator.difference),
-                ('新規フォロワー', '最近フォローされたユーザー', SynchronizeMode.follower, SynchronizeMode.follower, 0, 1, Operator.difference),
-                ('フォロー解除', '最近フォロー解除したユーザー', SynchronizeMode.following, SynchronizeMode.following, 1, 0, Operator.difference),
-                ('フォロワー解除', '最近フォロー解除されたユーザー', SynchronizeMode.follower, SynchronizeMode.follower, 1, 0, Operator.difference),
+                (t.follow.title, t.follow.description, SynchronizeMode.following, SynchronizeMode.following, 0, 1, OperatorType.difference),
+                (t.follower.title, t.follower.description, SynchronizeMode.follower, SynchronizeMode.follower, 0, 1, OperatorType.difference),
+                (t.mutual.title, t.mutual.description, SynchronizeMode.follower, SynchronizeMode.following, 0, 0, OperatorType.intersection),
+                (t.oneSide.title, t.oneSide.description, SynchronizeMode.following, SynchronizeMode.follower, 0, 0, OperatorType.difference),
+                (t.oneSideReverse.title, t.oneSideReverse.description, SynchronizeMode.follower, SynchronizeMode.following, 0, 0, OperatorType.difference),
+                (t.newFollow.title, t.newFollow.description, SynchronizeMode.following, SynchronizeMode.following, 0, 1, OperatorType.difference),
+                (t.newFollower.title, t.newFollower.description, SynchronizeMode.follower, SynchronizeMode.follower, 0, 1, OperatorType.difference),
+                (t.removeFollow.title, t.removeFollow.description, SynchronizeMode.following, SynchronizeMode.following, 1, 0, OperatorType.difference),
+                (t.removeFollower.title, t.removeFollower.description, SynchronizeMode.follower, SynchronizeMode.follower, 1, 0, OperatorType.difference),
               ];
 
               return ListView(
@@ -66,14 +67,14 @@ class ResultPage extends HookConsumerWidget {
                                 rightOperand: label.$4.name,
                                 leftTime: leftTime.time.millisecondsSinceEpoch,
                                 rightTime: rightTime.time.millisecondsSinceEpoch,
-                                operator: label.$7.toOperatorType().name,
+                                operator: label.$7.name,
                               ),
                             );
                           },
                         );
                       })(),
                   ElevatedButton(
-                    child: const Text('詳細設定'),
+                    child: Text(t.detailConfig),
                     onPressed: () {
                       context.router.push(const ResultDetailRoute());
                     },

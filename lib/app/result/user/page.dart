@@ -9,6 +9,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:social_doge/component/part/modal.dart';
 import 'package:social_doge/component/part/select_modal.dart';
 import 'package:social_doge/component/part/twitter/user.dart';
+import 'package:social_doge/i18n/translations.g.dart';
 import 'package:social_doge/infrastructure/database/data.dart';
 import 'package:social_doge/provider/db/db.dart';
 import 'package:social_doge/util/enum.dart';
@@ -28,42 +29,6 @@ class CalcParam with _$CalcParam {
     required String search,
     required SearchType searchType,
   }) = _CalcParam;
-}
-
-enum Operator {
-  intersection('∩'),
-  union('∪'),
-  difference('-'),
-  symmetricDifference('△');
-
-  const Operator(this.symbol);
-  final String symbol;
-
-  OperatorType toOperatorType() {
-    switch (this) {
-      case Operator.intersection:
-        return OperatorType.intersection;
-      case Operator.union:
-        return OperatorType.union;
-      case Operator.difference:
-        return OperatorType.difference;
-      case Operator.symmetricDifference:
-        return OperatorType.symmetricDifference;
-    }
-  }
-}
-
-enum Latin {
-  A('𝐴'),
-  B('𝐵');
-
-  const Latin(this.symbol);
-  final String symbol;
-}
-
-enum SearchType {
-  normal,
-  regex,
 }
 
 @RoutePage()
@@ -119,6 +84,8 @@ class UserListPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final t = Translations.of(context).result.user;
+
     final sortBy = useState(SortBy.createdAt);
     final sortType = useState(SortType.desc);
     final search = useState('');
@@ -156,7 +123,7 @@ class UserListPage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('差分'),
+        title: Text(t.title),
         actions: [
           IconButton(
             icon: const Icon(Icons.sort),
@@ -165,9 +132,9 @@ class UserListPage extends HookConsumerWidget {
                 context,
                 itemBuilder: (context) {
                   final labels = [
-                    ('検索種類', SearchType.values, useState(searchType.value), searchType),
-                    ('並び替え基準', SortBy.values, useState(sortBy.value), sortBy),
-                    ('並び替え種類', SortType.values, useState(sortType.value), sortType),
+                    (t.menu.searchType, (int e) => t.searchType(context: SearchType.values[e]), SearchType.values, useState(searchType.value), searchType),
+                    (t.menu.sortBy, (int e) => t.sortBy(context: SortBy.values[e]), SortBy.values, useState(sortBy.value), sortBy),
+                    (t.menu.sortType, (int e) => t.sortType(context: SortType.values[e]), SortType.values, useState(sortType.value), sortType),
                   ];
 
                   return [
@@ -175,26 +142,26 @@ class UserListPage extends HookConsumerWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       child: TextField(
                         controller: searchController,
-                        decoration: const InputDecoration(labelText: '検索'),
+                        decoration: InputDecoration(labelText: t.menu.searchInput),
                         onChanged: (text) => search.value = text,
                       ),
                     ),
                     for (final label in labels)
                       ListTile(
                         title: Text(label.$1),
-                        subtitle: Text(label.$3.value.name),
+                        subtitle: Text(label.$4.value.name),
                         onTap: () {
                           SelectModalTile.builder(
                             context,
-                            itemCount: label.$2.length,
+                            itemCount: label.$3.length,
                             itemBuilder: (context, index) {
-                              final e = label.$2.elementAt(index);
+                              final e = label.$3.elementAt(index);
                               return ListTile(
-                                title: Text(e.name),
-                                selected: label.$3.value == e,
+                                title: Text(label.$2(index)),
+                                selected: label.$4.value == e,
                                 onTap: () {
-                                  label.$3.value = e;
                                   label.$4.value = e;
+                                  label.$5.value = e;
                                   Navigator.pop(context);
                                 },
                               );

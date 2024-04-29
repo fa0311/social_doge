@@ -1,13 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:social_doge/app/router.dart';
 import 'package:social_doge/component/chart.dart';
 import 'package:social_doge/component/part/loading.dart';
 import 'package:social_doge/component/part/physics.dart';
 import 'package:social_doge/component/widget/error_log_view.dart';
+import 'package:social_doge/i18n/translations.g.dart';
 import 'package:social_doge/infrastructure/database/data.dart';
 import 'package:social_doge/provider/db/db.dart';
 
@@ -38,12 +38,14 @@ class HomePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final t = Translations.of(context).home;
+
     final follower = ref.watch(getUserSyncStatusProvider(SynchronizeMode.follower));
     final labels = [
-      (AppLocalizations.of(context)!.totalPeriod, null),
-      (AppLocalizations.of(context)!.oneMonth, const Duration(days: 30)),
-      (AppLocalizations.of(context)!.threeMonths, const Duration(days: 90)),
-      (AppLocalizations.of(context)!.oneYear, const Duration(days: 360)),
+      (t.totalPeriod, null),
+      (t.oneMonth, const Duration(days: 30)),
+      (t.threeMonths, const Duration(days: 90)),
+      (t.oneYear, const Duration(days: 360)),
     ];
 
     return Column(
@@ -84,29 +86,29 @@ class HomePage extends HookConsumerWidget {
           ),
         ),
         ListTile(
-          title: Text(AppLocalizations.of(context)!.synchronize),
-          subtitle: Text(AppLocalizations.of(context)!.synchronizeDetails),
+          title: Text(t.synchronize.title),
+          subtitle: Text(t.synchronize.description),
           onTap: () {
             context.router.push(const SynchronizeRoute());
           },
         ),
         ListTile(
-          title: const Text('同期の削除'),
-          subtitle: const Text('同期データを削除します'),
+          title: Text(t.synchronize.remove.title),
+          subtitle: Text(t.synchronize.remove.description),
           onTap: () {
             context.router.push(const ResultRemoveRoute());
           },
         ),
         ListTile(
-          title: const Text('権限の確認'),
-          subtitle: const Text('同期データを削除します'),
+          title: Text(t.synchronize.remove.title),
+          subtitle: Text(t.synchronize.remove.description),
           onTap: () async {
             final res = await requestPermissionForAndroid();
             if (context.mounted) {
               if (res) {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('権限が付与されています')));
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.synchronize.permission.success)));
               } else {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('権限が付与されていません')));
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.synchronize.permission.failure)));
               }
             }
           },

@@ -32,6 +32,7 @@
     "upsert",
     "yuki"
   ],
+  "flagWords": ["AppLocalizations", "Localizations"],
   "ignorePaths": [
     "android/**",
     "build/**",

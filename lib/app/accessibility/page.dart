@@ -1,19 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:social_doge/component/part/select_modal.dart';
+import 'package:social_doge/i18n/translations.g.dart';
 import 'package:social_doge/provider/key_value_storage/storage.dart';
-
-extension on ThemeMode {
-  String localizations(AppLocalizations localizations) {
-    return switch (this) {
-      ThemeMode.system => localizations.system,
-      ThemeMode.light => localizations.lightTheme,
-      ThemeMode.dark => localizations.darkTheme,
-    };
-  }
-}
 
 @RoutePage()
 class AccessibilityPage extends HookConsumerWidget {
@@ -21,22 +11,24 @@ class AccessibilityPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final t = Translations.of(context).accessibility;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.accessibility),
+        title: Text(t.title),
       ),
       body: ListView(
         children: [
           ListTile(
-            title: Text(AppLocalizations.of(context)!.language),
+            title: Text(t.language),
             onTap: () {
               SelectModalTile.consumerBuilder(
                 context,
-                itemCount: AppLocalizations.supportedLocales.length,
+                itemCount: AppLocale.values.length,
                 builder: (context, index, ref) {
-                  final data = AppLocalizations.supportedLocales[index];
+                  final data = AppLocale.values[index];
                   return ListTile(
-                    title: Text(lookupAppLocalizations(data).language),
+                    title: Text(data.translations.language),
                     selected: ref.watch(languageSettingProvider).valueOrNull == data,
                     onTap: () {
                       ref.read(languageSettingProvider.notifier).set(data);
@@ -47,7 +39,7 @@ class AccessibilityPage extends HookConsumerWidget {
             },
           ),
           ListTile(
-            title: const Text('AppLocalizations.of(context)!.theme'),
+            title: Text(t.theme),
             onTap: () {
               SelectModalTile.consumerBuilder(
                 context,
@@ -55,7 +47,7 @@ class AccessibilityPage extends HookConsumerWidget {
                 builder: (context, index, ref) {
                   final data = ThemeMode.values[index];
                   return ListTile(
-                    title: Text(data.localizations(AppLocalizations.of(context)!)),
+                    title: Text(t.themeMode(context: data)),
                     selected: ref.watch(themeSettingProvider).valueOrNull == data,
                     onTap: () {
                       ref.read(themeSettingProvider.notifier).set(data);

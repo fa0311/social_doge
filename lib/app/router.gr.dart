@@ -21,6 +21,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AccessibilityPage(),
       );
     },
+    HelpRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const HelpPage(),
+      );
+    },
     HomeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -31,12 +37,6 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const InfoLicensePage(),
-      );
-    },
-    InfoRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const InfoPage(),
       );
     },
     LoginRoute.name: (routeData) {
@@ -152,6 +152,20 @@ class AccessibilityRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [HelpPage]
+class HelpRoute extends PageRouteInfo<void> {
+  const HelpRoute({List<PageRouteInfo>? children})
+      : super(
+          HelpRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'HelpRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [HomePage]
 class HomeRoute extends PageRouteInfo<void> {
   const HomeRoute({List<PageRouteInfo>? children})
@@ -175,20 +189,6 @@ class InfoLicenseRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'InfoLicenseRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [InfoPage]
-class InfoRoute extends PageRouteInfo<void> {
-  const InfoRoute({List<PageRouteInfo>? children})
-      : super(
-          InfoRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'InfoRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

@@ -1,16 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:social_doge/app/result/user/page.dart';
 import 'package:social_doge/app/router.dart';
 import 'package:social_doge/component/part/loading.dart';
 import 'package:social_doge/component/part/select_modal.dart';
 import 'package:social_doge/component/widget/error_log_view.dart';
+import 'package:social_doge/i18n/translations.g.dart';
 import 'package:social_doge/infrastructure/database/data.dart';
 import 'package:social_doge/provider/db/db.dart';
+import 'package:social_doge/util/latin.dart';
 
 @RoutePage()
 class ResultDetailPage extends HookConsumerWidget {
@@ -18,22 +18,23 @@ class ResultDetailPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final t = Translations.of(context).result.detail;
     final follower = ref.watch(getUserSyncStatusProvider(SynchronizeMode.follower));
     final following = ref.watch(getUserSyncStatusProvider(SynchronizeMode.following));
-    final operator = useState<Operator>(Operator.intersection);
+    final operator = useState<OperatorType>(OperatorType.intersection);
     final leftOperand = useState<SynchronizeMode>(SynchronizeMode.follower);
     final rightOperand = useState<SynchronizeMode>(SynchronizeMode.following);
     final leftTimeKey = useState<int>(0);
     final rightTimeKey = useState<int>(0);
 
     final labels = [
-      (Latin.A, leftOperand, leftTimeKey),
-      (Latin.B, rightOperand, rightTimeKey),
+      (t.latinChar(context: LatinChar.A), leftOperand, leftTimeKey),
+      (t.latinChar(context: LatinChar.B), rightOperand, rightTimeKey),
     ];
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('aaa'),
+        title: Text(t.title),
       ),
       body: switch ((following, follower)) {
         (AsyncData(value: final following), AsyncData(value: final follower)) => () {
@@ -42,8 +43,8 @@ class ResultDetailPage extends HookConsumerWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('同期データがありません', style: Theme.of(context).textTheme.titleLarge),
-                    const Text('ホームの同期ボタンを押して同期してください'),
+                    Text(Translations.of(context).result.empty.title, style: Theme.of(context).textTheme.titleLarge),
+                    Text(Translations.of(context).result.empty.description),
                   ],
                 ),
               );
@@ -58,9 +59,9 @@ class ResultDetailPage extends HookConsumerWidget {
                       };
 
                       return [
-                        Text(label.$1.symbol),
+                        Text(label.$1),
                         ListTile(
-                          title: const Text('Data'),
+                          title: Text(t.data),
                           subtitle: Text(label.$2.value.name),
                           onTap: () async {
                             SelectModalTile.builder(
@@ -80,15 +81,15 @@ class ResultDetailPage extends HookConsumerWidget {
                           },
                         ),
                         ListTile(
-                          title: const Text('Time'),
-                          subtitle: Text(DateFormat(AppLocalizations.of(context)!.dateFormat1).format(data[label.$3.value].time)),
+                          title: Text(t.time),
+                          subtitle: Text(DateFormat(t.date).format(data[label.$3.value].time)),
                           onTap: () async {
                             SelectModalTile.builder(
                               context,
                               itemCount: data.length,
                               itemBuilder: (context, index) {
                                 return ListTile(
-                                  title: Text(DateFormat(AppLocalizations.of(context)!.dateFormat1).format(data[index].time)),
+                                  title: Text(DateFormat(t.date).format(data[index].time)),
                                   selected: index == label.$3.value,
                                   onTap: () {
                                     label.$3.value = index;
@@ -101,17 +102,17 @@ class ResultDetailPage extends HookConsumerWidget {
                         ),
                       ];
                     }(),
-                  const Text('operator'),
+                  Text(t.operator),
                   ListTile(
-                    title: const Text('Operator'),
-                    subtitle: Text('${Latin.A.symbol} ${operator.value.symbol} ${Latin.B.symbol}'),
+                    title: Text(t.operator),
+                    subtitle: Text('${t.latinChar(context: LatinChar.A)} ${t.operatorTypeMath(context: operator.value)} ${t.latinChar(context: LatinChar.B)}'),
                     onTap: () {
                       SelectModalTile.show(
                         context,
                         items: [
-                          for (final name in Operator.values)
+                          for (final name in OperatorType.values)
                             ListTile(
-                              title: Text(name.name),
+                              title: Text(t.operatorTypeMath(context: name)),
                               selected: name == operator.value,
                               onTap: () {
                                 operator.value = name;
@@ -133,11 +134,11 @@ class ResultDetailPage extends HookConsumerWidget {
                               rightOperand: rightOperand.value.name,
                               leftTime: follower[leftTimeKey.value].time.millisecondsSinceEpoch,
                               rightTime: following[rightTimeKey.value].time.millisecondsSinceEpoch,
-                              operator: operator.value.toOperatorType().name,
+                              operator: operator.value.name,
                             ),
                           );
                         },
-                        child: const Text('確認'),
+                        child: Text(t.search),
                       ),
                     ],
                   ),

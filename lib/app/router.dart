@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:social_doge/app/accessibility/page.dart';
 import 'package:social_doge/app/guard.dart';
+import 'package:social_doge/app/help/license/page.dart';
+import 'package:social_doge/app/help/page.dart';
 import 'package:social_doge/app/home/page.dart';
-import 'package:social_doge/app/info/license/page.dart';
-import 'package:social_doge/app/info/page.dart';
 import 'package:social_doge/app/login/page.dart';
 import 'package:social_doge/app/page.dart';
 import 'package:social_doge/app/result/detail/page.dart';
@@ -47,7 +47,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(path: '/accessibility', page: AccessibilityRoute.page),
         AutoRoute(path: '/login', page: LoginRoute.page),
         AutoRoute(path: '/setup', page: SetupRoute.page),
-        AutoRoute(path: '/info', page: InfoRoute.page),
+        AutoRoute(path: '/info', page: HelpRoute.page),
         AutoRoute(path: '/info/license', page: InfoLicenseRoute.page),
         AutoRoute(path: '/setting', page: SettingRoute.page),
       ];
