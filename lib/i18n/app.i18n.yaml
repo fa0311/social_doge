@@ -38,8 +38,8 @@ home:
     title: 同期
     description: 最新の情報をTwitterから取得します
     remove:
-      title: 同期の解除
-      description: 同期を解除します
+      title: 同期の削除
+      description: 同期を削除します
     permission:
       title: 権限の許可
       description: 権限を許可します

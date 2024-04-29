@@ -6,7 +6,7 @@
 /// Locales: 2
 /// Strings: 288 (144 per locale)
 ///
-/// Built on 2024-04-29 at 16:46 UTC
+/// Built on 2024-04-29 at 16:51 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -782,8 +782,8 @@ class _TranslationsHomeSynchronizeRemoveJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	String get title => '同期の解除';
-	String get description => '同期を解除します';
+	String get title => '同期の削除';
+	String get description => '同期を削除します';
 }
 
 // Path: home.synchronize.permission
@@ -1555,8 +1555,8 @@ extension on Translations {
 			case 'home.oneYear': return '1年';
 			case 'home.synchronize.title': return '同期';
 			case 'home.synchronize.description': return '最新の情報をTwitterから取得します';
-			case 'home.synchronize.remove.title': return '同期の解除';
-			case 'home.synchronize.remove.description': return '同期を解除します';
+			case 'home.synchronize.remove.title': return '同期の削除';
+			case 'home.synchronize.remove.description': return '同期を削除します';
 			case 'home.synchronize.permission.title': return '権限の許可';
 			case 'home.synchronize.permission.description': return '権限を許可します';
 			case 'home.synchronize.permission.success': return '権限が付与されています';
