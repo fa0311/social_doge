@@ -1,10 +1,26 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yuki0311.social_doge">
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!-- <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" /> -->
+
+    <!-- <service 
+        android:name="com.pravera.flutter_foreground_task.service.ForegroundService"
+        android:stopWithTask="true"
+        android:foregroundServiceType="mediaPlayback"
+        android:exported="false" /> -->
+
+
+
     <application
         android:label="social_doge"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        
+        <service 
+            android:name="com.pravera.flutter_foreground_task.service.ForegroundService"
+            android:stopWithTask="true" />
+            
         <activity
             android:name=".MainActivity"
             android:exported="true"

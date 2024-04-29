@@ -1,0 +1,1 @@
+enum LatinChar { A, B }

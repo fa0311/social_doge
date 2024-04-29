@@ -1,0 +1,216 @@
+language: English
+
+accessibility:
+  title: Accessibility
+  language: Language
+  theme: Theme
+
+  themeMode(context=ThemeMode):
+    system: System
+    light: Light Theme
+    dark: Dark Theme
+
+help:
+  title: Help
+  contribution:
+    title: Contribution
+    description: Contribute to development on Github
+  report:
+    title: Report
+    description: Report bugs or request new features to developers
+  developer:
+    title: Developer
+    description: View developer information
+  version:
+    title: Version
+    description: "Current version: ${version}"
+  license:
+    title: License
+    description: Display license information
+
+home:
+  title: Home
+  totalPeriod: Total Period
+  oneMonth: 1 Month
+  threeMonths: 3 Months
+  oneYear: 1 Year
+  synchronize:
+    title: Sync
+    description: Fetch the latest information from Twitter
+    remove:
+      title: Remove Sync
+      description: Remove synchronization
+    permission:
+      title: Sync Permission
+      description: Allow synchronization
+      success: Permission granted
+      failure: Permission not granted
+
+login:
+  title: Login
+  note:
+    - You can separate the account used for logging in and managing.
+    - It is recommended to log in with a sub-account to avoid suspicion of unauthorized operations.
+
+result:
+  title: Information
+  empty:
+    title: No Sync Data
+    description: Press the sync button on the home screen to sync
+  detail:
+    title: Comparison
+    data: Data
+    time: Time
+    comparison: Comparison
+    date: yy/MM/dd H:mm
+    latinChar(context=LatinChar):
+      A: "𝐴"
+      B: "𝐵"
+    operator: Operator
+    operatorTypeText(context=OperatorType):
+      intersection: "Union"
+      union: "Intersection"
+      difference: "Difference"
+      symmetricDifference: "Symmetric Difference"
+    operatorTypeMath(context=OperatorType):
+      intersection: "∩"
+      union: "∪"
+      difference: "−"
+      symmetricDifference: "△"
+    search: Search
+
+  remove:
+    title: Remove Sync Data
+    synchronizeMode(context=SynchronizeMode):
+      follower: Follower
+      following: Following
+    all: All
+    list:
+      date: yy/MM/dd H:mm
+      description: Synced at ${time} / ${count} items
+
+  user:
+    title: Differential
+    menu:
+      searchInput: Search
+      searchType: Search Type
+      sortBy: Sort By
+      sortType: Sort Type
+
+    searchType(context=SearchType):
+      normal: Normal
+      regex: Regex
+    sortBy(context=SortBy):
+      id: ID
+      name: Name
+      screenName: Screen Name
+      followerCount: Followers
+      followingCount: Following
+      createdAt: Registration Date
+      ffRate: FF Ratio
+    sortType(context=SortType):
+      asc: Ascending
+      desc: Descending
+    viewWeb: View on Web
+
+  follow:
+    title: Follow
+    description: Users you are following
+  follower:
+    title: Follower
+    description: Users who are following you
+  mutual:
+    title: Mutual
+    description: Users you are following and who are following you
+  oneSide:
+    title: One-sided
+    description: Users you are following but who are not following you
+  oneSideReverse:
+    title: One-sided Reverse
+    description: Users who are following you but whom you are not following
+  newFollow:
+    title: New Follow
+    description: Users recently followed
+  newFollower:
+    title: New Follower
+    description: Users recently followed you
+  removeFollow:
+    title: Remove Follow
+    description: Users recently unfollowed
+  removeFollower:
+    title: Remove Follower
+    description: Users recently unfollowed you
+  detailConfig: Detail Configuration
+
+setting:
+  title: Settings
+  accessibility:
+    title: Accessibility
+  account:
+    title: Account
+  logout:
+    title: Logout
+    confirm: Are you sure you want to log out?
+    ok: OK
+  help:
+    title: Help
+
+setup:
+  title: Account
+  accountId: Account ID
+  save: Save
+synchronize:
+  title: Synchronize
+  notificationTitle:
+    - Synchronizing
+    - Synchronizing.
+    - Synchronizing..
+    - Synchronizing...
+  notification:
+    text: "Sync is in progress"
+    text1: "Following: ${count}/${total}"
+    text2: "Followers: ${count}/${total}"
+  channel:
+    name: Twitter Sync Channel
+    description: Channel for fetching Twitter information
+  apiLimit:
+    title: API Limit
+    description: API limit reached. Retrying in ${sec} seconds
+  success: Synchronization completed successfully
+  alert:
+    title: Synchronization in progress.
+    description: The app will continue syncing in the background when you switch.
+  warning:
+    title: Synchronization in progress.
+    description: Do not switch apps or turn off the screen.
+  close: Close
+  cancel: Cancel
+  finish:
+    title: Sync Complete
+    description: Sync has been completed
+
+router:
+  notice: There is an app update available
+  check: Check
+
+error:
+  dioExceptionType(context=DioExceptionType):
+    connectionTimeout: Connection to the server timed out
+    sendTimeout: Request timed out
+    receiveTimeout: Response timed out
+    badCertificate: Invalid certificate
+    badResponse: Invalid response received
+    cancel: Request canceled
+    connectionError: No internet connection
+    unknown: Unknown error occurred
+  unknown: Unknown error occurred
+  report: Report Error
+
+chart:
+  noData: No data available
+  date1: yy/MM/dd H:mm
+  date2: MM/dd
+
+drawer:
+  close: Close
+  setting: Settings

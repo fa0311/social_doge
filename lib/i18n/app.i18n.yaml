@@ -1,0 +1,216 @@
+language: 日本語
+
+accessibility:
+  title: アクセシビリティ
+  language: 言語
+  theme: テーマ
+
+  themeMode(context=ThemeMode):
+    system: システム
+    light: ライトテーマ
+    dark: ダークテーマ
+
+help:
+  title: ヘルプ
+  contribution:
+    title: 貢献
+    description: Githubでの開発に貢献する
+  report:
+    title: 報告
+    description: 開発者にバグの報告や新機能のリクエストする
+  developer:
+    title: 開発者
+    description: 開発者の情報を表示する
+  version:
+    title: バージョン
+    description: "現在のバージョン: ${version}"
+  license:
+    title: ライセンス
+    description: ライセンス情報を表示する
+
+home:
+  title: ホーム
+  totalPeriod: 全期間
+  oneMonth: 1ヶ月
+  threeMonths: 3ヶ月
+  oneYear: 1年
+  synchronize:
+    title: 同期
+    description: 最新の情報をTwitterから取得します
+    remove:
+      title: 同期の解除
+      description: 同期を解除します
+    permission:
+      title: 権限の許可
+      description: 権限を許可します
+      success: 権限が付与されています
+      failure: 権限が付与されていません
+
+login:
+  title: ログイン
+  note:
+    - ログインするアカウントと管理するアカウントは分けることが出来ます。
+    - 不正な操作を疑われる可能性が高いため、サブアカウントでログインすることを推奨します。
+
+result:
+  title: 情報
+  empty:
+    title: 同期データがありません
+    description: ホームの同期ボタンを押して同期してください
+  detail:
+    title: 比較
+    data: データ
+    time: 時間
+    comparison: 比較
+    date: yy/MM/dd H:mm
+    latinChar(context=LatinChar):
+      A: "𝐴"
+      B: "𝐵"
+    operator: 演算子
+    operatorTypeText(context=OperatorType):
+      intersection: "積"
+      union: "和"
+      difference: "差"
+      symmetricDifference: "対称差"
+    operatorTypeMath(context=OperatorType):
+      intersection: "∩"
+      union: "∪"
+      difference: "−"
+      symmetricDifference: "△"
+    search: 検索
+
+  remove:
+    title: 同期データ削除
+    synchronizeMode(context=SynchronizeMode):
+      follower: フォロワー
+      following: フォロー中
+    all: 全て
+    list:
+      date: yy/MM/dd H:mm
+      description: ${time} に同期 / ${count} 件
+
+  user:
+    title: 差分
+    menu:
+      searchInput: 検索
+      searchType: 検索種類
+      sortBy: 並び替え基準
+      sortType: 並び替え種類
+
+    searchType(context=SearchType):
+      normal: 通常
+      regex: 正規表現
+    sortBy(context=SortBy):
+      id: ID
+      name: 名前
+      screenName: スクリーンネーム
+      followerCount: フォロワー数
+      followingCount: フォロー中数
+      createdAt: 登録日
+      ffRate: FF比率
+    sortType(context=SortType):
+      asc: 昇順
+      desc: 降順
+    viewWeb: Webで表示
+
+  follow:
+    title: フォロー
+    description: フォローしているユーザー
+  follower:
+    title: フォロワー
+    description: フォローされているユーザー
+  mutual:
+    title: 相互フォロー
+    description: フォローしていてフォローされているユーザー
+  oneSide:
+    title: 片思い
+    description: フォローしていてフォローされていないユーザー
+  oneSideReverse:
+    title: 片思われ
+    description: フォローしていなくてフォローされているユーザー
+  newFollow:
+    title: 新規フォロー
+    description: 最近フォローしたユーザー
+  newFollower:
+    title: 新規フォロワー
+    description: 最近フォローされたユーザー
+  removeFollow:
+    title: フォロー解除
+    description: 最近フォロー解除したユーザー
+  removeFollower:
+    title: フォロワー解除
+    description: 最近フォロー解除されたユーザー
+  detailConfig: 詳細設定
+
+setting:
+  title: 設定
+  accessibility:
+    title: アクセシビリティ
+  account:
+    title: アカウント
+  logout:
+    title: ログアウト
+    confirm: ログアウトしますか？
+    ok: 決定
+  help:
+    title: ヘルプ
+
+setup:
+  title: アカウント
+  accountId: アカウントID
+  save: 保存
+synchronize:
+  title: 同期
+  notificationTitle:
+    - 同期中
+    - 同期中.
+    - 同期中..
+    - 同期中...
+  notification:
+    text: "同期の開始中です"
+    text1: "フォロー: ${count}/${total}"
+    text2: "フォロワー: ${count}/${total}"
+  channel:
+    name: Twitter同期チャンネル
+    description: Twitterの情報を取得するためのチャンネル
+  apiLimit:
+    title: API制限
+    description: APIリミットに到達しました ${sec} 秒後に再試行します
+  success: 同期が正常に完了しました
+  alert:
+    title: 同期中です
+    description: アプリを切り替えるとバックグラウンドで同期を続行します
+  warning:
+    title: 同期中です
+    description: アプリを切り替えたり画面を消灯しないでください
+  close: 閉じる
+  cancel: キャンセル
+  finish:
+    title: 同期完了
+    description: 同期が完了しました
+
+router:
+  notice: アプリのアップデートがあります
+  check: 確認
+
+error:
+  dioExceptionType(context=DioExceptionType):
+    connectionTimeout: サーバーとの接続がタイムアウトしました
+    sendTimeout: リクエストがタイムアウトしました
+    receiveTimeout: レスポンスがタイムアウトしました
+    badCertificate: 証明書が無効です
+    badResponse: 不正なレスポンスが返されました
+    cancel: リクエストがキャンセルされました
+    connectionError: インターネット接続がありません
+    unknown: 不明なエラーが発生しました
+  unknown: 不明なエラーが発生しました
+  report: エラーを報告する
+
+chart:
+  noData: データがありません
+  date1: yy/MM/dd H:mm
+  date2: MM/dd
+
+drawer:
+  close: 閉じる
+  setting: 設定

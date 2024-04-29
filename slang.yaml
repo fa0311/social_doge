@@ -1,0 +1,29 @@
+input_directory: lib/i18n
+input_file_pattern: .i18n.yaml
+output_file_name: translations.g.dart
+base_locale: ja
+
+imports:
+  - "package:flutter/material.dart"
+  - "package:social_doge/infrastructure/database/data.dart"
+  - "package:social_doge/util/latin.dart"
+  - "package:social_doge/provider/db/db.dart"
+  - "package:dio/dio.dart"
+
+contexts:
+  ThemeMode:
+    generate_enum: false
+  SynchronizeMode:
+    generate_enum: false
+  LatinChar:
+    generate_enum: false
+  OperatorType:
+    generate_enum: false
+  SearchType:
+    generate_enum: false
+  SortType:
+    generate_enum: false
+  SortBy:
+    generate_enum: false
+  DioExceptionType:
+    generate_enum: false
