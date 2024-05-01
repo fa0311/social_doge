@@ -5,8 +5,6 @@
 ///
 /// Locales: 2
 /// Strings: 288 (144 per locale)
-///
-/// Built on 2024-04-29 at 16:51 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -824,7 +822,7 @@ class _TranslationsResultUserMenuJa {
 }
 
 // Path: <root>
-class _TranslationsEn implements Translations {
+class _TranslationsEn extends Translations {
 	/// You can call this constructor and build your own translation instance of this locale.
 	/// Constructing via the enum [AppLocale.build] is preferred.
 	_TranslationsEn.build({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver})
@@ -834,7 +832,9 @@ class _TranslationsEn implements Translations {
 		    overrides: overrides ?? {},
 		    cardinalResolver: cardinalResolver,
 		    ordinalResolver: ordinalResolver,
-		  ) {
+		  ),
+		  super.build(cardinalResolver: cardinalResolver, ordinalResolver: ordinalResolver) {
+		super.$meta.setFlatMapFunction($meta.getTranslation); // copy base translations to super.$meta
 		$meta.setFlatMapFunction(_flatMapFunction);
 	}
 
@@ -842,7 +842,7 @@ class _TranslationsEn implements Translations {
 	@override final TranslationMetadata<AppLocale, Translations> $meta;
 
 	/// Access flat map
-	@override dynamic operator[](String key) => $meta.getTranslation(key);
+	@override dynamic operator[](String key) => $meta.getTranslation(key) ?? super.$meta.getTranslation(key);
 
 	@override late final _TranslationsEn _root = this; // ignore: unused_field
 
@@ -863,8 +863,8 @@ class _TranslationsEn implements Translations {
 }
 
 // Path: accessibility
-class _TranslationsAccessibilityEn implements _TranslationsAccessibilityJa {
-	_TranslationsAccessibilityEn._(this._root);
+class _TranslationsAccessibilityEn extends _TranslationsAccessibilityJa {
+	_TranslationsAccessibilityEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -885,8 +885,8 @@ class _TranslationsAccessibilityEn implements _TranslationsAccessibilityJa {
 }
 
 // Path: help
-class _TranslationsHelpEn implements _TranslationsHelpJa {
-	_TranslationsHelpEn._(this._root);
+class _TranslationsHelpEn extends _TranslationsHelpJa {
+	_TranslationsHelpEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -900,8 +900,8 @@ class _TranslationsHelpEn implements _TranslationsHelpJa {
 }
 
 // Path: home
-class _TranslationsHomeEn implements _TranslationsHomeJa {
-	_TranslationsHomeEn._(this._root);
+class _TranslationsHomeEn extends _TranslationsHomeJa {
+	_TranslationsHomeEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -915,8 +915,8 @@ class _TranslationsHomeEn implements _TranslationsHomeJa {
 }
 
 // Path: login
-class _TranslationsLoginEn implements _TranslationsLoginJa {
-	_TranslationsLoginEn._(this._root);
+class _TranslationsLoginEn extends _TranslationsLoginJa {
+	_TranslationsLoginEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -929,8 +929,8 @@ class _TranslationsLoginEn implements _TranslationsLoginJa {
 }
 
 // Path: result
-class _TranslationsResultEn implements _TranslationsResultJa {
-	_TranslationsResultEn._(this._root);
+class _TranslationsResultEn extends _TranslationsResultJa {
+	_TranslationsResultEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -953,8 +953,8 @@ class _TranslationsResultEn implements _TranslationsResultJa {
 }
 
 // Path: setting
-class _TranslationsSettingEn implements _TranslationsSettingJa {
-	_TranslationsSettingEn._(this._root);
+class _TranslationsSettingEn extends _TranslationsSettingJa {
+	_TranslationsSettingEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -967,8 +967,8 @@ class _TranslationsSettingEn implements _TranslationsSettingJa {
 }
 
 // Path: setup
-class _TranslationsSetupEn implements _TranslationsSetupJa {
-	_TranslationsSetupEn._(this._root);
+class _TranslationsSetupEn extends _TranslationsSetupJa {
+	_TranslationsSetupEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -979,8 +979,8 @@ class _TranslationsSetupEn implements _TranslationsSetupJa {
 }
 
 // Path: synchronize
-class _TranslationsSynchronizeEn implements _TranslationsSynchronizeJa {
-	_TranslationsSynchronizeEn._(this._root);
+class _TranslationsSynchronizeEn extends _TranslationsSynchronizeJa {
+	_TranslationsSynchronizeEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1004,8 +1004,8 @@ class _TranslationsSynchronizeEn implements _TranslationsSynchronizeJa {
 }
 
 // Path: router
-class _TranslationsRouterEn implements _TranslationsRouterJa {
-	_TranslationsRouterEn._(this._root);
+class _TranslationsRouterEn extends _TranslationsRouterJa {
+	_TranslationsRouterEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1015,8 +1015,8 @@ class _TranslationsRouterEn implements _TranslationsRouterJa {
 }
 
 // Path: error
-class _TranslationsErrorEn implements _TranslationsErrorJa {
-	_TranslationsErrorEn._(this._root);
+class _TranslationsErrorEn extends _TranslationsErrorJa {
+	_TranslationsErrorEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1046,8 +1046,8 @@ class _TranslationsErrorEn implements _TranslationsErrorJa {
 }
 
 // Path: chart
-class _TranslationsChartEn implements _TranslationsChartJa {
-	_TranslationsChartEn._(this._root);
+class _TranslationsChartEn extends _TranslationsChartJa {
+	_TranslationsChartEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1058,8 +1058,8 @@ class _TranslationsChartEn implements _TranslationsChartJa {
 }
 
 // Path: drawer
-class _TranslationsDrawerEn implements _TranslationsDrawerJa {
-	_TranslationsDrawerEn._(this._root);
+class _TranslationsDrawerEn extends _TranslationsDrawerJa {
+	_TranslationsDrawerEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1069,8 +1069,8 @@ class _TranslationsDrawerEn implements _TranslationsDrawerJa {
 }
 
 // Path: help.contribution
-class _TranslationsHelpContributionEn implements _TranslationsHelpContributionJa {
-	_TranslationsHelpContributionEn._(this._root);
+class _TranslationsHelpContributionEn extends _TranslationsHelpContributionJa {
+	_TranslationsHelpContributionEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1080,8 +1080,8 @@ class _TranslationsHelpContributionEn implements _TranslationsHelpContributionJa
 }
 
 // Path: help.report
-class _TranslationsHelpReportEn implements _TranslationsHelpReportJa {
-	_TranslationsHelpReportEn._(this._root);
+class _TranslationsHelpReportEn extends _TranslationsHelpReportJa {
+	_TranslationsHelpReportEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1091,8 +1091,8 @@ class _TranslationsHelpReportEn implements _TranslationsHelpReportJa {
 }
 
 // Path: help.developer
-class _TranslationsHelpDeveloperEn implements _TranslationsHelpDeveloperJa {
-	_TranslationsHelpDeveloperEn._(this._root);
+class _TranslationsHelpDeveloperEn extends _TranslationsHelpDeveloperJa {
+	_TranslationsHelpDeveloperEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1102,8 +1102,8 @@ class _TranslationsHelpDeveloperEn implements _TranslationsHelpDeveloperJa {
 }
 
 // Path: help.version
-class _TranslationsHelpVersionEn implements _TranslationsHelpVersionJa {
-	_TranslationsHelpVersionEn._(this._root);
+class _TranslationsHelpVersionEn extends _TranslationsHelpVersionJa {
+	_TranslationsHelpVersionEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1113,8 +1113,8 @@ class _TranslationsHelpVersionEn implements _TranslationsHelpVersionJa {
 }
 
 // Path: help.license
-class _TranslationsHelpLicenseEn implements _TranslationsHelpLicenseJa {
-	_TranslationsHelpLicenseEn._(this._root);
+class _TranslationsHelpLicenseEn extends _TranslationsHelpLicenseJa {
+	_TranslationsHelpLicenseEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1124,8 +1124,8 @@ class _TranslationsHelpLicenseEn implements _TranslationsHelpLicenseJa {
 }
 
 // Path: home.synchronize
-class _TranslationsHomeSynchronizeEn implements _TranslationsHomeSynchronizeJa {
-	_TranslationsHomeSynchronizeEn._(this._root);
+class _TranslationsHomeSynchronizeEn extends _TranslationsHomeSynchronizeJa {
+	_TranslationsHomeSynchronizeEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1137,8 +1137,8 @@ class _TranslationsHomeSynchronizeEn implements _TranslationsHomeSynchronizeJa {
 }
 
 // Path: result.empty
-class _TranslationsResultEmptyEn implements _TranslationsResultEmptyJa {
-	_TranslationsResultEmptyEn._(this._root);
+class _TranslationsResultEmptyEn extends _TranslationsResultEmptyJa {
+	_TranslationsResultEmptyEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1148,8 +1148,8 @@ class _TranslationsResultEmptyEn implements _TranslationsResultEmptyJa {
 }
 
 // Path: result.detail
-class _TranslationsResultDetailEn implements _TranslationsResultDetailJa {
-	_TranslationsResultDetailEn._(this._root);
+class _TranslationsResultDetailEn extends _TranslationsResultDetailJa {
+	_TranslationsResultDetailEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1196,8 +1196,8 @@ class _TranslationsResultDetailEn implements _TranslationsResultDetailJa {
 }
 
 // Path: result.remove
-class _TranslationsResultRemoveEn implements _TranslationsResultRemoveJa {
-	_TranslationsResultRemoveEn._(this._root);
+class _TranslationsResultRemoveEn extends _TranslationsResultRemoveJa {
+	_TranslationsResultRemoveEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1216,8 +1216,8 @@ class _TranslationsResultRemoveEn implements _TranslationsResultRemoveJa {
 }
 
 // Path: result.user
-class _TranslationsResultUserEn implements _TranslationsResultUserJa {
-	_TranslationsResultUserEn._(this._root);
+class _TranslationsResultUserEn extends _TranslationsResultUserJa {
+	_TranslationsResultUserEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1262,8 +1262,8 @@ class _TranslationsResultUserEn implements _TranslationsResultUserJa {
 }
 
 // Path: result.follow
-class _TranslationsResultFollowEn implements _TranslationsResultFollowJa {
-	_TranslationsResultFollowEn._(this._root);
+class _TranslationsResultFollowEn extends _TranslationsResultFollowJa {
+	_TranslationsResultFollowEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1273,8 +1273,8 @@ class _TranslationsResultFollowEn implements _TranslationsResultFollowJa {
 }
 
 // Path: result.follower
-class _TranslationsResultFollowerEn implements _TranslationsResultFollowerJa {
-	_TranslationsResultFollowerEn._(this._root);
+class _TranslationsResultFollowerEn extends _TranslationsResultFollowerJa {
+	_TranslationsResultFollowerEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1284,8 +1284,8 @@ class _TranslationsResultFollowerEn implements _TranslationsResultFollowerJa {
 }
 
 // Path: result.mutual
-class _TranslationsResultMutualEn implements _TranslationsResultMutualJa {
-	_TranslationsResultMutualEn._(this._root);
+class _TranslationsResultMutualEn extends _TranslationsResultMutualJa {
+	_TranslationsResultMutualEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1295,8 +1295,8 @@ class _TranslationsResultMutualEn implements _TranslationsResultMutualJa {
 }
 
 // Path: result.oneSide
-class _TranslationsResultOneSideEn implements _TranslationsResultOneSideJa {
-	_TranslationsResultOneSideEn._(this._root);
+class _TranslationsResultOneSideEn extends _TranslationsResultOneSideJa {
+	_TranslationsResultOneSideEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1306,8 +1306,8 @@ class _TranslationsResultOneSideEn implements _TranslationsResultOneSideJa {
 }
 
 // Path: result.oneSideReverse
-class _TranslationsResultOneSideReverseEn implements _TranslationsResultOneSideReverseJa {
-	_TranslationsResultOneSideReverseEn._(this._root);
+class _TranslationsResultOneSideReverseEn extends _TranslationsResultOneSideReverseJa {
+	_TranslationsResultOneSideReverseEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1317,8 +1317,8 @@ class _TranslationsResultOneSideReverseEn implements _TranslationsResultOneSideR
 }
 
 // Path: result.newFollow
-class _TranslationsResultNewFollowEn implements _TranslationsResultNewFollowJa {
-	_TranslationsResultNewFollowEn._(this._root);
+class _TranslationsResultNewFollowEn extends _TranslationsResultNewFollowJa {
+	_TranslationsResultNewFollowEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1328,8 +1328,8 @@ class _TranslationsResultNewFollowEn implements _TranslationsResultNewFollowJa {
 }
 
 // Path: result.newFollower
-class _TranslationsResultNewFollowerEn implements _TranslationsResultNewFollowerJa {
-	_TranslationsResultNewFollowerEn._(this._root);
+class _TranslationsResultNewFollowerEn extends _TranslationsResultNewFollowerJa {
+	_TranslationsResultNewFollowerEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1339,8 +1339,8 @@ class _TranslationsResultNewFollowerEn implements _TranslationsResultNewFollower
 }
 
 // Path: result.removeFollow
-class _TranslationsResultRemoveFollowEn implements _TranslationsResultRemoveFollowJa {
-	_TranslationsResultRemoveFollowEn._(this._root);
+class _TranslationsResultRemoveFollowEn extends _TranslationsResultRemoveFollowJa {
+	_TranslationsResultRemoveFollowEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1350,8 +1350,8 @@ class _TranslationsResultRemoveFollowEn implements _TranslationsResultRemoveFoll
 }
 
 // Path: result.removeFollower
-class _TranslationsResultRemoveFollowerEn implements _TranslationsResultRemoveFollowerJa {
-	_TranslationsResultRemoveFollowerEn._(this._root);
+class _TranslationsResultRemoveFollowerEn extends _TranslationsResultRemoveFollowerJa {
+	_TranslationsResultRemoveFollowerEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1361,8 +1361,8 @@ class _TranslationsResultRemoveFollowerEn implements _TranslationsResultRemoveFo
 }
 
 // Path: setting.accessibility
-class _TranslationsSettingAccessibilityEn implements _TranslationsSettingAccessibilityJa {
-	_TranslationsSettingAccessibilityEn._(this._root);
+class _TranslationsSettingAccessibilityEn extends _TranslationsSettingAccessibilityJa {
+	_TranslationsSettingAccessibilityEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1371,8 +1371,8 @@ class _TranslationsSettingAccessibilityEn implements _TranslationsSettingAccessi
 }
 
 // Path: setting.account
-class _TranslationsSettingAccountEn implements _TranslationsSettingAccountJa {
-	_TranslationsSettingAccountEn._(this._root);
+class _TranslationsSettingAccountEn extends _TranslationsSettingAccountJa {
+	_TranslationsSettingAccountEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1381,8 +1381,8 @@ class _TranslationsSettingAccountEn implements _TranslationsSettingAccountJa {
 }
 
 // Path: setting.logout
-class _TranslationsSettingLogoutEn implements _TranslationsSettingLogoutJa {
-	_TranslationsSettingLogoutEn._(this._root);
+class _TranslationsSettingLogoutEn extends _TranslationsSettingLogoutJa {
+	_TranslationsSettingLogoutEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1393,8 +1393,8 @@ class _TranslationsSettingLogoutEn implements _TranslationsSettingLogoutJa {
 }
 
 // Path: setting.help
-class _TranslationsSettingHelpEn implements _TranslationsSettingHelpJa {
-	_TranslationsSettingHelpEn._(this._root);
+class _TranslationsSettingHelpEn extends _TranslationsSettingHelpJa {
+	_TranslationsSettingHelpEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1403,8 +1403,8 @@ class _TranslationsSettingHelpEn implements _TranslationsSettingHelpJa {
 }
 
 // Path: synchronize.notification
-class _TranslationsSynchronizeNotificationEn implements _TranslationsSynchronizeNotificationJa {
-	_TranslationsSynchronizeNotificationEn._(this._root);
+class _TranslationsSynchronizeNotificationEn extends _TranslationsSynchronizeNotificationJa {
+	_TranslationsSynchronizeNotificationEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1415,8 +1415,8 @@ class _TranslationsSynchronizeNotificationEn implements _TranslationsSynchronize
 }
 
 // Path: synchronize.channel
-class _TranslationsSynchronizeChannelEn implements _TranslationsSynchronizeChannelJa {
-	_TranslationsSynchronizeChannelEn._(this._root);
+class _TranslationsSynchronizeChannelEn extends _TranslationsSynchronizeChannelJa {
+	_TranslationsSynchronizeChannelEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1426,8 +1426,8 @@ class _TranslationsSynchronizeChannelEn implements _TranslationsSynchronizeChann
 }
 
 // Path: synchronize.apiLimit
-class _TranslationsSynchronizeApiLimitEn implements _TranslationsSynchronizeApiLimitJa {
-	_TranslationsSynchronizeApiLimitEn._(this._root);
+class _TranslationsSynchronizeApiLimitEn extends _TranslationsSynchronizeApiLimitJa {
+	_TranslationsSynchronizeApiLimitEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1437,8 +1437,8 @@ class _TranslationsSynchronizeApiLimitEn implements _TranslationsSynchronizeApiL
 }
 
 // Path: synchronize.alert
-class _TranslationsSynchronizeAlertEn implements _TranslationsSynchronizeAlertJa {
-	_TranslationsSynchronizeAlertEn._(this._root);
+class _TranslationsSynchronizeAlertEn extends _TranslationsSynchronizeAlertJa {
+	_TranslationsSynchronizeAlertEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1448,8 +1448,8 @@ class _TranslationsSynchronizeAlertEn implements _TranslationsSynchronizeAlertJa
 }
 
 // Path: synchronize.warning
-class _TranslationsSynchronizeWarningEn implements _TranslationsSynchronizeWarningJa {
-	_TranslationsSynchronizeWarningEn._(this._root);
+class _TranslationsSynchronizeWarningEn extends _TranslationsSynchronizeWarningJa {
+	_TranslationsSynchronizeWarningEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1459,8 +1459,8 @@ class _TranslationsSynchronizeWarningEn implements _TranslationsSynchronizeWarni
 }
 
 // Path: synchronize.finish
-class _TranslationsSynchronizeFinishEn implements _TranslationsSynchronizeFinishJa {
-	_TranslationsSynchronizeFinishEn._(this._root);
+class _TranslationsSynchronizeFinishEn extends _TranslationsSynchronizeFinishJa {
+	_TranslationsSynchronizeFinishEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1470,8 +1470,8 @@ class _TranslationsSynchronizeFinishEn implements _TranslationsSynchronizeFinish
 }
 
 // Path: home.synchronize.remove
-class _TranslationsHomeSynchronizeRemoveEn implements _TranslationsHomeSynchronizeRemoveJa {
-	_TranslationsHomeSynchronizeRemoveEn._(this._root);
+class _TranslationsHomeSynchronizeRemoveEn extends _TranslationsHomeSynchronizeRemoveJa {
+	_TranslationsHomeSynchronizeRemoveEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1481,8 +1481,8 @@ class _TranslationsHomeSynchronizeRemoveEn implements _TranslationsHomeSynchroni
 }
 
 // Path: home.synchronize.permission
-class _TranslationsHomeSynchronizePermissionEn implements _TranslationsHomeSynchronizePermissionJa {
-	_TranslationsHomeSynchronizePermissionEn._(this._root);
+class _TranslationsHomeSynchronizePermissionEn extends _TranslationsHomeSynchronizePermissionJa {
+	_TranslationsHomeSynchronizePermissionEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1494,8 +1494,8 @@ class _TranslationsHomeSynchronizePermissionEn implements _TranslationsHomeSynch
 }
 
 // Path: result.remove.list
-class _TranslationsResultRemoveListEn implements _TranslationsResultRemoveListJa {
-	_TranslationsResultRemoveListEn._(this._root);
+class _TranslationsResultRemoveListEn extends _TranslationsResultRemoveListJa {
+	_TranslationsResultRemoveListEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
@@ -1505,8 +1505,8 @@ class _TranslationsResultRemoveListEn implements _TranslationsResultRemoveListJa
 }
 
 // Path: result.user.menu
-class _TranslationsResultUserMenuEn implements _TranslationsResultUserMenuJa {
-	_TranslationsResultUserMenuEn._(this._root);
+class _TranslationsResultUserMenuEn extends _TranslationsResultUserMenuJa {
+	_TranslationsResultUserMenuEn._(_TranslationsEn root) : this._root = root, super._(root);
 
 	@override final _TranslationsEn _root; // ignore: unused_field
 
