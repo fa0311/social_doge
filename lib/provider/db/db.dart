@@ -18,9 +18,9 @@ enum SortType {
 }
 
 enum SortBy {
-  id,
   name,
   screenName,
+  id,
   followerCount,
   followingCount,
   createdAt,

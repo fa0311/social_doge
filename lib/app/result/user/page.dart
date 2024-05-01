@@ -149,7 +149,7 @@ class UserListPage extends HookConsumerWidget {
                     for (final label in labels)
                       ListTile(
                         title: Text(label.$1),
-                        subtitle: Text(label.$4.value.name),
+                        subtitle: Text(label.$2(label.$3.indexOf(label.$4.value))),
                         onTap: () {
                           SelectModalTile.builder(
                             context,

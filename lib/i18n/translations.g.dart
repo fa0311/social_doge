@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 294 (147 per locale)
+/// Strings: 298 (149 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -362,8 +362,8 @@ class _TranslationsChartEn {
 
 	// Translations
 	String get noData => 'No data available';
-	String get date1 => 'yy/MM/dd H:mm';
-	String get date2 => 'MM/dd';
+	String get date1 => 'MMMM d, y \'at\' H:mm';
+	String get date2 => 'MMMM d';
 }
 
 // Path: drawer
@@ -467,7 +467,7 @@ class _TranslationsResultDetailEn {
 	String get data => 'Data';
 	String get time => 'Time';
 	String get comparison => 'Comparison';
-	String get date => 'yy/MM/dd H:mm';
+	String get date => 'MMMM d, y \'at\' H:mm';
 	String latinChar({required LatinChar context}) {
 		switch (context) {
 			case LatinChar.A:
@@ -502,6 +502,14 @@ class _TranslationsResultDetailEn {
 		}
 	}
 	String get search => 'Search';
+	String synchronizeMode({required SynchronizeMode context}) {
+		switch (context) {
+			case SynchronizeMode.follower:
+				return 'Follower';
+			case SynchronizeMode.following:
+				return 'Following';
+		}
+	}
 }
 
 // Path: result.remove
@@ -543,12 +551,12 @@ class _TranslationsResultUserEn {
 	}
 	String sortBy({required SortBy context}) {
 		switch (context) {
-			case SortBy.id:
-				return 'ID';
 			case SortBy.name:
 				return 'Name';
 			case SortBy.screenName:
-				return 'Screen Name';
+				return 'ID';
+			case SortBy.id:
+				return 'Rest ID';
 			case SortBy.followerCount:
 				return 'Followers';
 			case SortBy.followingCount:
@@ -809,7 +817,7 @@ class _TranslationsResultRemoveListEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	String get date => 'yy/MM/dd H:mm';
+	String get date => 'MMMM d, y \'at\' H:mm';
 	String description({required Object time, required Object count}) => 'Synced at ${time} / ${count} items';
 }
 
@@ -1063,7 +1071,7 @@ class _TranslationsChartJa extends _TranslationsChartEn {
 
 	// Translations
 	@override String get noData => 'データがありません';
-	@override String get date1 => 'yy/MM/dd H:mm';
+	@override String get date1 => 'yyyy/MM/dd H:mm';
 	@override String get date2 => 'MM/dd';
 }
 
@@ -1168,7 +1176,7 @@ class _TranslationsResultDetailJa extends _TranslationsResultDetailEn {
 	@override String get data => 'データ';
 	@override String get time => '時間';
 	@override String get comparison => '比較';
-	@override String get date => 'yy/MM/dd H:mm';
+	@override String get date => 'yyyy/MM/dd H:mm';
 	@override String latinChar({required LatinChar context}) {
 		switch (context) {
 			case LatinChar.A:
@@ -1203,6 +1211,14 @@ class _TranslationsResultDetailJa extends _TranslationsResultDetailEn {
 		}
 	}
 	@override String get search => '検索';
+	@override String synchronizeMode({required SynchronizeMode context}) {
+		switch (context) {
+			case SynchronizeMode.follower:
+				return 'フォロワー';
+			case SynchronizeMode.following:
+				return 'フォロー';
+		}
+	}
 }
 
 // Path: result.remove
@@ -1218,7 +1234,7 @@ class _TranslationsResultRemoveJa extends _TranslationsResultRemoveEn {
 			case SynchronizeMode.follower:
 				return 'フォロワー';
 			case SynchronizeMode.following:
-				return 'フォロー中';
+				return 'フォロー';
 		}
 	}
 	@override String get all => '全て';
@@ -1244,16 +1260,16 @@ class _TranslationsResultUserJa extends _TranslationsResultUserEn {
 	}
 	@override String sortBy({required SortBy context}) {
 		switch (context) {
-			case SortBy.id:
-				return 'ID';
 			case SortBy.name:
 				return '名前';
 			case SortBy.screenName:
-				return 'スクリーンネーム';
+				return 'ID';
+			case SortBy.id:
+				return 'Rest ID';
 			case SortBy.followerCount:
 				return 'フォロワー数';
 			case SortBy.followingCount:
-				return 'フォロー中数';
+				return 'フォロー数';
 			case SortBy.createdAt:
 				return '登録日';
 			case SortBy.ffRate:
@@ -1510,7 +1526,7 @@ class _TranslationsResultRemoveListJa extends _TranslationsResultRemoveListEn {
 	@override final _TranslationsJa _root; // ignore: unused_field
 
 	// Translations
-	@override String get date => 'yy/MM/dd H:mm';
+	@override String get date => 'yyyy/MM/dd H:mm';
 	@override String description({required Object time, required Object count}) => '${time} に同期 / ${count} 件';
 }
 
@@ -1581,7 +1597,7 @@ extension on Translations {
 			case 'result.detail.data': return 'Data';
 			case 'result.detail.time': return 'Time';
 			case 'result.detail.comparison': return 'Comparison';
-			case 'result.detail.date': return 'yy/MM/dd H:mm';
+			case 'result.detail.date': return 'MMMM d, y \'at\' H:mm';
 			case 'result.detail.latinChar': return ({required LatinChar context}) {
 				switch (context) {
 					case LatinChar.A:
@@ -1616,6 +1632,14 @@ extension on Translations {
 				}
 			};
 			case 'result.detail.search': return 'Search';
+			case 'result.detail.synchronizeMode': return ({required SynchronizeMode context}) {
+				switch (context) {
+					case SynchronizeMode.follower:
+						return 'Follower';
+					case SynchronizeMode.following:
+						return 'Following';
+				}
+			};
 			case 'result.remove.title': return 'Remove Sync Data';
 			case 'result.remove.synchronizeMode': return ({required SynchronizeMode context}) {
 				switch (context) {
@@ -1626,7 +1650,7 @@ extension on Translations {
 				}
 			};
 			case 'result.remove.all': return 'All';
-			case 'result.remove.list.date': return 'yy/MM/dd H:mm';
+			case 'result.remove.list.date': return 'MMMM d, y \'at\' H:mm';
 			case 'result.remove.list.description': return ({required Object time, required Object count}) => 'Synced at ${time} / ${count} items';
 			case 'result.user.title': return 'Differential';
 			case 'result.user.menu.searchInput': return 'Search';
@@ -1643,12 +1667,12 @@ extension on Translations {
 			};
 			case 'result.user.sortBy': return ({required SortBy context}) {
 				switch (context) {
-					case SortBy.id:
-						return 'ID';
 					case SortBy.name:
 						return 'Name';
 					case SortBy.screenName:
-						return 'Screen Name';
+						return 'ID';
+					case SortBy.id:
+						return 'Rest ID';
 					case SortBy.followerCount:
 						return 'Followers';
 					case SortBy.followingCount:
@@ -1746,8 +1770,8 @@ extension on Translations {
 			case 'error.unknown': return 'Unknown error occurred';
 			case 'error.report': return 'Report Error';
 			case 'chart.noData': return 'No data available';
-			case 'chart.date1': return 'yy/MM/dd H:mm';
-			case 'chart.date2': return 'MM/dd';
+			case 'chart.date1': return 'MMMM d, y \'at\' H:mm';
+			case 'chart.date2': return 'MMMM d';
 			case 'drawer.close': return 'Close';
 			case 'drawer.setting': return 'Settings';
 			default: return null;
@@ -1806,7 +1830,7 @@ extension on _TranslationsJa {
 			case 'result.detail.data': return 'データ';
 			case 'result.detail.time': return '時間';
 			case 'result.detail.comparison': return '比較';
-			case 'result.detail.date': return 'yy/MM/dd H:mm';
+			case 'result.detail.date': return 'yyyy/MM/dd H:mm';
 			case 'result.detail.latinChar': return ({required LatinChar context}) {
 				switch (context) {
 					case LatinChar.A:
@@ -1841,17 +1865,25 @@ extension on _TranslationsJa {
 				}
 			};
 			case 'result.detail.search': return '検索';
+			case 'result.detail.synchronizeMode': return ({required SynchronizeMode context}) {
+				switch (context) {
+					case SynchronizeMode.follower:
+						return 'フォロワー';
+					case SynchronizeMode.following:
+						return 'フォロー';
+				}
+			};
 			case 'result.remove.title': return '同期データ削除';
 			case 'result.remove.synchronizeMode': return ({required SynchronizeMode context}) {
 				switch (context) {
 					case SynchronizeMode.follower:
 						return 'フォロワー';
 					case SynchronizeMode.following:
-						return 'フォロー中';
+						return 'フォロー';
 				}
 			};
 			case 'result.remove.all': return '全て';
-			case 'result.remove.list.date': return 'yy/MM/dd H:mm';
+			case 'result.remove.list.date': return 'yyyy/MM/dd H:mm';
 			case 'result.remove.list.description': return ({required Object time, required Object count}) => '${time} に同期 / ${count} 件';
 			case 'result.user.title': return '差分';
 			case 'result.user.menu.searchInput': return '検索';
@@ -1868,16 +1900,16 @@ extension on _TranslationsJa {
 			};
 			case 'result.user.sortBy': return ({required SortBy context}) {
 				switch (context) {
-					case SortBy.id:
-						return 'ID';
 					case SortBy.name:
 						return '名前';
 					case SortBy.screenName:
-						return 'スクリーンネーム';
+						return 'ID';
+					case SortBy.id:
+						return 'Rest ID';
 					case SortBy.followerCount:
 						return 'フォロワー数';
 					case SortBy.followingCount:
-						return 'フォロー中数';
+						return 'フォロー数';
 					case SortBy.createdAt:
 						return '登録日';
 					case SortBy.ffRate:
@@ -1971,7 +2003,7 @@ extension on _TranslationsJa {
 			case 'error.unknown': return '不明なエラーが発生しました';
 			case 'error.report': return 'エラーを報告する';
 			case 'chart.noData': return 'データがありません';
-			case 'chart.date1': return 'yy/MM/dd H:mm';
+			case 'chart.date1': return 'yyyy/MM/dd H:mm';
 			case 'chart.date2': return 'MM/dd';
 			case 'drawer.close': return '閉じる';
 			case 'drawer.setting': return '設定';
