@@ -62,7 +62,7 @@ result:
     data: データ
     time: 時間
     comparison: 比較
-    date: yy/MM/dd H:mm
+    date: yyyy/MM/dd H:mm
     latinChar(context=LatinChar):
       A: "𝐴"
       B: "𝐵"
@@ -78,15 +78,18 @@ result:
       difference: "−"
       symmetricDifference: "△"
     search: 検索
+    synchronizeMode(context=SynchronizeMode):
+      follower: フォロワー
+      following: フォロー
 
   remove:
     title: 同期データ削除
     synchronizeMode(context=SynchronizeMode):
       follower: フォロワー
-      following: フォロー中
+      following: フォロー
     all: 全て
     list:
-      date: yy/MM/dd H:mm
+      date: yyyy/MM/dd H:mm
       description: ${time} に同期 / ${count} 件
 
   user:
@@ -101,11 +104,11 @@ result:
       normal: 通常
       regex: 正規表現
     sortBy(context=SortBy):
-      id: ID
       name: 名前
-      screenName: スクリーンネーム
+      screenName: ID
+      id: Rest ID
       followerCount: フォロワー数
-      followingCount: フォロー中数
+      followingCount: フォロー数
       createdAt: 登録日
       ffRate: FF比率
     sortType(context=SortType):
@@ -212,7 +215,7 @@ error:
 
 chart:
   noData: データがありません
-  date1: yy/MM/dd H:mm
+  date1: yyyy/MM/dd H:mm
   date2: MM/dd
 
 drawer:

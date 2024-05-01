@@ -62,14 +62,14 @@ class ResultDetailPage extends HookConsumerWidget {
                         Text(label.$1),
                         ListTile(
                           title: Text(t.data),
-                          subtitle: Text(label.$2.value.name),
+                          subtitle: Text(t.synchronizeMode(context: label.$2.value)),
                           onTap: () async {
                             SelectModalTile.builder(
                               context,
                               itemCount: SynchronizeMode.values.length,
                               itemBuilder: (context, index) {
                                 return ListTile(
-                                  title: Text(SynchronizeMode.values[index].name),
+                                  title: Text(t.synchronizeMode(context: SynchronizeMode.values[index])),
                                   selected: index == label.$2.value.index,
                                   onTap: () {
                                     label.$2.value = SynchronizeMode.values[index];

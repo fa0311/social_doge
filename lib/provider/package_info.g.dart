@@ -21,7 +21,7 @@ final packageVersionProvider = FutureProvider<PackageInfo>.internal(
 );
 
 typedef PackageVersionRef = FutureProviderRef<PackageInfo>;
-String _$latestAppVersionHash() => r'783ec0a14a76ab7a4360f431021018cd0f7a6de9';
+String _$latestAppVersionHash() => r'b3a3a67f1ef1b95638c6b142ba6c89928909456f';
 
 /// See also [latestAppVersion].
 @ProviderFor(latestAppVersion)

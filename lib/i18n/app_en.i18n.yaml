@@ -62,7 +62,7 @@ result:
     data: Data
     time: Time
     comparison: Comparison
-    date: yy/MM/dd H:mm
+    date: MMMM d, y 'at' H:mm
     latinChar(context=LatinChar):
       A: "𝐴"
       B: "𝐵"
@@ -78,6 +78,9 @@ result:
       difference: "−"
       symmetricDifference: "△"
     search: Search
+    synchronizeMode(context=SynchronizeMode):
+      follower: Follower
+      following: Following
 
   remove:
     title: Remove Sync Data
@@ -86,7 +89,7 @@ result:
       following: Following
     all: All
     list:
-      date: yy/MM/dd H:mm
+      date: MMMM d, y 'at' H:mm
       description: Synced at ${time} / ${count} items
 
   user:
@@ -101,9 +104,9 @@ result:
       normal: Normal
       regex: Regex
     sortBy(context=SortBy):
-      id: ID
       name: Name
-      screenName: Screen Name
+      screenName: ID
+      id: Rest ID
       followerCount: Followers
       followingCount: Following
       createdAt: Registration Date
@@ -212,8 +215,8 @@ error:
 
 chart:
   noData: No data available
-  date1: yy/MM/dd H:mm
-  date2: MM/dd
+  date1: MMMM d, y 'at' H:mm
+  date2: MMMM d
 
 drawer:
   close: Close
