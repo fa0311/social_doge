@@ -81,7 +81,7 @@ class ResultRemovePage extends HookConsumerWidget {
                   final item = data[index];
                   final time = DateFormat(t.list.date).format(item.$2.time);
                   return ListTile(
-                    title: Text(item.$1.name),
+                    title: Text(t.synchronizeMode(context: item.$1)),
                     subtitle: Text(t.list.description(time: time, count: item.$2.count)),
                     trailing: checked.value.contains(item) ? const Icon(Icons.check_box) : const Icon(Icons.check_box_outline_blank),
                     onTap: () {
