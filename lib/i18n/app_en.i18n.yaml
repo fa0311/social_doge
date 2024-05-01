@@ -157,7 +157,11 @@ setting:
 
 setup:
   title: Account
+  description:
+    - Enter the account information to be used for synchronization.
+    - You can use multiple accounts by adding them.
   accountId: Account ID
+  accountHint: elonmusk
   save: Save
 synchronize:
   title: Synchronize

@@ -104,7 +104,7 @@ class UpdateGuard extends ConsumerAutoRouteGuard {
       final latestVersion = await ref.read(latestAppVersionProvider.future);
       final packageVersion = await ref.read(packageVersionProvider.future);
 
-      if (latestVersion != packageVersion.version) {
+      if (latestVersion != '${packageVersion.version}+${packageVersion.buildNumber}') {
         while (router.navigatorKey.currentContext == null) {
           await Future<void>.delayed(const Duration(seconds: 1));
         }
