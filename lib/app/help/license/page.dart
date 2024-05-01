@@ -20,7 +20,7 @@ class InfoLicensePage extends HookConsumerWidget {
             data: (info) {
               return LicensePage(
                 applicationName: info.appName,
-                applicationVersion: info.version,
+                applicationVersion: '${info.version}+${info.buildNumber}',
                 applicationLegalese: '$copyRight $year ${Config.author}',
               );
             },

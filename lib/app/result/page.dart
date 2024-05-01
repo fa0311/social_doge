@@ -33,8 +33,8 @@ class ResultPage extends HookConsumerWidget {
               );
             } else {
               final labels = [
-                (t.follow.title, t.follow.description, SynchronizeMode.following, SynchronizeMode.following, 0, 1, OperatorType.difference),
-                (t.follower.title, t.follower.description, SynchronizeMode.follower, SynchronizeMode.follower, 0, 1, OperatorType.difference),
+                (t.follow.title, t.follow.description, SynchronizeMode.following, SynchronizeMode.following, 0, 0, OperatorType.union),
+                (t.follower.title, t.follower.description, SynchronizeMode.follower, SynchronizeMode.follower, 0, 0, OperatorType.union),
                 (t.mutual.title, t.mutual.description, SynchronizeMode.follower, SynchronizeMode.following, 0, 0, OperatorType.intersection),
                 (t.oneSide.title, t.oneSide.description, SynchronizeMode.following, SynchronizeMode.follower, 0, 0, OperatorType.difference),
                 (t.oneSideReverse.title, t.oneSideReverse.description, SynchronizeMode.follower, SynchronizeMode.following, 0, 0, OperatorType.difference),

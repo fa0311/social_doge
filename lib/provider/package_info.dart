@@ -13,6 +13,9 @@ Future<PackageInfo> packageVersion(PackageVersionRef ref) => PackageInfo.fromPla
 Future<String> latestAppVersion(LatestAppVersionRef ref) async {
   final dio = Dio(
     BaseOptions(
+      connectTimeout: const Duration(seconds: 10),
+      receiveTimeout: const Duration(seconds: 10),
+      sendTimeout: const Duration(seconds: 10),
       headers: {
         'Accept': 'application/vnd.github.v3+json',
         'User-Agent': 'social-doge',

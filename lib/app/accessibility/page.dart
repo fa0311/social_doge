@@ -21,6 +21,13 @@ class AccessibilityPage extends HookConsumerWidget {
         children: [
           ListTile(
             title: Text(t.language),
+            subtitle: Text(
+              ref.watch(languageSettingProvider).when(
+                    data: (data) => data.translations.language,
+                    loading: () => '',
+                    error: (e, _) => '',
+                  ),
+            ),
             onTap: () {
               SelectModalTile.consumerBuilder(
                 context,
@@ -40,6 +47,13 @@ class AccessibilityPage extends HookConsumerWidget {
           ),
           ListTile(
             title: Text(t.theme),
+            subtitle: Text(
+              ref.watch(themeSettingProvider).when(
+                    data: (data) => t.themeMode(context: data),
+                    loading: () => '',
+                    error: (e, _) => '',
+                  ),
+            ),
             onTap: () {
               SelectModalTile.consumerBuilder(
                 context,

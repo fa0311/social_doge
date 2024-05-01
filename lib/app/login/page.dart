@@ -24,10 +24,12 @@ class LoginPage extends HookConsumerWidget {
     useInit(() {
       Future.delayed(const Duration(seconds: 2), () async {
         if (context.mounted) {
+          final t = Translations.of(context).login;
           final snackBar = SnackBar(
             backgroundColor: Colors.transparent,
             content: AlertLabel(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   for (final n in t.note) Text(n, style: const TextStyle(color: Colors.black)),
                 ],
@@ -36,10 +38,13 @@ class LoginPage extends HookConsumerWidget {
             duration: const Duration(minutes: 1),
             margin: const EdgeInsets.only(left: 23, right: 23, bottom: 23),
             behavior: SnackBarBehavior.floating,
+            elevation: 0,
           );
           snackBarController.value = ScaffoldMessenger.of(context).showSnackBar(snackBar);
           await snackBarController.value!.closed;
-          snackBarController.value = null;
+          if (context.mounted) {
+            snackBarController.value = null;
+          }
         }
       });
     });

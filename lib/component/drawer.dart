@@ -24,7 +24,6 @@ class NormalDrawer extends HookConsumerWidget {
               child: ref.watch(getSelfAccountProvider).when(
                     data: (data) {
                       return UserAccountsDrawerHeader(
-                        decoration: BoxDecoration(color: Theme.of(context).colorScheme.background),
                         accountName: Text(data.legacy.screenName),
                         accountEmail: Text(data.restId),
                         currentAccountPicture: CachedNetworkImage(

@@ -1,7 +1,8 @@
 input_directory: lib/i18n
 input_file_pattern: .i18n.yaml
 output_file_name: translations.g.dart
-base_locale: ja
+fallback_strategy: base_locale
+timestamp: false
 
 imports:
   - "package:flutter/material.dart"

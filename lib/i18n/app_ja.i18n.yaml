@@ -157,7 +157,11 @@ setting:
 
 setup:
   title: アカウント
+  description:
+    - 実際に管理するTwitterのアカウントのIDを入力してください
+    - ログインしたアカウントと異なるアカウントを入力することもできます
   accountId: アカウントID
+  accountHint: elonmusk
   save: 保存
 synchronize:
   title: 同期

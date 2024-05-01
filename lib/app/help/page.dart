@@ -57,7 +57,7 @@ class HelpPage extends HookConsumerWidget {
                 ListTile(
                   title: Text(t.version.title),
                   subtitle: version.when(
-                    data: (data) => Text(t.version.description(version: data.version)),
+                    data: (data) => Text(t.version.description(version: '${data.version}+${data.buildNumber}')),
                     loading: () => const SizedBox(),
                     error: ErrorLogView.new,
                   ),
