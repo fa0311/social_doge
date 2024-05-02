@@ -51,10 +51,10 @@ class ResultPage extends HookConsumerWidget {
                       (() {
                         final leftTime = switch (label.$3) {
                           SynchronizeMode.follower => follower[follower.length - label.$5 - 1],
-                          SynchronizeMode.following => following[following.length - label.$6 - 1],
+                          SynchronizeMode.following => following[following.length - label.$5 - 1],
                         };
                         final rightTime = switch (label.$4) {
-                          SynchronizeMode.follower => follower[follower.length - label.$5 - 1],
+                          SynchronizeMode.follower => follower[follower.length - label.$6 - 1],
                           SynchronizeMode.following => following[following.length - label.$6 - 1],
                         };
                         return ListTile(
